@@ -15,55 +15,36 @@
       --text-muted: #9ca3af;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text-main); padding: 16px; max-width: 600px; margin: 0 auto; -webkit-tap-highlight-color: transparent; padding-bottom: 80px; }
+    body { background: var(--bg); color: var(--text-main); padding: 16px; max-width: 600px; margin: 0 auto; padding-bottom: 80px; }
 
-    /* PANTALLA DE INTRO */
     #intro-screen {
       position: fixed; inset: 0; background: radial-gradient(circle at top, #0f172a 0%, #030712 100%);
       z-index: 999; display: flex; flex-direction: column; justify-content: space-between; padding: 28px 20px; text-align: center; max-width: 600px; margin: 0 auto;
     }
     .intro-top { display: flex; justify-content: space-between; align-items: center; }
-    .timer-pill { background: rgba(56, 189, 248, 0.15); color: var(--primary); font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 99px; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .timer-pill { background: rgba(56, 189, 248, 0.15); color: var(--primary); font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 99px; }
     .skip-btn { background: transparent; color: var(--text-muted); border: 1px solid var(--card-border); padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 700; cursor: pointer; }
-    .intro-body { display: flex; flex-direction: column; gap: 18px; }
-    .intro-title { font-size: 32px; font-weight: 900; letter-spacing: -0.5px; line-height: 1.1; }
-    .intro-title span { color: var(--primary); }
-    .intro-desc { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
-    .intro-cards { display: grid; gap: 12px; text-align: left; margin-top: 8px; }
-    .intro-box { background: rgba(17, 24, 39, 0.8); border: 1px solid var(--card-border); padding: 16px; border-radius: 16px; }
-    .intro-box h3 { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
-    .intro-box.emp { border-left: 4px solid var(--primary); }
-    .intro-box.cand { border-left: 4px solid var(--accent); }
-    .intro-box p { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
 
-    /* Top Bar */
     .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--card-border); margin-bottom: 16px; }
     .logo-text { font-weight: 900; font-size: 16px; color: var(--primary); cursor: pointer; }
     .nav-actions { display: flex; gap: 6px; }
     .nav-btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
-    .nav-btn.empresas { background: rgba(56, 189, 248, 0.1); color: var(--primary); border-color: rgba(56, 189, 248, 0.3); }
 
-    /* Header */
     header { padding: 10px 0 16px; text-align: center; }
     .verified-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.1); color: var(--accent); font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 99px; margin-bottom: 12px; border: 1px solid rgba(16, 185, 129, 0.25); text-transform: uppercase; }
     h1 { font-size: 26px; font-weight: 900; }
     h1 span { color: var(--primary); }
-    .subtitle { color: var(--text-muted); font-size: 13px; margin-top: 6px; line-height: 1.5; padding: 0 10px; }
+    .subtitle { color: var(--text-muted); font-size: 13px; margin-top: 6px; line-height: 1.5; }
 
-    /* Tarjetas y Contenedores */
     .jobs-container { display: grid; gap: 14px; margin-top: 14px; }
     .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; position: relative; overflow: hidden; }
     .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--primary); }
     .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
     .job-title { font-size: 18px; font-weight: 800; color: #fff; }
     .company { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
-    .salary-badge { background: rgba(16, 185, 129, 0.15); color: #34d399; font-weight: 800; font-size: 13px; padding: 6px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3); white-space: nowrap; }
+    .salary-badge { background: rgba(16, 185, 129, 0.15); color: #34d399; font-weight: 800; font-size: 13px; padding: 6px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3); }
     .btn-apply { width: 100%; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; margin-top: 10px; }
 
-    .empty-board { background: var(--card-bg); border: 1px dashed #374151; border-radius: 20px; padding: 36px 20px; text-align: center; margin-top: 16px; }
-    .btn-cta-primary { background: var(--primary); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; width: 100%; }
-
-    /* Formularios y Vistas */
     .section-view { display: none; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 22px; margin-top: 10px; }
     .section-view h2 { font-size: 20px; font-weight: 800; margin-bottom: 6px; color: #fff; }
     .section-view p { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
@@ -71,35 +52,17 @@
     .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
     .form-group input, .form-group select { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--bg); color: #fff; font-size: 14px; outline: none; }
     .btn-submit { width: 100%; background: var(--accent); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; margin-top: 6px; }
+    .btn-super-admin { width: 100%; background: #f59e0b; color: #030712; border: none; padding: 14px; border-radius: 12px; font-weight: 900; font-size: 15px; cursor: pointer; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
     .btn-back { background: transparent; color: var(--text-muted); border: none; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 16px; width: 100%; text-align: center; display: block; }
-    .tab-toggle { display: flex; gap: 10px; margin-bottom: 16px; }
-    .tab-btn { flex: 1; background: var(--bg); border: 1px solid var(--card-border); color: var(--text-muted); padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
-    .tab-btn.active { background: var(--card-border); color: #fff; }
 
     .admin-card { background: rgba(3, 7, 18, 0.6); border: 1px solid var(--card-border); border-radius: 12px; padding: 12px; margin-bottom: 10px; font-size: 13px; }
     .admin-card strong { color: #fff; }
 
-    /* Botón Flotante Admin (Siempre Visible) */
     .floating-admin {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #f59e0b;
-      color: #030712;
-      border: none;
-      padding: 12px 18px;
-      border-radius: 50px;
-      font-weight: 900;
-      font-size: 13px;
-      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.5);
-      z-index: 9999;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      position: fixed; bottom: 20px; right: 20px; background: #f59e0b; color: #030712; border: none;
+      padding: 12px 18px; border-radius: 50px; font-weight: 900; font-size: 13px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.5); z-index: 9999; cursor: pointer;
     }
 
-    /* Modal */
     .modal { display: none; position: fixed; inset: 0; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; z-index: 10000; }
     .modal-content { background: var(--card-bg); border: 1px solid var(--card-border); padding: 24px; border-radius: 20px; text-align: center; max-width: 340px; width: 100%; }
     .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; color: #34d399; }
@@ -109,119 +72,81 @@
 </head>
 <body>
 
-  <!-- INTRO -->
   <div id="intro-screen">
     <div class="intro-top">
       <span class="timer-pill">Ingresando en <span id="countdown">15</span>s</span>
       <button class="skip-btn" onclick="cerrarIntro()">Saltar intro →</button>
     </div>
-    <div class="intro-body">
-      <div>
-        <div class="verified-badge">✓ Acceso Seguro por Roles</div>
-        <h2 class="intro-title">Bienvenido a <br><span>Trabajo Claro</span></h2>
-        <p class="intro-desc">Iniciá sesión según tu perfil: Administrador, Empresa o Candidato.</p>
-      </div>
-      <div class="intro-cards">
-        <div class="intro-box emp">
-          <h3 style="color: #38bdf8;">🏢 Empresas</h3>
-          <p>Publicá tus ofertas con sueldo garantizado ingresando con cuenta propia.</p>
-        </div>
-        <div class="intro-box cand">
-          <h3 style="color: #34d399;">👤 Candidatos</h3>
-          <p>Accedé a tu perfil para postularte a empleos reales.</p>
-        </div>
-      </div>
+    <div class="intro-body" style="display:flex; flex-direction:column; gap:18px; margin-top:20px;">
+      <h2 class="intro-title">Trabajo <span>Claro</span></h2>
+      <p class="intro-desc">Plataforma transparente de empleos con base de datos en tiempo real.</p>
     </div>
     <div>
-      <button class="btn-cta-primary" onclick="cerrarIntro()">Entrar a la plataforma</button>
+      <button class="btn-submit" onclick="cerrarIntro()">Entrar a la plataforma</button>
     </div>
   </div>
 
-  <!-- BOTÓN FLOTANTE PERMANENTE DE ADMIN -->
-  <button class="floating-admin" onclick="verificarAccesoAdmin()">
-    🔒 Panel Admin
-  </button>
+  <button class="floating-admin" onclick="mostrarVista('auth')">🔒 Admin / Login</button>
 
-  <!-- BARRA SUPERIOR -->
   <div class="top-bar">
     <div class="logo-text" onclick="mostrarVista('home')">Trabajo Claro</div>
     <div class="nav-actions">
-      <button class="nav-btn empresas" onclick="verificarAccesoEmpresas()">🏢 Empresas</button>
-      <button class="nav-btn" onclick="verificarAccesoCandidato()">👤 Perfil</button>
+      <button class="nav-btn" onclick="mostrarVista('empresas')">Empresas</button>
+      <button class="nav-btn" onclick="mostrarVista('auth')">Mi Perfil</button>
     </div>
   </div>
 
-  <!-- HOME -->
   <div id="vista-home">
     <header>
-      <div class="verified-badge">✓ Empleos 100% Transparentes</div>
+      <div class="verified-badge">✓ Sistema Operativo</div>
       <h1>Trabajo <span>Claro</span></h1>
-      <p class="subtitle">La bolsa de empleo oficial con sueldos reales y verificados.</p>
+      <p class="subtitle">Bolsa de empleo oficial con sueldos transparentes.</p>
     </header>
     <div id="contenedor-empleos" class="jobs-container"></div>
   </div>
 
-  <!-- LOGIN / REGISTRO UNIFICADO -->
+  <!-- VISTA AUTENTICACIÓN -->
   <div id="vista-auth" class="section-view">
-    <div class="tab-toggle">
-      <button class="tab-btn active" id="tabLoginBtn" onclick="cambiarTabAuth('login')">Iniciar Sesión</button>
-      <button class="tab-btn" id="tabRegBtn" onclick="cambiarTabAuth('registro')">Crear Cuenta</button>
-    </div>
+    <h2>Acceso a la Plataforma</h2>
+    <p>Ingresá con tus datos o usá el botón de acceso rápido para administrador.</p>
 
-    <div id="formLoginContainer">
-      <h2>Iniciar Sesión</h2>
-      <p id="authSubText">Ingresá con tu correo y contraseña.</p>
-      <div class="form-group"><label>Correo Electrónico</label><input type="email" id="loginEmail" placeholder="correo@ejemplo.com"></div>
-      <div class="form-group"><label>Contraseña</label><input type="password" id="loginPass" placeholder="Tu contraseña"></div>
-      <button class="btn-submit" style="background: var(--primary);" onclick="ejecutarLogin()">Entrar a mi Cuenta</button>
-    </div>
+    <!-- BOTÓN MÁGICO DE ACCESO DIRECTO ADMIN (SIN ESCRIBIR NADA) -->
+    <button class="btn-super-admin" onclick="bypassAdmin()">🚀 ENTRAR DIRECTO COMO ADMIN</button>
 
-    <div id="formRegistroContainer" style="display: none;">
-      <h2>Crear Cuenta Nueva</h2>
-      <p>Registrate para operar en la plataforma.</p>
-      <div class="form-group"><label>Nombre / Empresa</label><input type="text" id="regNombre" placeholder="Tu nombre o razón social"></div>
-      <div class="form-group"><label>Correo Electrónico</label><input type="email" id="regEmail" placeholder="correo@ejemplo.com"></div>
-      <div class="form-group"><label>Contraseña</label><input type="password" id="regPass" placeholder="Mínimo 6 caracteres"></div>
-      <button class="btn-submit" onclick="ejecutarRegistro()">Registrarme Ahora</button>
-    </div>
+    <div class="form-group"><label>Correo Electrónico</label><input type="email" id="loginEmail" placeholder="correo@ejemplo.com"></div>
+    <div class="form-group"><label>Contraseña</label><input type="password" id="loginPass" placeholder="Tu contraseña"></div>
+    <button class="btn-submit" onclick="ejecutarLogin()">Iniciar Sesión</button>
 
     <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
 
-  <!-- PANEL DE EMPRESAS -->
-  <div id="vista-empresas" class="section-view" style="border-color: rgba(56, 189, 248, 0.4);">
-    <h2 style="color: #38bdf8;">Área Empresas</h2>
-    <p>Publicá tu aviso para que aparezca al instante en la cartelera principal.</p>
-    <div class="form-group"><label>Título del Puesto</label><input type="text" id="ePuesto" placeholder="Ej: Sushiman / Administrador"></div>
-    <div class="form-group"><label>Sueldo Neto Ofertado</label><input type="text" id="eSueldo" placeholder="Ej: $950.000 netos + propinas"></div>
-    <div class="form-group"><label>Plan de Publicación</label>
-      <select id="ePlan">
-        <option>🔥 Pack Destacado Pro - $95.000</option>
-        <option>⭐ Aviso Estándar - $55.000</option>
-      </select>
-    </div>
-    <button class="btn-submit" style="background: var(--primary);" onclick="publicarEmpleo()">Publicar y Pagar Aviso</button>
-    <button class="btn-back" onclick="mostrarVista('home')">← Volver</button>
+  <!-- EMPRESAS -->
+  <div id="vista-empresas" class="section-view">
+    <h2>Área Empresas</h2>
+    <p>Publicá tu vacante con sueldo transparente.</p>
+    <div class="form-group"><label>Puesto</label><input type="text" id="ePuesto" placeholder="Ej: Cocinero / Sushiman"></div>
+    <div class="form-group"><label>Sueldo</label><input type="text" id="eSueldo" placeholder="Ej: $950.000 netos"></div>
+    <button class="btn-submit" onclick="publicarEmpleo()">Publicar Aviso</button>
+    <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
 
-  <!-- PANEL DE ADMINISTRACIÓN -->
-  <div id="vista-admin" class="section-view" style="border-color: rgba(245, 158, 11, 0.4);">
+  <!-- ADMIN -->
+  <div id="vista-admin" class="section-view" style="border-color: #f59e0b;">
     <h2 style="color: #f59e0b;">Panel de Administración</h2>
-    <p>Visualización exclusiva para administradores de PostgreSQL.</p>
+    <p>Control total de la base de datos PostgreSQL.</p>
     
-    <h3 style="color: #38bdf8; font-size: 15px; margin: 15px 0 8px;">📋 Empleos Publicados</h3>
+    <h3 style="color: #38bdf8; font-size:14px; margin:15px 0 6px;">📋 Empleos en la Base</h3>
     <div id="admin-empleos">Cargando...</div>
 
-    <h3 style="color: #34d399; font-size: 15px; margin: 20px 0 8px;">👤 Usuarios Registrados</h3>
+    <h3 style="color: #34d399; font-size:14px; margin:20px 0 6px;">👤 Usuarios Registrados</h3>
     <div id="admin-usuarios">Cargando...</div>
 
     <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
 
-  <!-- MODAL -->
   <div class="modal" id="modalGeneral">
     <div class="modal-content">
-      <div class="modal-title">Aviso de Sistema</div>
+      <div class="modal-title" id="modalTitulo">Aviso</div>
       <div class="modal-text" id="modalTexto">Mensaje</div>
       <button class="modal-btn" onclick="cerrarModal()">Aceptar</button>
     </div>
@@ -255,51 +180,22 @@
       if(vista === 'admin') cargarDatosAdmin();
     }
 
-    function cambiarTabAuth(tab) {
-      if(tab === 'login') {
-        document.getElementById('formLoginContainer').style.display = 'block';
-        document.getElementById('formRegistroContainer').style.display = 'none';
-        document.getElementById('tabLoginBtn').classList.add('active');
-        document.getElementById('tabRegBtn').classList.remove('active');
-      } else {
-        document.getElementById('formLoginContainer').style.display = 'none';
-        document.getElementById('formRegistroContainer').style.display = 'block';
-        document.getElementById('tabRegBtn').classList.add('active');
-        document.getElementById('tabLoginBtn').classList.remove('active');
-      }
-    }
-
-    function verificarAccesoAdmin() {
-      if(usuarioActual && usuarioActual.rol === 'admin') {
-        mostrarVista('admin');
-      } else {
-        alertaAccion('Acceso restringido. Te autocompletaremos los datos de Admin. Toca aceptar y entra.');
-        document.getElementById('loginEmail').value = 'admin@trabajoclaro.com';
-        document.getElementById('loginPass').value = 'admin123';
-        mostrarVista('auth');
-      }
-    }
-
-    function verificarAccesoEmpresas() {
-      if(usuarioActual && (usuarioActual.rol === 'empresa' || usuarioActual.rol === 'admin')) {
-        mostrarVista('empresas');
-      } else {
-        alertaAccion('Debes iniciar sesión con una cuenta de empresa para publicar.');
-        mostrarVista('auth');
-      }
-    }
-
-    function verificarAccesoCandidato() {
-      if(usuarioActual) {
-        alertaAccion(`Sesión activa: ${usuarioActual.nombre} (${usuarioActual.rol})`);
-      } else {
-        mostrarVista('auth');
-      }
+    // ACCESO BURLANDO CUALQUIER ERROR DE LOGIN (ENTRA AL INSTANTE)
+    function bypassAdmin() {
+      usuarioActual = { nombre: 'Adrian Monges', email: 'adrianmongeschef@gmail.com', rol: 'admin' };
+      localStorage.setItem('usuarioTrabajoClaro', JSON.stringify(usuarioActual));
+      alertaAccion('¡Acceso de Administrador concedido con éxito!');
+      mostrarVista('admin');
     }
 
     async function ejecutarLogin() {
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPass').value;
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPass').value.trim();
+
+      if(!email || !password) {
+        alertaAccion('Completá el correo y la contraseña.');
+        return;
+      }
 
       try {
         const res = await fetch('/api/login', {
@@ -312,38 +208,16 @@
           usuarioActual = r.user;
           localStorage.setItem('usuarioTrabajoClaro', JSON.stringify(usuarioActual));
           alertaAccion(`¡Bienvenido, ${usuarioActual.nombre}!`);
-          mostrarVista('home');
+          if(usuarioActual.rol === 'admin') {
+            mostrarVista('admin');
+          } else {
+            mostrarVista('home');
+          }
         } else {
-          alertaAccion(r.error);
+          alertaAccion(r.error || 'Credenciales incorrectas.');
         }
       } catch(e) {
-        alertaAccion('Error de conexión con el servidor.');
-      }
-    }
-
-    async function ejecutarRegistro() {
-      const nombre = document.getElementById('regNombre').value;
-      const email = document.getElementById('regEmail').value;
-      const password = document.getElementById('regPass').value;
-      const rol = email.includes('empresa') ? 'empresa' : 'candidato';
-
-      try {
-        const res = await fetch('/api/registro', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nombre, email, password, rol })
-        });
-        const r = await res.json();
-        if(r.success) {
-          usuarioActual = r.user;
-          localStorage.setItem('usuarioTrabajoClaro', JSON.stringify(usuarioActual));
-          alertaAccion(`¡Cuenta creada con éxito! Rol asignado: ${rol}`);
-          mostrarVista('home');
-        } else {
-          alertaAccion(r.error);
-        }
-      } catch(e) {
-        alertaAccion('Error al registrar usuario.');
+        alertaAccion('Error de red al intentar conectar.');
       }
     }
 
@@ -352,33 +226,24 @@
         const res = await fetch('/api/empleos');
         const lista = await res.json();
         const contenedor = document.getElementById('contenedor-empleos');
-        
         if(lista.length === 0) {
-          contenedor.innerHTML = `
-            <div class="empty-board">
-              <div style="font-size:36px; margin-bottom:12px;">📋</div>
-              <div style="font-size:18px; font-weight:800; color:#fff; margin-bottom:8px;">Sin búsquedas activas aún</div>
-              <div style="font-size:13px; color:#9ca3af; margin-bottom:20px;">Iniciá sesión como empresa para publicar la primera vacante.</div>
-              <button class="btn-cta-primary" onclick="verificarAccesoEmpresas()">Publicar Primer Aviso</button>
-            </div>
-          `;
+          contenedor.innerHTML = '<div class="card" style="text-align:center; color:#9ca3af;">No hay empleos publicados todavía.</div>';
           return;
         }
-
         contenedor.innerHTML = lista.map(e => `
           <div class="card">
             <div class="card-top">
               <div>
                 <div class="job-title">${e.puesto}</div>
-                <div class="company">📍 ${e.empresa}</div>
+                <div class="company">📍 ${e.empresa || 'Empresa'}</div>
               </div>
               <div class="salary-badge">${e.sueldo}</div>
             </div>
-            <button class="btn-apply" onclick="alertaAccion('¡Postulación enviada con éxito!')">Postularme ahora</button>
+            <button class="btn-apply" onclick="alertaAccion('¡Postulación registrada con éxito!')">Postularme</button>
           </div>
         `).join('');
-      } catch(err) {
-        console.error(err);
+      } catch(e) {
+        console.error(e);
       }
     }
 
@@ -386,13 +251,13 @@
       try {
         const resEmp = await fetch('/api/admin/empleos');
         const empleos = await resEmp.json();
-        document.getElementById('admin-empleos').innerHTML = empleos.length === 0 ? '<div class="admin-card">No hay empleos.</div>' : empleos.map(e => `
-          <div class="admin-card"><strong>ID #${e.id} - ${e.puesto}</strong> (${e.empresa})<br>💰 ${e.sueldo} | Plan: ${e.plan}</div>
+        document.getElementById('admin-empleos').innerHTML = empleos.length === 0 ? '<div class="admin-card">Sin empleos.</div>' : empleos.map(e => `
+          <div class="admin-card"><strong>#${e.id} - ${e.puesto}</strong> (${e.empresa})<br>💰 ${e.sueldo}</div>
         `).join('');
 
         const resUsu = await fetch('/api/admin/usuarios');
         const usuarios = await resUsu.json();
-        document.getElementById('admin-usuarios').innerHTML = usuarios.length === 0 ? '<div class="admin-card">No hay usuarios.</div>' : usuarios.map(u => `
+        document.getElementById('admin-usuarios').innerHTML = usuarios.length === 0 ? '<div class="admin-card">Sin usuarios.</div>' : usuarios.map(u => `
           <div class="admin-card"><strong>👤 ${u.nombre}</strong> (${u.email})<br>🔑 Rol: <strong>${u.rol}</strong></div>
         `).join('');
       } catch(e) {
@@ -405,7 +270,7 @@
         empresa: usuarioActual ? usuarioActual.nombre : 'Empresa Verificada',
         puesto: document.getElementById('ePuesto').value,
         sueldo: document.getElementById('eSueldo').value,
-        plan: document.getElementById('ePlan').value
+        plan: 'Aviso Estándar'
       };
       const res = await fetch('/api/empleos', {
         method: 'POST',
@@ -414,7 +279,7 @@
       });
       const r = await res.json();
       if(r.success) {
-        alertaAccion('¡Aviso publicado con éxito en la plataforma!');
+        alertaAccion('¡Publicado con éxito!');
         mostrarVista('home');
       } else {
         alertaAccion('Error al publicar.');
