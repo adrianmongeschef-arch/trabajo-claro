@@ -17,133 +17,175 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background: var(--bg); color: var(--text-main); padding: 16px; max-width: 600px; margin: 0 auto; -webkit-tap-highlight-color: transparent; }
     
+    /* Top Bar de Accesos */
+    .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--card-border); margin-bottom: 16px; }
+    .logo-text { font-weight: 900; font-size: 16px; color: var(--primary); text-decoration: none; cursor: pointer; }
+    .nav-actions { display: flex; gap: 8px; }
+    .nav-btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .nav-btn.empresas { background: rgba(56, 189, 248, 0.1); color: var(--primary); border-color: rgba(56, 189, 248, 0.3); }
+
     /* Header */
-    header { padding: 24px 0 16px; text-align: center; }
+    header { padding: 10px 0 16px; text-align: center; }
     .verified-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.1); color: var(--accent); font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 99px; margin-bottom: 12px; border: 1px solid rgba(16, 185, 129, 0.25); text-transform: uppercase; letter-spacing: 0.5px; }
-    h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; }
+    h1 { font-size: 26px; font-weight: 900; letter-spacing: -0.5px; }
     h1 span { color: var(--primary); }
     .subtitle { color: var(--text-muted); font-size: 13px; margin-top: 6px; line-height: 1.5; padding: 0 10px; }
 
-    /* Buscador */
-    .search-box { position: relative; margin: 20px 0 14px; }
-    .search-box input { width: 100%; padding: 14px 16px 14px 44px; border-radius: 14px; border: 1px solid var(--card-border); background: var(--card-bg); color: #fff; font-size: 14px; outline: none; transition: all 0.2s; }
-    .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15); }
+    /* Buscador y Filtros */
+    .search-box { position: relative; margin: 16px 0 12px; }
+    .search-box input { width: 100%; padding: 14px 16px 14px 44px; border-radius: 14px; border: 1px solid var(--card-border); background: var(--card-bg); color: #fff; font-size: 14px; outline: none; }
     .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-muted); }
-
-    /* Filtros */
     .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 20px; scrollbar-width: none; }
     .filters::-webkit-scrollbar { display: none; }
-    .filter-btn { background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--card-border); padding: 8px 16px; border-radius: 99px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .filter-btn { background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--card-border); padding: 8px 16px; border-radius: 99px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
     .filter-btn.active { background: var(--primary); color: #030712; border-color: var(--primary); font-weight: 700; }
 
-    /* Tarjetas de empleo */
+    /* Tarjetas */
     .jobs-container { display: grid; gap: 14px; }
-    .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; transition: transform 0.1s; position: relative; overflow: hidden; }
+    .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; position: relative; overflow: hidden; }
     .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--primary); }
     .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
-    .job-title { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
-    .company { font-size: 13px; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
-    
-    .salary-badge { background: rgba(16, 185, 129, 0.15); color: #34d399; font-weight: 800; font-size: 13px; padding: 6px 12px; border-radius: 10px; white-space: nowrap; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .job-title { font-size: 18px; font-weight: 800; color: #fff; }
+    .company { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
+    .salary-badge { background: rgba(16, 185, 129, 0.15); color: #34d399; font-weight: 800; font-size: 13px; padding: 6px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3); white-space: nowrap; }
+    .details-grid { display: grid; gap: 8px; font-size: 13px; color: #d1d5db; margin: 14px 0; background: rgba(3, 7, 18, 0.5); padding: 12px; border-radius: 12px; }
+    .btn-apply { width: 100%; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; }
 
-    .details-grid { display: grid; gap: 8px; font-size: 13px; color: #d1d5db; margin: 14px 0; background: rgba(3, 7, 18, 0.5); padding: 12px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.03); }
-    .detail-item { display: flex; align-items: center; gap: 8px; }
+    /* Secciones de Formularios (Ocultas por defecto) */
+    .section-view { display: none; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 22px; margin-top: 10px; }
+    .section-view h2 { font-size: 20px; font-weight: 800; margin-bottom: 6px; color: #fff; }
+    .section-view p { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
+    .form-group input, .form-group select { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--bg); color: #fff; font-size: 14px; outline: none; }
+    .btn-submit { width: 100%; background: var(--accent); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; margin-top: 6px; }
+    .btn-back { background: transparent; color: var(--text-muted); border: none; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 12px; width: 100%; text-align: center; display: block; }
 
-    .btn-apply { width: 100%; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; transition: opacity 0.2s; }
-    .btn-apply:active { opacity: 0.85; transform: scale(0.99); }
-
-    /* Modal de éxito */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(3, 7, 18, 0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; z-index: 100; }
-    .modal-content { background: var(--card-bg); border: 1px solid var(--card-border); padding: 24px; border-radius: 20px; text-align: center; max-width: 340px; width: 100%; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    /* Modal */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; z-index: 100; }
+    .modal-content { background: var(--card-bg); border: 1px solid var(--card-border); padding: 24px; border-radius: 20px; text-align: center; max-width: 340px; width: 100%; }
     .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; color: #34d399; }
     .modal-text { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
     .modal-btn { background: var(--primary); color: #030712; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 700; cursor: pointer; width: 100%; }
-
-    .empty-state { text-align: center; color: var(--text-muted); padding: 40px 0; font-size: 14px; }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="verified-badge">✓ Salarios y condiciones 100% reales</div>
-    <h1>Trabajo <span>Claro</span></h1>
-    <p class="subtitle">Postulate sabiendo exactamente cuánto vas a ganar, sin ofertas falsas ni vueltas.</p>
-  </header>
-
-  <div class="search-box">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="buscador" placeholder="Buscar por puesto, zona o empresa..." onkeyup="filtrarOfertas()" />
+  <!-- Barra superior de navegación -->
+  <div class="top-bar">
+    <div class="logo-text" onclick="mostrarVista('home')">Trabajo Claro</div>
+    <div class="nav-actions">
+      <button class="nav-btn empresas" onclick="mostrarVista('empresas')">🏢 Empresas</button>
+      <button class="nav-btn" onclick="mostrarVista('auth')">👤 Mi Perfil</button>
+    </div>
   </div>
 
-  <div class="filters">
-    <button class="filter-btn active" onclick="cambiarRubro('Todos', this)">✨ Todos</button>
-    <button class="filter-btn" onclick="cambiarRubro('Gastronomía', this)">🍣 Gastronomía</button>
-    <button class="filter-btn" onclick="cambiarRubro('Administración', this)">📊 Administración</button>
-    <button class="filter-btn" onclick="cambiarRubro('Logística', this)">🚚 Logística</button>
+  <!-- VISTA 1: LISTADO PRINCIPAL DE EMPLEOS -->
+  <div id="vista-home">
+    <header>
+      <div class="verified-badge">✓ Salarios y condiciones 100% reales</div>
+      <h1>Trabajo <span>Claro</span></h1>
+      <p class="subtitle">Postulate sabiendo exactamente cuánto vas a ganar, sin ofertas falsas.</p>
+    </header>
+
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="buscador" placeholder="Buscar por puesto, zona o empresa..." onkeyup="filtrarOfertas()" />
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" onclick="cambiarRubro('Todos', this)">✨ Todos</button>
+      <button class="filter-btn" onclick="cambiarRubro('Gastronomía', this)">🍣 Gastronomía</button>
+      <button class="filter-btn" onclick="cambiarRubro('Administración', this)">📊 Administración</button>
+      <button class="filter-btn" onclick="cambiarRubro('Logística', this)">🚚 Logística</button>
+    </div>
+
+    <div class="jobs-container" id="contenedor-ofertas"></div>
   </div>
 
-  <div class="jobs-container" id="contenedor-ofertas"></div>
+  <!-- VISTA 2: ACCESO / CREAR PERFIL (CANDIDATOS) -->
+  <div id="vista-auth" class="section-view">
+    <h2>Portal de Candidatos</h2>
+    <p>Crea tu usuario y contraseña para postularte en 1 clic y gestionar tu CV transparente.</p>
+    
+    <div class="form-group">
+      <label>Correo Electrónico</label>
+      <input type="email" placeholder="tu_correo@gmail.com" id="regMail">
+    </div>
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input type="password" placeholder="Mínimo 6 caracteres" id="regPass">
+    </div>
+    <div class="form-group">
+      <label>Rubro de interés principal</label>
+      <select id="regRubro">
+        <option>Gastronomía / Cocina</option>
+        <option>Administración / Ventas</option>
+        <option>Logística / Choferes</option>
+      </select>
+    </div>
+    <button class="btn-submit" onclick="alertaAccion('¡Cuenta creada con éxito! Ya puedes iniciar sesión.')">Crear Cuenta / Registrarme</button>
+    <button class="btn-back" onclick="mostrarVista('home')">← Volver a los empleos</button>
+  </div>
 
-  <!-- Modal de éxito -->
-  <div class="modal" id="modalPostulacion">
+  <!-- VISTA 3: ACCESO EMPRESAS (PUBLICAR Y PAGAR) -->
+  <div id="vista-empresas" class="section-view" style="border-color: rgba(56, 189, 248, 0.4);">
+    <h2 style="color: #38bdf8;">Área Empresas</h2>
+    <p>Publicá avisos transparentes con sueldo garantizado. Atraé talento calificado sin postulaciones fantasmas.</p>
+    
+    <div class="form-group">
+      <label>Razón Social / Nombre Empresa</label>
+      <input type="text" placeholder="Ej: Restaurante u Operador Logístico">
+    </div>
+    <div class="form-group">
+      <label>Título del Puesto</label>
+      <input type="text" placeholder="Ej: Sushiman / Cocinero Nikkei">
+    </div>
+    <div class="form-group">
+      <label>Sueldo Neto Ofertado (Obligatorio)</label>
+      <input type="text" placeholder="Ej: $950.000 netos + propinas">
+    </div>
+    <div class="form-group">
+      <label>Plan de Publicación y Pago</label>
+      <select>
+        <option>Aviso Destacado 30 días ($15.000) - Pago Mercado Pago</option>
+        <option>Aviso Estándar 15 días ($8.000) - Pago Mercado Pago</option>
+      </select>
+    </div>
+    <button class="btn-submit" style="background: var(--primary);" onclick="alertaAccion('Redirigiendo a pasarela de pago segura de Mercado Pago...')">Publicar y Pagar Aviso</button>
+    <button class="btn-back" onclick="mostrarVista('home')">← Volver al sitio principal</button>
+  </div>
+
+  <!-- Modal genérico de mensajes -->
+  <div class="modal" id="modalGeneral">
     <div class="modal-content">
-      <div class="modal-title">¡Postulación Exitosa! 🎉</div>
-      <div class="modal-text" id="modalMensaje">Tu postulación fue enviada con las condiciones transparentes confirmadas.</div>
-      <button class="modal-btn" onclick="cerrarModal()">Entendido</button>
+      <div class="modal-title">Aviso de Trabajo Claro</div>
+      <div class="modal-text" id="modalTexto">Mensaje del sistema</div>
+      <button class="modal-btn" onclick="cerrarModal()">Aceptar</button>
     </div>
   </div>
 
   <script>
     const ofertas = [
-      {
-        id: 1,
-        puesto: 'Sushiman / Cocinero Nikkei',
-        empresa: 'Restaurante Paladar',
-        zona: 'Palermo, CABA',
-        sueldo: '$950.000 netos + propinas',
-        horario: 'Mar a Dom · 17:00 a 01:00',
-        modalidad: 'Blanco 100% · Comida incluida',
-        rubro: 'Gastronomía'
-      },
-      {
-        id: 2,
-        puesto: 'Head Chef / Jefe de Cocina',
-        empresa: 'La Causa Nikkei',
-        zona: 'Recoleta, CABA',
-        sueldo: '$1.400.000 netos + objetivos',
-        horario: 'Mié a Lun · Turno corrido',
-        modalidad: 'En blanco · Prepaga incluida',
-        rubro: 'Gastronomía'
-      },
-      {
-        id: 3,
-        puesto: 'Administrativo/a Comercial',
-        empresa: 'Estudio Sur',
-        zona: 'Lomas de Zamora, GBA',
-        sueldo: '$780.000 netos',
-        horario: 'Lun a Vie · 09:00 a 17:00',
-        modalidad: 'Relación de dependencia · Ley',
-        rubro: 'Administración'
-      },
-      {
-        id: 4,
-        puesto: 'Chofer de Reparto Profesional',
-        empresa: 'Logística del Sur',
-        zona: 'Avellaneda, GBA',
-        sueldo: '$890.000 netos + viáticos',
-        horario: 'Lun a Sáb · 07:00 a 15:00',
-        modalidad: 'Convenio Camioneros · Blanco',
-        rubro: 'Logística'
-      }
+      { id: 1, puesto: 'Sushiman / Cocinero Nikkei', empresa: 'Restaurante Paladar', zona: 'Palermo, CABA', sueldo: '$950.000 netos + propinas', horario: 'Mar a Dom · 17:00 a 01:00', modalidad: 'Blanco 100% · Comida incluida', rubro: 'Gastronomía' },
+      { id: 2, puesto: 'Head Chef / Jefe de Cocina', empresa: 'La Causa Nikkei', zona: 'Recoleta, CABA', sueldo: '$1.400.000 netos + objetivos', horario: 'Mié a Lun · Turno corrido', modalidad: 'En blanco · Prepaga incluida', rubro: 'Gastronomía' },
+      { id: 3, puesto: 'Administrativo/a Comercial', empresa: 'Estudio Sur', zona: 'Lomas de Zamora, GBA', sueldo: '$780.000 netos', horario: 'Lun a Vie · 09:00 a 17:00', modalidad: 'Relación de dependencia · Ley', rubro: 'Administración' },
+      { id: 4, puesto: 'Chofer de Reparto Profesional', empresa: 'Logística del Sur', zona: 'Avellaneda, GBA', sueldo: '$890.000 netos + viáticos', horario: 'Lun a Sáb · 07:00 a 15:00', modalidad: 'Convenio Camioneros · Blanco', rubro: 'Logística' }
     ];
 
     let rubroSeleccionado = 'Todos';
 
+    function mostrarVista(vista) {
+      document.getElementById('vista-home').style.display = vista === 'home' ? 'block' : 'none';
+      document.getElementById('vista-auth').style.display = vista === 'auth' ? 'block' : 'none';
+      document.getElementById('vista-empresas').style.display = vista === 'empresas' ? 'block' : 'none';
+      window.scrollTo(0, 0);
+    }
+
     function renderizar(lista) {
       const el = document.getElementById('contenedor-ofertas');
       if (lista.length === 0) {
-        el.innerHTML = '<div class="empty-state">No encontramos ofertas con esos criterios de búsqueda.</div>';
+        el.innerHTML = '<div style="text-align:center; color:#9ca3af; padding:30px;">No encontramos ofertas con esos criterios.</div>';
         return;
       }
       el.innerHTML = lista.map(o => `
@@ -156,10 +198,10 @@
             <div class="salary-badge">${o.sueldo}</div>
           </div>
           <div class="details-grid">
-            <div class="detail-item">🕒 <strong>Horario:</strong> ${o.horario}</div>
-            <div class="detail-item">📋 <strong>Condiciones:</strong> ${o.modalidad}</div>
+            <div>🕒 <strong>Horario:</strong> ${o.horario}</div>
+            <div>📋 <strong>Condiciones:</strong> ${o.modalidad}</div>
           </div>
-          <button class="btn-apply" onclick="postular('${o.empresa}', '${o.puesto}')">Postularme ahora</button>
+          <button class="btn-apply" onclick="alertaAccion('¡Postulación enviada a ${o.empresa} con tu perfil verificado!')">Postularme ahora</button>
         </div>
       `).join('');
     }
@@ -181,13 +223,14 @@
       renderizar(filtradas);
     }
 
-    function postular(empresa, puesto) {
-      document.getElementById('modalMensaje').innerText = `Tu interés para el puesto de ${puesto} en ${empresa} fue registrado con éxito.`;
-      document.getElementById('modalPostulacion').style.display = 'flex';
+    function alertaAccion(texto) {
+      document.getElementById('modalTexto').innerText = texto;
+      document.getElementById('modalGeneral').style.display = 'flex';
     }
 
     function cerrarModal() {
-      document.getElementById('modalPostulacion').style.display = 'none';
+      document.getElementById('modalGeneral').style.display = 'none';
+      mostrarVista('home');
     }
 
     renderizar(ofertas);
