@@ -51,7 +51,7 @@
     .details-grid { display: grid; gap: 8px; font-size: 13px; color: #d1d5db; margin: 14px 0; background: rgba(3, 7, 18, 0.5); padding: 12px; border-radius: 12px; }
     .btn-apply { width: 100%; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; }
 
-    /* Secciones de Formularios (Ocultas por defecto) */
+    /* Secciones de Formularios */
     .section-view { display: none; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 22px; margin-top: 10px; }
     .section-view h2 { font-size: 20px; font-weight: 800; margin-bottom: 6px; color: #fff; }
     .section-view p { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
@@ -71,7 +71,7 @@
 </head>
 <body>
 
-  <!-- Barra superior de navegación -->
+  <!-- Barra superior -->
   <div class="top-bar">
     <div class="logo-text" onclick="mostrarVista('home')">Trabajo Claro</div>
     <div class="nav-actions">
@@ -80,7 +80,7 @@
     </div>
   </div>
 
-  <!-- VISTA 1: LISTADO PRINCIPAL DE EMPLEOS -->
+  <!-- VISTA 1: HOME -->
   <div id="vista-home">
     <header>
       <div class="verified-badge">✓ Salarios y condiciones 100% reales</div>
@@ -103,22 +103,22 @@
     <div class="jobs-container" id="contenedor-ofertas"></div>
   </div>
 
-  <!-- VISTA 2: ACCESO / CREAR PERFIL (CANDIDATOS) -->
+  <!-- VISTA 2: CANDIDATOS -->
   <div id="vista-auth" class="section-view">
     <h2>Portal de Candidatos</h2>
     <p>Crea tu usuario y contraseña para postularte en 1 clic y gestionar tu CV transparente.</p>
     
     <div class="form-group">
       <label>Correo Electrónico</label>
-      <input type="email" placeholder="tu_correo@gmail.com" id="regMail">
+      <input type="email" placeholder="tu_correo@gmail.com">
     </div>
     <div class="form-group">
       <label>Contraseña</label>
-      <input type="password" placeholder="Mínimo 6 caracteres" id="regPass">
+      <input type="password" placeholder="Mínimo 6 caracteres">
     </div>
     <div class="form-group">
       <label>Rubro de interés principal</label>
-      <select id="regRubro">
+      <select>
         <option>Gastronomía / Cocina</option>
         <option>Administración / Ventas</option>
         <option>Logística / Choferes</option>
@@ -128,35 +128,35 @@
     <button class="btn-back" onclick="mostrarVista('home')">← Volver a los empleos</button>
   </div>
 
-  <!-- VISTA 3: ACCESO EMPRESAS (PUBLICAR Y PAGAR) -->
+  <!-- VISTA 3: EMPRESAS (PRECIOS ACTUALIZADOS) -->
   <div id="vista-empresas" class="section-view" style="border-color: rgba(56, 189, 248, 0.4);">
     <h2 style="color: #38bdf8;">Área Empresas</h2>
-    <p>Publicá avisos transparentes con sueldo garantizado. Atraé talento calificado sin postulaciones fantasmas.</p>
+    <p>Publicá avisos transparentes con sueldo garantizado y llegá directo a candidatos calificados.</p>
     
     <div class="form-group">
       <label>Razón Social / Nombre Empresa</label>
-      <input type="text" placeholder="Ej: Restaurante u Operador Logístico">
+      <input type="text" placeholder="Ej: Restaurante o Empresa Gastronómica">
     </div>
     <div class="form-group">
       <label>Título del Puesto</label>
-      <input type="text" placeholder="Ej: Sushiman / Cocinero Nikkei">
+      <input type="text" placeholder="Ej: Head Chef / Sushiman">
     </div>
     <div class="form-group">
       <label>Sueldo Neto Ofertado (Obligatorio)</label>
-      <input type="text" placeholder="Ej: $950.000 netos + propinas">
+      <input type="text" placeholder="Ej: $1.200.000 netos + propinas">
     </div>
     <div class="form-group">
       <label>Plan de Publicación y Pago</label>
       <select>
-        <option>Aviso Destacado 30 días ($15.000) - Pago Mercado Pago</option>
-        <option>Aviso Estándar 15 días ($8.000) - Pago Mercado Pago</option>
+        <option>🔥 Pack Destacado Pro (30 días + Máxima Visibilidad) - $95.000</option>
+        <option>⭐ Aviso Estándar Profesional (15 días) - $55.000</option>
       </select>
     </div>
     <button class="btn-submit" style="background: var(--primary);" onclick="alertaAccion('Redirigiendo a pasarela de pago segura de Mercado Pago...')">Publicar y Pagar Aviso</button>
     <button class="btn-back" onclick="mostrarVista('home')">← Volver al sitio principal</button>
   </div>
 
-  <!-- Modal genérico de mensajes -->
+  <!-- Modal -->
   <div class="modal" id="modalGeneral">
     <div class="modal-content">
       <div class="modal-title">Aviso de Trabajo Claro</div>
