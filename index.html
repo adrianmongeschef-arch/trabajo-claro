@@ -5,55 +5,137 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trabajo Claro | Empleos Transparentes</title>
   <style>
+    :root {
+      --bg: #030712;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --primary: #38bdf8;
+      --accent: #10b981;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: #0f172a; color: #f8fafc; padding: 16px; max-width: 600px; margin: 0 auto; }
-    header { padding: 20px 0 10px; text-align: center; }
-    .badge { display: inline-block; background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 99px; margin-bottom: 8px; border: 1px solid rgba(16, 185, 129, 0.3); text-transform: uppercase; letter-spacing: 0.5px; }
-    h1 { font-size: 26px; font-weight: 800; color: #f8fafc; }
-    h1 span { color: #38bdf8; }
-    .subtitle { color: #94a3b8; font-size: 13px; margin-top: 6px; line-height: 1.4; }
-    .search-container { margin: 20px 0 12px; }
-    input { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 14px; outline: none; }
-    input:focus { border-color: #38bdf8; }
-    .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; scrollbar-width: none; }
-    .filter-btn { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 8px 14px; border-radius: 99px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
-    .filter-btn.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; }
-    .card { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 18px; margin-bottom: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.2); }
-    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
-    .job-title { font-size: 17px; font-weight: 700; color: #f8fafc; }
-    .company { font-size: 12px; color: #94a3b8; margin-top: 3px; }
-    .salary { background: #10b981; color: #022c22; font-weight: 800; font-size: 12px; padding: 6px 10px; border-radius: 8px; white-space: nowrap; }
-    .details { display: grid; gap: 6px; font-size: 12px; color: #cbd5e1; margin: 12px 0; background: rgba(15, 23, 42, 0.6); padding: 10px; border-radius: 10px; }
-    .btn-apply { width: 100%; background: #38bdf8; color: #0f172a; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; }
-    .empty { text-align: center; color: #94a3b8; padding: 30px; font-size: 14px; }
+    body { background: var(--bg); color: var(--text-main); padding: 16px; max-width: 600px; margin: 0 auto; -webkit-tap-highlight-color: transparent; }
+    
+    /* Header */
+    header { padding: 24px 0 16px; text-align: center; }
+    .verified-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.1); color: var(--accent); font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 99px; margin-bottom: 12px; border: 1px solid rgba(16, 185, 129, 0.25); text-transform: uppercase; letter-spacing: 0.5px; }
+    h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; }
+    h1 span { color: var(--primary); }
+    .subtitle { color: var(--text-muted); font-size: 13px; margin-top: 6px; line-height: 1.5; padding: 0 10px; }
+
+    /* Buscador */
+    .search-box { position: relative; margin: 20px 0 14px; }
+    .search-box input { width: 100%; padding: 14px 16px 14px 44px; border-radius: 14px; border: 1px solid var(--card-border); background: var(--card-bg); color: #fff; font-size: 14px; outline: none; transition: all 0.2s; }
+    .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15); }
+    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-muted); }
+
+    /* Filtros */
+    .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 20px; scrollbar-width: none; }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter-btn { background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--card-border); padding: 8px 16px; border-radius: 99px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .filter-btn.active { background: var(--primary); color: #030712; border-color: var(--primary); font-weight: 700; }
+
+    /* Tarjetas de empleo */
+    .jobs-container { display: grid; gap: 14px; }
+    .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; transition: transform 0.1s; position: relative; overflow: hidden; }
+    .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--primary); }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+    .job-title { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+    .company { font-size: 13px; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
+    
+    .salary-badge { background: rgba(16, 185, 129, 0.15); color: #34d399; font-weight: 800; font-size: 13px; padding: 6px 12px; border-radius: 10px; white-space: nowrap; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+    .details-grid { display: grid; gap: 8px; font-size: 13px; color: #d1d5db; margin: 14px 0; background: rgba(3, 7, 18, 0.5); padding: 12px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.03); }
+    .detail-item { display: flex; align-items: center; gap: 8px; }
+
+    .btn-apply { width: 100%; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; transition: opacity 0.2s; }
+    .btn-apply:active { opacity: 0.85; transform: scale(0.99); }
+
+    /* Modal de éxito */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(3, 7, 18, 0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; z-index: 100; }
+    .modal-content { background: var(--card-bg); border: 1px solid var(--card-border); padding: 24px; border-radius: 20px; text-align: center; max-width: 340px; width: 100%; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; color: #34d399; }
+    .modal-text { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
+    .modal-btn { background: var(--primary); color: #030712; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 700; cursor: pointer; width: 100%; }
+
+    .empty-state { text-align: center; color: var(--text-muted); padding: 40px 0; font-size: 14px; }
   </style>
 </head>
 <body>
+
   <header>
-    <div class="badge">✓ Sin sueldos ocultos</div>
+    <div class="verified-badge">✓ Salarios y condiciones 100% reales</div>
     <h1>Trabajo <span>Claro</span></h1>
-    <p class="subtitle">Empleos reales con salarios y condiciones publicadas desde el primer día.</p>
+    <p class="subtitle">Postulate sabiendo exactamente cuánto vas a ganar, sin ofertas falsas ni vueltas.</p>
   </header>
 
-  <div class="search-container">
-    <input type="text" id="buscador" placeholder="🔍 Buscar por puesto, zona o empresa..." onkeyup="filtrarOfertas()" />
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="buscador" placeholder="Buscar por puesto, zona o empresa..." onkeyup="filtrarOfertas()" />
   </div>
 
   <div class="filters">
-    <button class="filter-btn active" onclick="cambiarRubro('Todos', this)">Todos</button>
-    <button class="filter-btn" onclick="cambiarRubro('Gastronomía', this)">Gastronomía</button>
-    <button class="filter-btn" onclick="cambiarRubro('Administración', this)">Administración</button>
-    <button class="filter-btn" onclick="cambiarRubro('Logística', this)">Logística</button>
+    <button class="filter-btn active" onclick="cambiarRubro('Todos', this)">✨ Todos</button>
+    <button class="filter-btn" onclick="cambiarRubro('Gastronomía', this)">🍣 Gastronomía</button>
+    <button class="filter-btn" onclick="cambiarRubro('Administración', this)">📊 Administración</button>
+    <button class="filter-btn" onclick="cambiarRubro('Logística', this)">🚚 Logística</button>
   </div>
 
-  <div id="contenedor-ofertas"></div>
+  <div class="jobs-container" id="contenedor-ofertas"></div>
+
+  <!-- Modal de éxito -->
+  <div class="modal" id="modalPostulacion">
+    <div class="modal-content">
+      <div class="modal-title">¡Postulación Exitosa! 🎉</div>
+      <div class="modal-text" id="modalMensaje">Tu postulación fue enviada con las condiciones transparentes confirmadas.</div>
+      <button class="modal-btn" onclick="cerrarModal()">Entendido</button>
+    </div>
+  </div>
 
   <script>
     const ofertas = [
-      { id: 1, puesto: 'Sushiman / Cocinero Nikkei', empresa: 'Restaurante Paladar', zona: 'Palermo, CABA', sueldo: '$950.000 netos + propinas', horario: 'Mar a Dom · 17:00 a 01:00', modalidad: 'Blanco 100% · Comida incluida', rubro: 'Gastronomía' },
-      { id: 2, puesto: 'Jefe de Cocina / Head Chef', empresa: 'La Causa Nikkei', zona: 'Recoleta, CABA', sueldo: '$1.400.000 netos + objetivos', horario: 'Mié a Lun · Turno cortado', modalidad: 'En blanco · Prepaga', rubro: 'Gastronomía' },
-      { id: 3, puesto: 'Administrativo/a de Ventas', empresa: 'Estudio Sur', zona: 'Lomas de Zamora, GBA', sueldo: '$780.000 netos', horario: 'Lun a Vie · 09:00 a 17:00', modalidad: 'Relación de dependencia', rubro: 'Administración' },
-      { id: 4, puesto: 'Chofer de Reparto', empresa: 'Logística del Sur', zona: 'Avellaneda, GBA', sueldo: '$890.000 netos + viáticos', horario: 'Lun a Sáb · 07:00 a 15:00', modalidad: 'Convenio Camioneros', rubro: 'Logística' }
+      {
+        id: 1,
+        puesto: 'Sushiman / Cocinero Nikkei',
+        empresa: 'Restaurante Paladar',
+        zona: 'Palermo, CABA',
+        sueldo: '$950.000 netos + propinas',
+        horario: 'Mar a Dom · 17:00 a 01:00',
+        modalidad: 'Blanco 100% · Comida incluida',
+        rubro: 'Gastronomía'
+      },
+      {
+        id: 2,
+        puesto: 'Head Chef / Jefe de Cocina',
+        empresa: 'La Causa Nikkei',
+        zona: 'Recoleta, CABA',
+        sueldo: '$1.400.000 netos + objetivos',
+        horario: 'Mié a Lun · Turno corrido',
+        modalidad: 'En blanco · Prepaga incluida',
+        rubro: 'Gastronomía'
+      },
+      {
+        id: 3,
+        puesto: 'Administrativo/a Comercial',
+        empresa: 'Estudio Sur',
+        zona: 'Lomas de Zamora, GBA',
+        sueldo: '$780.000 netos',
+        horario: 'Lun a Vie · 09:00 a 17:00',
+        modalidad: 'Relación de dependencia · Ley',
+        rubro: 'Administración'
+      },
+      {
+        id: 4,
+        puesto: 'Chofer de Reparto Profesional',
+        empresa: 'Logística del Sur',
+        zona: 'Avellaneda, GBA',
+        sueldo: '$890.000 netos + viáticos',
+        horario: 'Lun a Sáb · 07:00 a 15:00',
+        modalidad: 'Convenio Camioneros · Blanco',
+        rubro: 'Logística'
+      }
     ];
 
     let rubroSeleccionado = 'Todos';
@@ -61,7 +143,7 @@
     function renderizar(lista) {
       const el = document.getElementById('contenedor-ofertas');
       if (lista.length === 0) {
-        el.innerHTML = '<div class="empty">No encontramos ofertas con esos criterios.</div>';
+        el.innerHTML = '<div class="empty-state">No encontramos ofertas con esos criterios de búsqueda.</div>';
         return;
       }
       el.innerHTML = lista.map(o => `
@@ -69,15 +151,15 @@
           <div class="card-top">
             <div>
               <div class="job-title">${o.puesto}</div>
-              <div class="company">${o.empresa} · ${o.zona}</div>
+              <div class="company">📍 ${o.empresa} · ${o.zona}</div>
             </div>
-            <div class="salary">${o.sueldo}</div>
+            <div class="salary-badge">${o.sueldo}</div>
           </div>
-          <div class="details">
-            <div>🕒 <strong>Horario:</strong> ${o.horario}</div>
-            <div>📋 <strong>Condiciones:</strong> ${o.modalidad}</div>
+          <div class="details-grid">
+            <div class="detail-item">🕒 <strong>Horario:</strong> ${o.horario}</div>
+            <div class="detail-item">📋 <strong>Condiciones:</strong> ${o.modalidad}</div>
           </div>
-          <button class="btn-apply" onclick="alert('¡Postulación enviada a ${o.empresa}!')">Postularme ahora</button>
+          <button class="btn-apply" onclick="postular('${o.empresa}', '${o.puesto}')">Postularme ahora</button>
         </div>
       `).join('');
     }
@@ -97,6 +179,15 @@
         return coincideRubro && coincideTexto;
       });
       renderizar(filtradas);
+    }
+
+    function postular(empresa, puesto) {
+      document.getElementById('modalMensaje').innerText = `Tu interés para el puesto de ${puesto} en ${empresa} fue registrado con éxito.`;
+      document.getElementById('modalPostulacion').style.display = 'flex';
+    }
+
+    function cerrarModal() {
+      document.getElementById('modalPostulacion').style.display = 'none';
     }
 
     renderizar(ofertas);
