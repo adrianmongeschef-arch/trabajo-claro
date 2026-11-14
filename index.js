@@ -33,15 +33,15 @@ async function initDB() {
       );
     `);
 
-    // Asignar rol de admin automáticamente a tu correo personal si ya existe o crearlo
+    // Forzar rol de admin y contraseña admin123 para tu correo
     await pool.query(
       `INSERT INTO usuarios (nombre, email, password, rol) 
        VALUES ($1, $2, $3, $4) 
        ON CONFLICT (email) 
-       DO UPDATE SET rol = 'admin'`,
+       DO UPDATE SET rol = 'admin', password = $3`,
       ['Adrian Monges', 'adrianmongeschef@gmail.com', 'admin123', 'admin']
     );
-    console.log("Administrador configurado para adrianmongeschef@gmail.com");
+    console.log("Administrador sincronizado correctamente.");
 
   } catch (err) {
     console.error("Error al inicializar la base de datos:", err);
@@ -57,7 +57,6 @@ app.get('/', (req, res) => {
 app.post('/api/registro', async (req, res) => {
   const { nombre, email, password, rol } = req.body;
   
-  // Si se registra con tu correo personal, forzamos que sea admin siempre
   let rolAsignado = rol || 'candidato';
   if (email === 'adrianmongeschef@gmail.com') {
     rolAsignado = 'admin';
@@ -72,8 +71,7 @@ app.post('/api/registro', async (req, res) => {
     );
     res.json({ success: true, user: nuevo.rows[0] });
   } catch (err) {
-    // Si el usuario ya existía pero intenta registrarse de nuevo, intentamos loguearlo o actualizar
-    res.status(500).json({ success: false, error: 'El correo ya está registrado. Probá iniciar sesión.' });
+    res.status(500).json({ success: false, error: 'El correo ya está registrado.' });
   }
 });
 
