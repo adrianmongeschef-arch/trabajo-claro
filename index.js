@@ -3,6 +3,50 @@ const app = express();
 
 app.use(express.json());
 
+// Listado completo de ofertas transparentes
+const ofertas = [
+  {
+    id: 1,
+    puesto: 'Sushiman / Cocinero Nikkei',
+    empresa: 'Restaurante Paladar',
+    zona: 'Palermo, CABA',
+    sueldo: '$950.000 netos + propinas',
+    horario: 'Mar a Dom · 17:00 a 01:00',
+    modalidad: 'Blanco 100% · Comida incluida',
+    rubro: 'Gastronomía'
+  },
+  {
+    id: 2,
+    puesto: 'Jefe de Cocina / Head Chef',
+    empresa: 'La Causa Nikkei',
+    zona: 'Recoleta, CABA',
+    sueldo: '$1.400.000 netos + objetivos',
+    horario: 'Mié a Lun · Turno cortado/corrido',
+    modalidad: 'En blanco · Obra social prepaga',
+    rubro: 'Gastronomía'
+  },
+  {
+    id: 3,
+    puesto: 'Administrativo/a de Ventas',
+    empresa: 'Estudio Sur',
+    zona: 'Lomas de Zamora, GBA',
+    sueldo: '$780.000 netos',
+    horario: 'Lun a Vie · 09:00 a 17:00',
+    modalidad: 'Relación de dependencia · Ley',
+    rubro: 'Administración'
+  },
+  {
+    id: 4,
+    puesto: 'Chofer de Reparto (Cat. Profesional)',
+    empresa: 'Logística del Sur',
+    zona: 'Avellaneda, GBA',
+    sueldo: '$890.000 netos + viáticos',
+    horario: 'Lun a Sáb · 07:00 a 15:00',
+    modalidad: 'Convenio Camioneros · Blanco',
+    rubro: 'Logística'
+  }
+];
+
 app.get('/', (req, res) => {
   res.send(`
     <!DOCTYPE html>
@@ -10,24 +54,104 @@ app.get('/', (req, res) => {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Trabajo Claro</title>
+      <title>Trabajo Claro | Empleos Transparentes</title>
       <style>
-        body { background: #0f172a; color: #f8fafc; font-family: sans-serif; padding: 20px; text-align: center; }
-        h1 { color: #38bdf8; margin-bottom: 10px; }
-        .card { background: #1e293b; border: 1px solid #334155; padding: 20px; border-radius: 12px; margin-top: 20px; text-align: left; max-width: 500px; margin-left: auto; margin-right: auto; }
-        .sueldo { color: #34d399; font-weight: bold; margin: 8px 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: #0f172a; color: #f8fafc; padding: 16px; max-width: 600px; margin: 0 auto; }
+        header { padding: 20px 0 10px; text-align: center; }
+        .badge { display: inline-block; background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 99px; margin-bottom: 8px; border: 1px solid rgba(16, 185, 129, 0.3); text-transform: uppercase; letter-spacing: 0.5px; }
+        h1 { font-size: 26px; font-weight: 800; color: #f8fafc; }
+        h1 span { color: #38bdf8; }
+        .subtitle { color: #94a3b8; font-size: 13px; margin-top: 6px; line-height: 1.4; }
+        
+        .search-container { margin: 20px 0 12px; }
+        input { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        input:focus { border-color: #38bdf8; }
+        
+        .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; scrollbar-width: none; }
+        .filters::-webkit-scrollbar { display: none; }
+        .filter-btn { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 8px 14px; border-radius: 99px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        .filter-btn.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; }
+        
+        .card { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 18px; margin-bottom: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.2); }
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+        .job-title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+        .company { font-size: 12px; color: #94a3b8; margin-top: 3px; }
+        .salary { background: #10b981; color: #022c22; font-weight: 800; font-size: 12px; padding: 6px 10px; border-radius: 8px; white-space: nowrap; }
+        
+        .details { display: grid; gap: 6px; font-size: 12px; color: #cbd5e1; margin: 12px 0; background: rgba(15, 23, 42, 0.6); padding: 10px; border-radius: 10px; }
+        .btn-apply { width: 100%; background: #38bdf8; color: #0f172a; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; }
+        .btn-apply:active { opacity: 0.8; }
+        .empty { text-align: center; color: #94a3b8; padding: 30px; font-size: 14px; }
       </style>
     </head>
     <body>
-      <h1>Trabajo Claro</h1>
-      <p>Empleos con sueldos y condiciones transparentes.</p>
-      
-      <div class="card">
-        <h3>Sushiman / Cocinero Nikkei</h3>
-        <p>Restaurante Paladar · Palermo, CABA</p>
-        <div class="sueldo">$950.000 netos + propinas</div>
-        <p>🕒 Mar a Dom · 17:00 a 01:00</p>
+      <header>
+        <div class="badge">✓ Sin sueldos ocultos</div>
+        <h1>Trabajo <span>Claro</span></h1>
+        <p class="subtitle">Empleos reales con salarios y condiciones publicadas desde el primer día.</p>
+      </header>
+
+      <div class="search-container">
+        <input type="text" id="buscador" placeholder="🔍 Buscar por puesto, zona o empresa..." onkeyup="filtrarOfertas()" />
       </div>
+
+      <div class="filters">
+        <button class="filter-btn active" onclick="cambiarRubro('Todos', this)">Todos</button>
+        <button class="filter-btn" onclick="cambiarRubro('Gastronomía', this)">Gastronomía</button>
+        <button class="filter-btn" onclick="cambiarRubro('Administración', this)">Administración</button>
+        <button class="filter-btn" onclick="cambiarRubro('Logística', this)">Logística</button>
+      </div>
+
+      <div id="contenedor-ofertas"></div>
+
+      <script>
+        const ofertas = ${JSON.stringify(ofertas)};
+        let rubroSeleccionado = 'Todos';
+
+        function renderizar(lista) {
+          const el = document.getElementById('contenedor-ofertas');
+          if (lista.length === 0) {
+            el.innerHTML = '<div class="empty">No encontramos ofertas con esos criterios.</div>';
+            return;
+          }
+          el.innerHTML = lista.map(o => \`
+            <div class="card">
+              <div class="card-top">
+                <div>
+                  <div class="job-title">\${o.puesto}</div>
+                  <div class="company">\${o.empresa} · \${o.zona}</div>
+                </div>
+                <div class="salary">\${o.sueldo}</div>
+              </div>
+              <div class="details">
+                <div>🕒 <strong>Horario:</strong> \${o.horario}</div>
+                <div>📋 <strong>Condiciones:</strong> \${o.modalidad}</div>
+              </div>
+              <button class="btn-apply" onclick="alert('¡Postulación enviada con éxito a ' + '\${o.empresa}' + '!')">Postularme ahora</button>
+            </div>
+          \`).join('');
+        }
+
+        function cambiarRubro(rubro, btn) {
+          rubroSeleccionado = rubro;
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          filtrarOfertas();
+        }
+
+        function filtrarOfertas() {
+          const texto = document.getElementById('buscador').value.toLowerCase();
+          const filtradas = ofertas.filter(o => {
+            const coincideRubro = rubroSeleccionado === 'Todos' || o.rubro === rubroSeleccionado;
+            const coincideTexto = o.puesto.toLowerCase().includes(texto) || o.zona.toLowerCase().includes(texto) || o.empresa.toLowerCase().includes(texto);
+            return coincideRubro && coincideTexto;
+          });
+          renderizar(filtradas);
+        }
+
+        renderizar(ofertas);
+      </script>
     </body>
     </html>
   `);
@@ -35,5 +159,5 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log('Servidor activo');
+  console.log(\`Servidor en puerto \${PORT}\`);
 });
