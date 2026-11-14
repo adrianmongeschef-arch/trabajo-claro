@@ -42,7 +42,7 @@
     .nav-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
     .nav-btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
     .nav-btn.empresas { background: rgba(56, 189, 248, 0.1); color: var(--primary); border-color: rgba(56, 189, 248, 0.3); }
-    .nav-btn.admin { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); }
+    .nav-btn.admin { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); display: none; } /* Oculto hasta loguearse como admin */
 
     /* Header */
     header { padding: 10px 0 16px; text-align: center; }
@@ -74,8 +74,10 @@
     .form-group input, .form-group select { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--bg); color: #fff; font-size: 14px; outline: none; }
     .btn-submit { width: 100%; background: var(--accent); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; margin-top: 6px; }
     .btn-back { background: transparent; color: var(--text-muted); border: none; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 16px; width: 100%; text-align: center; display: block; }
+    .tab-toggle { display: flex; gap: 10px; margin-bottom: 16px; }
+    .tab-btn { flex: 1; background: var(--bg); border: 1px solid var(--card-border); color: var(--text-muted); padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .tab-btn.active { background: var(--card-border); color: #fff; }
 
-    /* Tarjetas de Admin / Tablas simplificadas para celular */
     .admin-card { background: rgba(3, 7, 18, 0.6); border: 1px solid var(--card-border); border-radius: 12px; padding: 12px; margin-bottom: 10px; font-size: 13px; }
     .admin-card strong { color: #fff; }
 
@@ -97,18 +99,18 @@
     </div>
     <div class="intro-body">
       <div>
-        <div class="verified-badge">✓ Panel de Control Activo</div>
+        <div class="verified-badge">✓ Acceso Seguro por Roles</div>
         <h2 class="intro-title">Bienvenido a <br><span>Trabajo Claro</span></h2>
-        <p class="intro-desc">Plataforma transparente conectada a PostgreSQL con acceso de administración.</p>
+        <p class="intro-desc">Iniciá sesión según tu perfil: Administrador, Empresa o Candidato.</p>
       </div>
       <div class="intro-cards">
         <div class="intro-box emp">
           <h3 style="color: #38bdf8;">🏢 Empresas</h3>
-          <p>Publicá vacantes con sueldo garantizado.</p>
+          <p>Publicá tus ofertas con sueldo garantizado ingresando con cuenta propia.</p>
         </div>
         <div class="intro-box cand">
           <h3 style="color: #34d399;">👤 Candidatos</h3>
-          <p>Registrate y guarda tu perfil oficial.</p>
+          <p>Accedé a tu perfil para postularte a empleos reales.</p>
         </div>
       </div>
     </div>
@@ -117,74 +119,81 @@
     </div>
   </div>
 
-  <!-- BARRA SUPERIOR CON BOTÓN DE ADMIN -->
+  <!-- BARRA SUPERIOR -->
   <div class="top-bar">
     <div class="logo-text" onclick="mostrarVista('home')">Trabajo Claro</div>
     <div class="nav-actions">
-      <button class="nav-btn admin" onclick="mostrarVista('admin')">🔒 Admin</button>
-      <button class="nav-btn empresas" onclick="mostrarVista('empresas')">🏢 Empresas</button>
-      <button class="nav-btn" onclick="mostrarVista('auth')">👤 Mi Perfil</button>
+      <button class="nav-btn admin" id="btnAdminNav" onclick="mostrarVista('admin')">🔒 Admin</button>
+      <button class="nav-btn empresas" onclick="verificarAccesoEmpresas()">🏢 Empresas</button>
+      <button class="nav-btn" onclick="verificarAccesoCandidato()">👤 Mi Perfil</button>
     </div>
   </div>
 
-  <!-- HOME DINÁMICO -->
+  <!-- HOME -->
   <div id="vista-home">
     <header>
-      <div class="verified-badge">✓ Base de Datos Conectada</div>
+      <div class="verified-badge">✓ Empleos 100% Transparentes</div>
       <h1>Trabajo <span>Claro</span></h1>
-      <p class="subtitle">Empleos transparentes almacenados en tiempo real.</p>
+      <p class="subtitle">La bolsa de empleo oficial con sueldos reales y verificados.</p>
     </header>
-
     <div id="contenedor-empleos" class="jobs-container"></div>
   </div>
 
-  <!-- VISTA DE ADMINISTRACIÓN (VER TODO) -->
-  <div id="vista-admin" class="section-view" style="border-color: rgba(245, 158, 11, 0.4);">
-    <h2 style="color: #f59e0b;">Panel de Administración</h2>
-    <p>Visualización directa de todos los registros almacenados en PostgreSQL.</p>
-    
-    <h3 style="color: #38bdf8; font-size: 15px; margin: 15px 0 8px;">📋 Empleos Publicados en la Base</h3>
-    <div id="admin-empleos">Cargando empleos...</div>
+  <!-- LOGIN / REGISTRO UNIFICADO -->
+  <div id="vista-auth" class="section-view">
+    <div class="tab-toggle">
+      <button class="tab-btn active" id="tabLoginBtn" onclick="cambiarTabAuth('login')">Iniciar Sesión</button>
+      <button class="tab-btn" id="tabRegBtn" onclick="cambiarTabAuth('registro')">Crear Cuenta</button>
+    </div>
 
-    <h3 style="color: #34d399; font-size: 15px; margin: 20px 0 8px;">👤 Candidatos Registrados</h3>
-    <div id="admin-candidatos">Cargando candidatos...</div>
+    <div id="formLoginContainer">
+      <h2>Iniciar Sesión</h2>
+      <p id="authSubText">Ingresá con tu correo y contraseña.</p>
+      <div class="form-group"><label>Correo Electrónico</label><input type="email" id="loginEmail" placeholder="correo@ejemplo.com"></div>
+      <div class="form-group"><label>Contraseña</label><input type="password" id="loginPass" placeholder="Tu contraseña"></div>
+      <button class="btn-submit" style="background: var(--primary);" onclick="ejecutarLogin()">Entrar a mi Cuenta</button>
+    </div>
+
+    <div id="formRegistroContainer" style="display: none;">
+      <h2>Crear Cuenta Nueva</h2>
+      <p>Registrate para operar en la plataforma.</p>
+      <div class="form-group"><label>Nombre / Empresa</label><input type="text" id="regNombre" placeholder="Tu nombre o razón social"></div>
+      <div class="form-group"><label>Correo Electrónico</label><input type="email" id="regEmail" placeholder="correo@ejemplo.com"></div>
+      <div class="form-group"><label>Contraseña</label><input type="password" id="regPass" placeholder="Mínimo 6 caracteres"></div>
+      <button class="btn-submit" onclick="ejecutarRegistro()">Registrarme Ahora</button>
+    </div>
 
     <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
 
-  <!-- REGISTRO CANDIDATO -->
-  <div id="vista-auth" class="section-view">
-    <h2>Portal de Candidatos</h2>
-    <p>Registrate para guardar tus datos en la base de datos oficial.</p>
-    <div class="form-group"><label>Nombre y Apellido</label><input type="text" id="cNombre" placeholder="Tu nombre"></div>
-    <div class="form-group"><label>Correo Electrónico</label><input type="email" id="cEmail" placeholder="correo@gmail.com"></div>
-    <div class="form-group"><label>Contraseña</label><input type="password" id="cPass" placeholder="Contraseña segura"></div>
-    <div class="form-group"><label>Rubro</label>
-      <select id="cRubro">
-        <option>Gastronomía / Cocina</option>
-        <option>Administración / Ventas</option>
-        <option>Logística / Choferes</option>
-      </select>
-    </div>
-    <button class="btn-submit" onclick="registrarCandidato()">Guardar Perfil en Base de Datos</button>
-    <button class="btn-back" onclick="mostrarVista('home')">← Volver</button>
-  </div>
-
-  <!-- PUBLICAR EMPRESA -->
+  <!-- PANEL DE EMPRESAS (REQUIERE LOGIN) -->
   <div id="vista-empresas" class="section-view" style="border-color: rgba(56, 189, 248, 0.4);">
     <h2 style="color: #38bdf8;">Área Empresas</h2>
     <p>Publicá tu aviso para que aparezca al instante en la cartelera principal.</p>
-    <div class="form-group"><label>Empresa</label><input type="text" id="eEmpresa" placeholder="Nombre de tu comercio"></div>
-    <div class="form-group"><label>Puesto</label><input type="text" id="ePuesto" placeholder="Ej: Sushiman / Cocinero"></div>
-    <div class="form-group"><label>Sueldo Ofertado</label><input type="text" id="eSueldo" placeholder="Ej: $950.000 netos"></div>
-    <div class="form-group"><label>Plan</label>
+    <div class="form-group"><label>Título del Puesto</label><input type="text" id="ePuesto" placeholder="Ej: Sushiman / Administrador"></div>
+    <div class="form-group"><label>Sueldo Neto Ofertado</label><input type="text" id="eSueldo" placeholder="Ej: $950.000 netos + propinas"></div>
+    <div class="form-group"><label>Plan de Publicación</label>
       <select id="ePlan">
         <option>🔥 Pack Destacado Pro - $95.000</option>
         <option>⭐ Aviso Estándar - $55.000</option>
       </select>
     </div>
-    <button class="btn-submit" style="background: var(--primary);" onclick="publicarEmpleo()">Publicar y Guardar Aviso</button>
+    <button class="btn-submit" style="background: var(--primary);" onclick="publicarEmpleo()">Publicar y Pagar Aviso</button>
     <button class="btn-back" onclick="mostrarVista('home')">← Volver</button>
+  </div>
+
+  <!-- PANEL DE ADMINISTRACIÓN (SOLO ROL ADMIN) -->
+  <div id="vista-admin" class="section-view" style="border-color: rgba(245, 158, 11, 0.4);">
+    <h2 style="color: #f59e0b;">Panel de Administración</h2>
+    <p>Visualización exclusiva para administradores de PostgreSQL.</p>
+    
+    <h3 style="color: #38bdf8; font-size: 15px; margin: 15px 0 8px;">📋 Empleos Publicados</h3>
+    <div id="admin-empleos">Cargando...</div>
+
+    <h3 style="color: #34d399; font-size: 15px; margin: 20px 0 8px;">👤 Usuarios Registrados (Admin, Empresas, Candidatos)</h3>
+    <div id="admin-usuarios">Cargando...</div>
+
+    <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
 
   <!-- MODAL -->
@@ -197,6 +206,8 @@
   </div>
 
   <script>
+    let usuarioActual = JSON.parse(localStorage.getItem('usuarioTrabajoClaro')) || null;
+
     let segundos = 15;
     const countdownEl = document.getElementById('countdown');
     const introScreen = document.getElementById('intro-screen');
@@ -211,6 +222,16 @@
       introScreen.style.display = 'none';
     }
 
+    function actualizarBarraNav() {
+      const btnAdmin = document.getElementById('btnAdminNav');
+      if (usuarioActual && usuarioActual.rol === 'admin') {
+        btnAdmin.style.display = 'inline-block';
+      } else {
+        btnAdmin.style.display = 'none';
+      }
+    }
+    actualizarBarraNav();
+
     function mostrarVista(vista) {
       document.getElementById('vista-home').style.display = vista === 'home' ? 'block' : 'none';
       document.getElementById('vista-admin').style.display = vista === 'admin' ? 'block' : 'none';
@@ -220,6 +241,91 @@
 
       if(vista === 'home') cargarEmpleos();
       if(vista === 'admin') cargarDatosAdmin();
+    }
+
+    function cambiarTabAuth(tab) {
+      if(tab === 'login') {
+        document.getElementById('formLoginContainer').style.display = 'block';
+        document.getElementById('formRegistroContainer').style.display = 'none';
+        document.getElementById('tabLoginBtn').classList.add('active');
+        document.getElementById('tabRegBtn').classList.remove('active');
+      } else {
+        document.getElementById('formLoginContainer').style.display = 'none';
+        document.getElementById('formRegistroContainer').style.display = 'block';
+        document.getElementById('tabRegBtn').classList.add('active');
+        document.getElementById('tabLoginBtn').classList.remove('active');
+      }
+    }
+
+    function verificarAccesoEmpresas() {
+      if(usuarioActual && (usuarioActual.rol === 'empresa' || usuarioActual.rol === 'admin')) {
+        mostrarVista('empresas');
+      } else {
+        alertaAccion('Debes iniciar sesión con una cuenta de empresa para publicar avisos.');
+        mostrarVista('auth');
+      }
+    }
+
+    function verificarAccesoCandidato() {
+      if(usuarioActual) {
+        alertaAccion(`Ya has iniciado sesión como: ${usuarioActual.nombre} (${usuarioActual.rol})`);
+      } else {
+        mostrarVista('auth');
+      }
+    }
+
+    async function ejecutarLogin() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPass').value;
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const r = await res.json();
+        if(r.success) {
+          usuarioActual = r.user;
+          localStorage.setItem('usuarioTrabajoClaro', JSON.stringify(usuarioActual));
+          actualizarBarraNav();
+          alertaAccion(`¡Bienvenido de nuevo, ${usuarioActual.nombre}!`);
+          mostrarVista('home');
+        } else {
+          alertaAccion(r.error);
+        }
+      } catch(e) {
+        alertaAccion('Error de conexión con el servidor.');
+      }
+    }
+
+    async function ejecutarRegistro() {
+      const nombre = document.getElementById('regNombre').value;
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPass').value;
+      
+      // Si el correo contiene 'empresa', se le asigna rol empresa, sino candidato
+      const rol = email.includes('empresa') ? 'empresa' : 'candidato';
+
+      try {
+        const res = await fetch('/api/registro', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nombre, email, password, rol })
+        });
+        const r = await res.json();
+        if(r.success) {
+          usuarioActual = r.user;
+          localStorage.setItem('usuarioTrabajoClaro', JSON.stringify(usuarioActual));
+          actualizarBarraNav();
+          alertaAccion(`¡Cuenta creada con éxito! Rol asignado: ${rol}`);
+          mostrarVista('home');
+        } else {
+          alertaAccion(r.error);
+        }
+      } catch(e) {
+        alertaAccion('Error al registrar usuario.');
+      }
     }
 
     async function cargarEmpleos() {
@@ -233,8 +339,8 @@
             <div class="empty-board">
               <div style="font-size:36px; margin-bottom:12px;">📋</div>
               <div style="font-size:18px; font-weight:800; color:#fff; margin-bottom:8px;">Sin búsquedas activas aún</div>
-              <div style="font-size:13px; color:#9ca3af; margin-bottom:20px;">Sé el primero en publicar una vacante con sueldo transparente.</div>
-              <button class="btn-cta-primary" onclick="mostrarVista('empresas')">Publicar Primer Aviso</button>
+              <div style="font-size:13px; color:#9ca3af; margin-bottom:20px;">Iniciá sesión como empresa para publicar la primera vacante.</div>
+              <button class="btn-cta-primary" onclick="verificarAccesoEmpresas()">Publicar Primer Aviso</button>
             </div>
           `;
           return;
@@ -258,68 +364,26 @@
     }
 
     async function cargarDatosAdmin() {
-      // Cargar Empleos Admin
       try {
         const resEmp = await fetch('/api/admin/empleos');
         const empleos = await resEmp.json();
-        const divEmp = document.getElementById('admin-empleos');
-        if(empleos.length === 0) {
-          divEmp.innerHTML = '<div class="admin-card">No hay empleos cargados.</div>';
-        } else {
-          divEmp.innerHTML = empleos.map(e => `
-            <div class="admin-card">
-              <strong>ID #${e.id} - ${e.puesto}</strong> (${e.empresa})<br>
-              💰 Sueldo: ${e.sueldo} | Plan: ${e.plan}
-            </div>
-          `).join('');
-        }
-      } catch(e) {
-        document.getElementById('admin-empleos').innerHTML = '<div class="admin-card">Error al cargar empleos.</div>';
-      }
+        document.getElementById('admin-empleos').innerHTML = empleos.length === 0 ? '<div class="admin-card">No hay empleos.</div>' : empleos.map(e => `
+          <div class="admin-card"><strong>ID #${e.id} - ${e.puesto}</strong> (${e.empresa})<br>💰 ${e.sueldo} | Plan: ${e.plan}</div>
+        `).join('');
 
-      // Cargar Candidatos Admin
-      try {
-        const resCand = await fetch('/api/admin/candidatos');
-        const candidatos = await resCand.json();
-        const divCand = document.getElementById('admin-candidatos');
-        if(candidatos.length === 0) {
-          divCand.innerHTML = '<div class="admin-card">No hay candidatos registrados.</div>';
-        } else {
-          divCand.innerHTML = candidatos.map(c => `
-            <div class="admin-card">
-              <strong>👤 ${c.nombre}</strong> (${c.email})<br>
-              🎯 Rubro: ${c.rubro}
-            </div>
-          `).join('');
-        }
+        const resUsu = await fetch('/api/admin/usuarios');
+        const usuarios = await resUsu.json();
+        document.getElementById('admin-usuarios').innerHTML = usuarios.length === 0 ? '<div class="admin-card">No hay usuarios.</div>' : usuarios.map(u => `
+          <div class="admin-card"><strong>👤 ${u.nombre}</strong> (${u.email})<br>🔑 Rol: <strong>${u.rol}</strong></div>
+        `).join('');
       } catch(e) {
-        document.getElementById('admin-candidatos').innerHTML = '<div class="admin-card">Error al cargar candidatos.</div>';
-      }
-    }
-
-    async function registrarCandidato() {
-      const data = {
-        nombre: document.getElementById('cNombre').value,
-        email: document.getElementById('cEmail').value,
-        password: document.getElementById('cPass').value,
-        rubro: document.getElementById('cRubro').value
-      };
-      const res = await fetch('/api/candidatos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      const r = await res.json();
-      if(r.success) {
-        alertaAccion('¡Perfil registrado y guardado en PostgreSQL con éxito!');
-      } else {
-        alertaAccion('Error: ' + r.error);
+        console.error(e);
       }
     }
 
     async function publicarEmpleo() {
       const data = {
-        empresa: document.getElementById('eEmpresa').value,
+        empresa: usuarioActual ? usuarioActual.nombre : 'Empresa Verificada',
         puesto: document.getElementById('ePuesto').value,
         sueldo: document.getElementById('eSueldo').value,
         plan: document.getElementById('ePlan').value
@@ -331,7 +395,7 @@
       });
       const r = await res.json();
       if(r.success) {
-        alertaAccion('¡Aviso publicado y guardado en la base de datos!');
+        alertaAccion('¡Aviso publicado con éxito en la plataforma!');
         mostrarVista('home');
       } else {
         alertaAccion('Error al publicar.');
