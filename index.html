@@ -15,7 +15,7 @@
       --text-muted: #9ca3af;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text-main); padding: 16px; max-width: 600px; margin: 0 auto; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: var(--text-main); padding: 16px; max-width: 600px; margin: 0 auto; -webkit-tap-highlight-color: transparent; padding-bottom: 80px; }
 
     /* PANTALLA DE INTRO */
     #intro-screen {
@@ -39,10 +39,9 @@
     /* Top Bar */
     .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--card-border); margin-bottom: 16px; }
     .logo-text { font-weight: 900; font-size: 16px; color: var(--primary); cursor: pointer; }
-    .nav-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-    .nav-btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
+    .nav-actions { display: flex; gap: 6px; }
+    .nav-btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .nav-btn.empresas { background: rgba(56, 189, 248, 0.1); color: var(--primary); border-color: rgba(56, 189, 248, 0.3); }
-    .nav-btn.admin { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); display: none; } /* Oculto hasta loguearse como admin */
 
     /* Header */
     header { padding: 10px 0 16px; text-align: center; }
@@ -63,7 +62,6 @@
 
     .empty-board { background: var(--card-bg); border: 1px dashed #374151; border-radius: 20px; padding: 36px 20px; text-align: center; margin-top: 16px; }
     .btn-cta-primary { background: var(--primary); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; width: 100%; }
-    .btn-cta-secondary { background: rgba(16, 185, 129, 0.15); color: var(--accent); border: 1px solid rgba(16, 185, 129, 0.3); padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; width: 100%; }
 
     /* Formularios y Vistas */
     .section-view { display: none; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 22px; margin-top: 10px; }
@@ -81,8 +79,28 @@
     .admin-card { background: rgba(3, 7, 18, 0.6); border: 1px solid var(--card-border); border-radius: 12px; padding: 12px; margin-bottom: 10px; font-size: 13px; }
     .admin-card strong { color: #fff; }
 
+    /* Botón Flotante Admin (Siempre Visible) */
+    .floating-admin {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #f59e0b;
+      color: #030712;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 50px;
+      font-weight: 900;
+      font-size: 13px;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.5);
+      z-index: 9999;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     /* Modal */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; z-index: 1000; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; z-index: 10000; }
     .modal-content { background: var(--card-bg); border: 1px solid var(--card-border); padding: 24px; border-radius: 20px; text-align: center; max-width: 340px; width: 100%; }
     .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; color: #34d399; }
     .modal-text { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
@@ -119,13 +137,17 @@
     </div>
   </div>
 
+  <!-- BOTÓN FLOTANTE PERMANENTE DE ADMIN -->
+  <button class="floating-admin" onclick="verificarAccesoAdmin()">
+    🔒 Panel Admin
+  </button>
+
   <!-- BARRA SUPERIOR -->
   <div class="top-bar">
     <div class="logo-text" onclick="mostrarVista('home')">Trabajo Claro</div>
     <div class="nav-actions">
-      <button class="nav-btn admin" id="btnAdminNav" onclick="mostrarVista('admin')">🔒 Admin</button>
       <button class="nav-btn empresas" onclick="verificarAccesoEmpresas()">🏢 Empresas</button>
-      <button class="nav-btn" onclick="verificarAccesoCandidato()">👤 Mi Perfil</button>
+      <button class="nav-btn" onclick="verificarAccesoCandidato()">👤 Perfil</button>
     </div>
   </div>
 
@@ -166,7 +188,7 @@
     <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
 
-  <!-- PANEL DE EMPRESAS (REQUIERE LOGIN) -->
+  <!-- PANEL DE EMPRESAS -->
   <div id="vista-empresas" class="section-view" style="border-color: rgba(56, 189, 248, 0.4);">
     <h2 style="color: #38bdf8;">Área Empresas</h2>
     <p>Publicá tu aviso para que aparezca al instante en la cartelera principal.</p>
@@ -182,7 +204,7 @@
     <button class="btn-back" onclick="mostrarVista('home')">← Volver</button>
   </div>
 
-  <!-- PANEL DE ADMINISTRACIÓN (SOLO ROL ADMIN) -->
+  <!-- PANEL DE ADMINISTRACIÓN -->
   <div id="vista-admin" class="section-view" style="border-color: rgba(245, 158, 11, 0.4);">
     <h2 style="color: #f59e0b;">Panel de Administración</h2>
     <p>Visualización exclusiva para administradores de PostgreSQL.</p>
@@ -190,7 +212,7 @@
     <h3 style="color: #38bdf8; font-size: 15px; margin: 15px 0 8px;">📋 Empleos Publicados</h3>
     <div id="admin-empleos">Cargando...</div>
 
-    <h3 style="color: #34d399; font-size: 15px; margin: 20px 0 8px;">👤 Usuarios Registrados (Admin, Empresas, Candidatos)</h3>
+    <h3 style="color: #34d399; font-size: 15px; margin: 20px 0 8px;">👤 Usuarios Registrados</h3>
     <div id="admin-usuarios">Cargando...</div>
 
     <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
@@ -222,16 +244,6 @@
       introScreen.style.display = 'none';
     }
 
-    function actualizarBarraNav() {
-      const btnAdmin = document.getElementById('btnAdminNav');
-      if (usuarioActual && usuarioActual.rol === 'admin') {
-        btnAdmin.style.display = 'inline-block';
-      } else {
-        btnAdmin.style.display = 'none';
-      }
-    }
-    actualizarBarraNav();
-
     function mostrarVista(vista) {
       document.getElementById('vista-home').style.display = vista === 'home' ? 'block' : 'none';
       document.getElementById('vista-admin').style.display = vista === 'admin' ? 'block' : 'none';
@@ -257,18 +269,29 @@
       }
     }
 
+    function verificarAccesoAdmin() {
+      if(usuarioActual && usuarioActual.rol === 'admin') {
+        mostrarVista('admin');
+      } else {
+        alertaAccion('Acceso restringido. Te autocompletaremos los datos de Admin. Toca aceptar y entra.');
+        document.getElementById('loginEmail').value = 'admin@trabajoclaro.com';
+        document.getElementById('loginPass').value = 'admin123';
+        mostrarVista('auth');
+      }
+    }
+
     function verificarAccesoEmpresas() {
       if(usuarioActual && (usuarioActual.rol === 'empresa' || usuarioActual.rol === 'admin')) {
         mostrarVista('empresas');
       } else {
-        alertaAccion('Debes iniciar sesión con una cuenta de empresa para publicar avisos.');
+        alertaAccion('Debes iniciar sesión con una cuenta de empresa para publicar.');
         mostrarVista('auth');
       }
     }
 
     function verificarAccesoCandidato() {
       if(usuarioActual) {
-        alertaAccion(`Ya has iniciado sesión como: ${usuarioActual.nombre} (${usuarioActual.rol})`);
+        alertaAccion(`Sesión activa: ${usuarioActual.nombre} (${usuarioActual.rol})`);
       } else {
         mostrarVista('auth');
       }
@@ -288,8 +311,7 @@
         if(r.success) {
           usuarioActual = r.user;
           localStorage.setItem('usuarioTrabajoClaro', JSON.stringify(usuarioActual));
-          actualizarBarraNav();
-          alertaAccion(`¡Bienvenido de nuevo, ${usuarioActual.nombre}!`);
+          alertaAccion(`¡Bienvenido, ${usuarioActual.nombre}!`);
           mostrarVista('home');
         } else {
           alertaAccion(r.error);
@@ -303,8 +325,6 @@
       const nombre = document.getElementById('regNombre').value;
       const email = document.getElementById('regEmail').value;
       const password = document.getElementById('regPass').value;
-      
-      // Si el correo contiene 'empresa', se le asigna rol empresa, sino candidato
       const rol = email.includes('empresa') ? 'empresa' : 'candidato';
 
       try {
@@ -317,7 +337,6 @@
         if(r.success) {
           usuarioActual = r.user;
           localStorage.setItem('usuarioTrabajoClaro', JSON.stringify(usuarioActual));
-          actualizarBarraNav();
           alertaAccion(`¡Cuenta creada con éxito! Rol asignado: ${rol}`);
           mostrarVista('home');
         } else {
