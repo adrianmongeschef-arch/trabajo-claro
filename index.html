@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trabajo Claro | Empleos Transparentes v2</title>
+  <title>Trabajo Claro | Empleos Transparentes</title>
   <style>
     :root {
       --bg: #030712;
@@ -16,10 +16,44 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background: var(--bg); color: var(--text-main); padding: 16px; max-width: 600px; margin: 0 auto; -webkit-tap-highlight-color: transparent; }
+
+    /* PANTALLA DE INTRO (15 SEGUNDOS) */
+    #intro-screen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, #0f172a 0%, #030712 100%);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 28px 20px;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .intro-top { display: flex; justify-content: space-between; align-items: center; }
+    .timer-pill { background: rgba(56, 189, 248, 0.15); color: var(--primary); font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 99px; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .skip-btn { background: transparent; color: var(--text-muted); border: 1px solid var(--card-border); padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 700; cursor: pointer; }
     
-    /* Top Bar de Accesos */
+    .intro-body { my-auto: auto; display: flex; flex-direction: column; gap: 18px; }
+    .intro-title { font-size: 32px; font-weight: 900; letter-spacing: -0.5px; line-height: 1.1; }
+    .intro-title span { color: var(--primary); }
+    .intro-desc { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+    
+    .intro-cards { display: grid; gap: 12px; text-align: left; margin-top: 8px; }
+    .intro-box { background: rgba(17, 24, 39, 0.8); border: 1px solid var(--card-border); padding: 16px; border-radius: 16px; }
+    .intro-box h3 { font-size: 15px; font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .intro-box p { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+    .intro-box.emp { border-left: 4px solid var(--primary); }
+    .intro-box.cand { border-left: 4px solid var(--accent); }
+
+    .progress-bar-bg { width: 100%; height: 4px; background: var(--card-border); border-radius: 99px; overflow: hidden; margin-top: 12px; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); width: 100%; animation: shrink 15s linear forwards; }
+    @keyframes shrink { from { width: 100%; } to { width: 0%; } }
+
+    /* Top Bar */
     .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--card-border); margin-bottom: 16px; }
-    .logo-text { font-weight: 900; font-size: 16px; color: var(--primary); text-decoration: none; cursor: pointer; }
+    .logo-text { font-weight: 900; font-size: 16px; color: var(--primary); cursor: pointer; }
     .nav-actions { display: flex; gap: 8px; }
     .nav-btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .nav-btn.empresas { background: rgba(56, 189, 248, 0.1); color: var(--primary); border-color: rgba(56, 189, 248, 0.3); }
@@ -31,27 +65,23 @@
     h1 span { color: var(--primary); }
     .subtitle { color: var(--text-muted); font-size: 13px; margin-top: 6px; line-height: 1.5; padding: 0 10px; }
 
-    /* Buscador y Filtros */
-    .search-box { position: relative; margin: 16px 0 12px; }
-    .search-box input { width: 100%; padding: 14px 16px 14px 44px; border-radius: 14px; border: 1px solid var(--card-border); background: var(--card-bg); color: #fff; font-size: 14px; outline: none; }
-    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-muted); }
-    .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 20px; scrollbar-width: none; }
-    .filters::-webkit-scrollbar { display: none; }
-    .filter-btn { background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--card-border); padding: 8px 16px; border-radius: 99px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
-    .filter-btn.active { background: var(--primary); color: #030712; border-color: var(--primary); font-weight: 700; }
+    /* Estado Vacío / Bienvenida sin avisos falsos */
+    .empty-board {
+      background: var(--card-bg);
+      border: 1px dashed #374151;
+      border-radius: 20px;
+      padding: 36px 20px;
+      text-align: center;
+      margin-top: 16px;
+    }
+    .empty-icon { font-size: 36px; margin-bottom: 12px; }
+    .empty-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .empty-text { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 24px; }
+    .empty-actions { display: grid; gap: 10px; }
+    .btn-cta-primary { background: var(--primary); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; }
+    .btn-cta-secondary { background: rgba(16, 185, 129, 0.15); color: var(--accent); border: 1px solid rgba(16, 185, 129, 0.3); padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; }
 
-    /* Tarjetas */
-    .jobs-container { display: grid; gap: 14px; }
-    .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; position: relative; overflow: hidden; }
-    .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--primary); }
-    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
-    .job-title { font-size: 18px; font-weight: 800; color: #fff; }
-    .company { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
-    .salary-badge { background: rgba(16, 185, 129, 0.15); color: #34d399; font-weight: 800; font-size: 13px; padding: 6px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3); white-space: nowrap; }
-    .details-grid { display: grid; gap: 8px; font-size: 13px; color: #d1d5db; margin: 14px 0; background: rgba(3, 7, 18, 0.5); padding: 12px; border-radius: 12px; }
-    .btn-apply { width: 100%; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; }
-
-    /* Secciones de Formularios */
+    /* Formularios */
     .section-view { display: none; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 22px; margin-top: 10px; }
     .section-view h2 { font-size: 20px; font-weight: 800; margin-bottom: 6px; color: #fff; }
     .section-view p { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
@@ -62,7 +92,7 @@
     .btn-back { background: transparent; color: var(--text-muted); border: none; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 12px; width: 100%; text-align: center; display: block; }
 
     /* Modal */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; z-index: 100; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; z-index: 1000; }
     .modal-content { background: var(--card-bg); border: 1px solid var(--card-border); padding: 24px; border-radius: 20px; text-align: center; max-width: 340px; width: 100%; }
     .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; color: #34d399; }
     .modal-text { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
@@ -71,7 +101,41 @@
 </head>
 <body>
 
-  <!-- Barra superior -->
+  <!-- PANTALLA DE INTRO (15 SEGUNDOS) -->
+  <div id="intro-screen">
+    <div class="intro-top">
+      <span class="timer-pill">Ingresando en <span id="countdown">15</span>s</span>
+      <button class="skip-btn" onclick="cerrarIntro()">Saltar intro →</button>
+    </div>
+
+    <div class="intro-body">
+      <div>
+        <div class="verified-badge">✓ Nueva Plataforma Laboral</div>
+        <h2 class="intro-title">Bienvenido a <br><span>Trabajo Claro</span></h2>
+        <p class="intro-desc" style="margin-top: 8px;">Terminamos con los avisos engañosos. Conectamos talento real con empresas que muestran sus condiciones desde el primer día.</p>
+      </div>
+
+      <div class="intro-cards">
+        <div class="intro-box emp">
+          <h3 style="color: #38bdf8;">🏢 ¿Sos Empresa o Empleador?</h3>
+          <p>Publicá tus vacantes con sueldo y horarios claros. Recibí postulantes filtrados y realmente interesados en tus condiciones.</p>
+        </div>
+        <div class="intro-box cand">
+          <h3 style="color: #34d399;">👤 ¿Buscás Trabajo?</h3>
+          <p>Creá tu perfil gratuito, cargá tu experiencia y postulate sabiendo exactamente cuánto vas a ganar antes de ir a una entrevista.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <button class="btn-cta-primary" style="width: 100%;" onclick="cerrarIntro()">Entrar a la plataforma ahora</button>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRA SUPERIOR -->
   <div class="top-bar">
     <div class="logo-text" onclick="mostrarVista('home')">Trabajo Claro</div>
     <div class="nav-actions">
@@ -80,34 +144,35 @@
     </div>
   </div>
 
-  <!-- VISTA 1: HOME -->
+  <!-- VISTA 1: HOME VACÍO (LISTO PARA AVISOS REALES) -->
   <div id="vista-home">
     <header>
       <div class="verified-badge">✓ Salarios y condiciones 100% reales</div>
       <h1>Trabajo <span>Claro</span></h1>
-      <p class="subtitle">Postulate sabiendo exactamente cuánto vas a ganar, sin ofertas falsas.</p>
+      <p class="subtitle">La bolsa de empleo transparente de Argentina.</p>
     </header>
 
-    <div class="search-box">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="buscador" placeholder="Buscar por puesto, zona o empresa..." onkeyup="filtrarOfertas()" />
+    <div class="empty-board">
+      <div class="empty-icon">📋</div>
+      <div class="empty-title">Aún no hay búsquedas activas</div>
+      <div class="empty-text">Estamos inaugurando nuestra cartelera transparente. Las empresas ya pueden publicar sus primeras vacantes verificadas y los postulantes pueden crear su perfil.</div>
+      
+      <div class="empty-actions">
+        <button class="btn-cta-primary" onclick="mostrarVista('empresas')">🏢 Publicar primer aviso (Empresas)</button>
+        <button class="btn-cta-secondary" onclick="mostrarVista('auth')">👤 Crear mi perfil laboral (Candidatos)</button>
+      </div>
     </div>
-
-    <div class="filters">
-      <button class="filter-btn active" onclick="cambiarRubro('Todos', this)">✨ Todos</button>
-      <button class="filter-btn" onclick="cambiarRubro('Gastronomía', this)">🍣 Gastronomía</button>
-      <button class="filter-btn" onclick="cambiarRubro('Administración', this)">📊 Administración</button>
-      <button class="filter-btn" onclick="cambiarRubro('Logística', this)">🚚 Logística</button>
-    </div>
-
-    <div class="jobs-container" id="contenedor-ofertas"></div>
   </div>
 
   <!-- VISTA 2: CANDIDATOS -->
   <div id="vista-auth" class="section-view">
     <h2>Portal de Candidatos</h2>
-    <p>Crea tu usuario y contraseña para postularte en 1 clic y gestionar tu CV transparente.</p>
+    <p>Crea tu usuario y contraseña para estar listo apenas se publiquen las primeras búsquedas en tu rubro.</p>
     
+    <div class="form-group">
+      <label>Nombre y Apellido</label>
+      <input type="text" placeholder="Ej: Juan Pérez">
+    </div>
     <div class="form-group">
       <label>Correo Electrónico</label>
       <input type="email" placeholder="tu_correo@gmail.com">
@@ -117,33 +182,34 @@
       <input type="password" placeholder="Mínimo 6 caracteres">
     </div>
     <div class="form-group">
-      <label>Rubro de interés principal</label>
+      <label>Rubro principal</label>
       <select>
         <option>Gastronomía / Cocina</option>
         <option>Administración / Ventas</option>
         <option>Logística / Choferes</option>
+        <option>Comercio / Atención al público</option>
       </select>
     </div>
-    <button class="btn-submit" onclick="alertaAccion('¡Cuenta creada con éxito! Ya puedes iniciar sesión.')">Crear Cuenta / Registrarme</button>
-    <button class="btn-back" onclick="mostrarVista('home')">← Volver a los empleos</button>
+    <button class="btn-submit" onclick="alertaAccion('¡Perfil creado con éxito! Te avisaremos cuando haya ofertas en tu rubro.')">Crear Cuenta / Registrarme</button>
+    <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
 
-  <!-- VISTA 3: EMPRESAS (NUEVOS PRECIOS REALES) -->
+  <!-- VISTA 3: EMPRESAS -->
   <div id="vista-empresas" class="section-view" style="border-color: rgba(56, 189, 248, 0.4);">
     <h2 style="color: #38bdf8;">Área Empresas</h2>
     <p>Publicá avisos transparentes con sueldo garantizado y llegá directo a candidatos calificados.</p>
     
     <div class="form-group">
       <label>Razón Social / Nombre Empresa</label>
-      <input type="text" placeholder="Ej: Restaurante o Empresa Gastronómica">
+      <input type="text" placeholder="Nombre de tu comercio o empresa">
     </div>
     <div class="form-group">
       <label>Título del Puesto</label>
-      <input type="text" placeholder="Ej: Head Chef / Sushiman">
+      <input type="text" placeholder="Ej: Encargado / Cocinero / Administrativo">
     </div>
     <div class="form-group">
       <label>Sueldo Neto Ofertado (Obligatorio)</label>
-      <input type="text" placeholder="Ej: $1.200.000 netos + propinas">
+      <input type="text" placeholder="Ej: $950.000 netos + beneficios">
     </div>
     <div class="form-group">
       <label>Plan de Publicación y Pago</label>
@@ -153,7 +219,7 @@
       </select>
     </div>
     <button class="btn-submit" style="background: var(--primary);" onclick="alertaAccion('Redirigiendo a pasarela de pago segura de Mercado Pago...')">Publicar y Pagar Aviso</button>
-    <button class="btn-back" onclick="mostrarVista('home')">← Volver al sitio principal</button>
+    <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
 
   <!-- Modal -->
@@ -166,61 +232,29 @@
   </div>
 
   <script>
-    const ofertas = [
-      { id: 1, puesto: 'Sushiman / Cocinero Nikkei', empresa: 'Restaurante Paladar', zona: 'Palermo, CABA', sueldo: '$950.000 netos + propinas', horario: 'Mar a Dom · 17:00 a 01:00', modalidad: 'Blanco 100% · Comida incluida', rubro: 'Gastronomía' },
-      { id: 2, puesto: 'Head Chef / Jefe de Cocina', empresa: 'La Causa Nikkei', zona: 'Recoleta, CABA', sueldo: '$1.400.000 netos + objetivos', horario: 'Mié a Lun · Turno corrido', modalidad: 'En blanco · Prepaga incluida', rubro: 'Gastronomía' },
-      { id: 3, puesto: 'Administrativo/a Comercial', empresa: 'Estudio Sur', zona: 'Lomas de Zamora, GBA', sueldo: '$780.000 netos', horario: 'Lun a Vie · 09:00 a 17:00', modalidad: 'Relación de dependencia · Ley', rubro: 'Administración' },
-      { id: 4, puesto: 'Chofer de Reparto Profesional', empresa: 'Logística del Sur', zona: 'Avellaneda, GBA', sueldo: '$890.000 netos + viáticos', horario: 'Lun a Sáb · 07:00 a 15:00', modalidad: 'Convenio Camioneros · Blanco', rubro: 'Logística' }
-    ];
+    // Temporizador de 15 segundos para la intro
+    let segundos = 15;
+    const countdownEl = document.getElementById('countdown');
+    const introScreen = document.getElementById('intro-screen');
 
-    let rubroSeleccionado = 'Todos';
+    const intervalo = setInterval(() => {
+      segundos--;
+      if (countdownEl) countdownEl.innerText = segundos;
+      if (segundos <= 0) {
+        cerrarIntro();
+      }
+    }, 1000);
+
+    function cerrarIntro() {
+      clearInterval(intervalo);
+      introScreen.style.display = 'none';
+    }
 
     function mostrarVista(vista) {
       document.getElementById('vista-home').style.display = vista === 'home' ? 'block' : 'none';
       document.getElementById('vista-auth').style.display = vista === 'auth' ? 'block' : 'none';
       document.getElementById('vista-empresas').style.display = vista === 'empresas' ? 'block' : 'none';
       window.scrollTo(0, 0);
-    }
-
-    function renderizar(lista) {
-      const el = document.getElementById('contenedor-ofertas');
-      if (lista.length === 0) {
-        el.innerHTML = '<div style="text-align:center; color:#9ca3af; padding:30px;">No encontramos ofertas con esos criterios.</div>';
-        return;
-      }
-      el.innerHTML = lista.map(o => `
-        <div class="card">
-          <div class="card-top">
-            <div>
-              <div class="job-title">${o.puesto}</div>
-              <div class="company">📍 ${o.empresa} · ${o.zona}</div>
-            </div>
-            <div class="salary-badge">${o.sueldo}</div>
-          </div>
-          <div class="details-grid">
-            <div>🕒 <strong>Horario:</strong> ${o.horario}</div>
-            <div>📋 <strong>Condiciones:</strong> ${o.modalidad}</div>
-          </div>
-          <button class="btn-apply" onclick="alertaAccion('¡Postulación enviada a ${o.empresa} con tu perfil verificado!')">Postularme ahora</button>
-        </div>
-      `).join('');
-    }
-
-    function cambiarRubro(rubro, btn) {
-      rubroSeleccionado = rubro;
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      filtrarOfertas();
-    }
-
-    function filtrarOfertas() {
-      const texto = document.getElementById('buscador').value.toLowerCase();
-      const filtradas = ofertas.filter(o => {
-        const coincideRubro = rubroSeleccionado === 'Todos' || o.rubro === rubroSeleccionado;
-        const coincideTexto = o.puesto.toLowerCase().includes(texto) || o.zona.toLowerCase().includes(texto) || o.empresa.toLowerCase().includes(texto);
-        return coincideRubro && coincideTexto;
-      });
-      renderizar(filtradas);
     }
 
     function alertaAccion(texto) {
@@ -232,8 +266,6 @@
       document.getElementById('modalGeneral').style.display = 'none';
       mostrarVista('home');
     }
-
-    renderizar(ofertas);
   </script>
 </body>
 </html>
