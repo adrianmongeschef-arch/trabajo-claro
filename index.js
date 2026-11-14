@@ -13,17 +13,18 @@ const pool = new Pool({
 async function initDB() {
   try {
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS candidatos (
+      CREATE TABLE IF NOT EXISTS usuarios (
         id SERIAL PRIMARY KEY,
         nombre VARCHAR(100),
         email VARCHAR(100) UNIQUE,
         password VARCHAR(100),
-        rubro VARCHAR(50),
+        rol VARCHAR(20) DEFAULT 'candidato',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
       
       CREATE TABLE IF NOT EXISTS empleos (
         id SERIAL PRIMARY KEY,
+        empresa_id INT,
         empresa VARCHAR(100),
         puesto VARCHAR(100),
         sueldo VARCHAR(100),
@@ -31,7 +32,17 @@ async function initDB() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-    console.log("Tablas de PostgreSQL verificadas/creadas correctamente.");
+
+    // Asignar rol de admin automáticamente a tu correo personal si ya existe o crearlo
+    await pool.query(
+      `INSERT INTO usuarios (nombre, email, password, rol) 
+       VALUES ($1, $2, $3, $4) 
+       ON CONFLICT (email) 
+       DO UPDATE SET rol = 'admin'`,
+      ['Adrian Monges', 'adrianmongeschef@gmail.com', 'admin123', 'admin']
+    );
+    console.log("Administrador configurado para adrianmongeschef@gmail.com");
+
   } catch (err) {
     console.error("Error al inicializar la base de datos:", err);
   }
@@ -42,18 +53,45 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// API: Registrar Candidato
-app.post('/api/candidatos', async (req, res) => {
-  const { nombre, email, password, rubro } = req.body;
+// API: Registro
+app.post('/api/registro', async (req, res) => {
+  const { nombre, email, password, rol } = req.body;
+  
+  // Si se registra con tu correo personal, forzamos que sea admin siempre
+  let rolAsignado = rol || 'candidato';
+  if (email === 'adrianmongeschef@gmail.com') {
+    rolAsignado = 'admin';
+  } else if (email.includes('empresa')) {
+    rolAsignado = 'empresa';
+  }
+
   try {
     const nuevo = await pool.query(
-      'INSERT INTO candidatos (nombre, email, password, rubro) VALUES ($1, $2, $3, $4) RETURNING *',
-      [nombre, email, password, rubro]
+      'INSERT INTO usuarios (nombre, email, password, rol) VALUES ($1, $2, $3, $4) RETURNING id, nombre, email, rol',
+      [nombre, email, password, rolAsignado]
     );
-    res.json({ success: true, data: nuevo.rows[0] });
+    res.json({ success: true, user: nuevo.rows[0] });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, error: 'El correo ya está registrado o hubo un error.' });
+    // Si el usuario ya existía pero intenta registrarse de nuevo, intentamos loguearlo o actualizar
+    res.status(500).json({ success: false, error: 'El correo ya está registrado. Probá iniciar sesión.' });
+  }
+});
+
+// API: Login
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const resultado = await pool.query(
+      'SELECT id, nombre, email, rol FROM usuarios WHERE email = $1 AND password = $2',
+      [email, password]
+    );
+    if (resultado.rows.length > 0) {
+      res.json({ success: true, user: resultado.rows[0] });
+    } else {
+      res.status(401).json({ success: false, error: 'Correo o contraseña incorrectos.' });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Error en el servidor.' });
   }
 });
 
@@ -67,12 +105,11 @@ app.post('/api/empleos', async (req, res) => {
     );
     res.json({ success: true, data: nuevo.rows[0] });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ success: false, error: 'Error al publicar el empleo.' });
   }
 });
 
-// API: Obtener Empleos Activos
+// API: Obtener Empleos
 app.get('/api/empleos', async (req, res) => {
   try {
     const resultado = await pool.query('SELECT * FROM empleos ORDER BY id DESC');
@@ -82,16 +119,17 @@ app.get('/api/empleos', async (req, res) => {
   }
 });
 
-// NUEVAS RUTAS DE ADMINISTRACIÓN (Ver todo desde la app)
-app.get('/api/admin/candidatos', async (req, res) => {
+// API: Admin - Ver usuarios
+app.get('/api/admin/usuarios', async (req, res) => {
   try {
-    const resultado = await pool.query('SELECT id, nombre, email, rubro, created_at FROM candidatos ORDER BY id DESC');
+    const resultado = await pool.query('SELECT id, nombre, email, rol, created_at FROM usuarios ORDER BY id DESC');
     res.json(resultado.rows);
   } catch (err) {
     res.status(500).json([]);
   }
 });
 
+// API: Admin - Ver empleos
 app.get('/api/admin/empleos', async (req, res) => {
   try {
     const resultado = await pool.query('SELECT * FROM empleos ORDER BY id DESC');
