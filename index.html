@@ -17,13 +17,20 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background: var(--bg); color: var(--text-main); padding: 16px; max-width: 600px; margin: 0 auto; padding-bottom: 90px; }
 
+    /* PANTALLA DE BIENVENIDA / SPLASH SCREEN AZUL CORPORATIVA */
     #intro-screen {
-      position: fixed; inset: 0; background: radial-gradient(circle at top, #0f172a 0%, #030712 100%);
-      z-index: 99999; display: flex; flex-direction: column; justify-content: space-between; padding: 28px 20px; text-align: center; max-width: 600px; margin: 0 auto;
+      position: fixed; inset: 0; background: linear-gradient(135deg, #0f172a 0%, #0284c7 100%);
+      z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; max-width: 600px; margin: 0 auto;
     }
-    .intro-top { display: flex; justify-content: space-between; align-items: center; }
-    .timer-pill { background: rgba(56, 189, 248, 0.15); color: var(--primary); font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 99px; }
-    .skip-btn { background: transparent; color: var(--text-muted); border: 1px solid var(--card-border); padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .splash-card {
+      background: rgba(3, 7, 18, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 36px 24px; border-radius: 24px; width: 100%; max-width: 380px; box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+    }
+    .splash-logo { font-size: 42px; margin-bottom: 12px; }
+    .splash-title { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 8px; letter-spacing: -0.5px; }
+    .splash-title span { color: var(--primary); }
+    .splash-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
+    .btn-splash { width: 100%; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #030712; border: none; padding: 14px; border-radius: 12px; font-weight: 900; font-size: 15px; cursor: pointer; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4); }
 
     .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--card-border); margin-bottom: 16px; }
     .logo-text { font-weight: 900; font-size: 16px; color: var(--primary); cursor: pointer; }
@@ -59,13 +66,11 @@
     .tab-btn { flex: 1; background: var(--bg); border: 1px solid var(--card-border); color: var(--text-muted); padding: 8px 4px; border-radius: 8px; font-size: 10px; font-weight: 700; cursor: pointer; text-align: center; }
     .tab-btn.active { background: var(--card-border); color: #fff; }
 
-    /* Dashboard Admin KPIs */
     .kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
     .kpi-card { background: rgba(3, 7, 18, 0.8); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; text-align: center; }
     .kpi-number { font-size: 22px; font-weight: 900; color: var(--primary); margin-top: 4px; }
     .kpi-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
 
-    /* Tarjetas de Admin Detalladas tipo Computrabajo */
     .admin-item-card { background: rgba(3, 7, 18, 0.7); border: 1px solid var(--card-border); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
     .admin-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
     .admin-item-title { font-size: 14px; font-weight: 800; color: #fff; }
@@ -75,7 +80,6 @@
     .badge-candidato { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
     .admin-item-details { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
 
-    /* Botón flotante creado por JS (Garantiza que no aparezca en la intro) */
     #floatingAdminBtn {
       position: fixed; bottom: 20px; right: 20px; background: #f59e0b; color: #030712; border: none;
       padding: 12px 18px; border-radius: 50px; font-weight: 900; font-size: 13px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.5); z-index: 999; cursor: pointer;
@@ -91,18 +95,13 @@
 </head>
 <body>
 
-  <!-- INTRO -->
+  <!-- PANTALLA DE APERTURA (SPLASH AZUL Y RÁPIDA) -->
   <div id="intro-screen">
-    <div class="intro-top">
-      <span class="timer-pill">Ingresando en <span id="countdown">12</span>s</span>
-      <button class="skip-btn" onclick="cerrarIntro()">Saltar intro →</button>
-    </div>
-    <div class="intro-body" style="display:flex; flex-direction:column; gap:14px; margin-top:20px;">
-      <h2 class="intro-title" style="font-size: 28px;">Trabajo <span>Claro</span></h2>
-      <p class="intro-desc">Bolsa de empleo transparente con validación de sueldos y perfiles profesionales en tiempo real.</p>
-    </div>
-    <div>
-      <button class="btn-submit" onclick="cerrarIntro()">Entrar a la plataforma</button>
+    <div class="splash-card">
+      <div class="splash-logo">💼</div>
+      <h2 class="splash-title">Trabajo <span>Claro</span></h2>
+      <p class="splash-desc">La bolsa de empleo transparente con sueldos reales y verificados.</p>
+      <button class="btn-splash" onclick="cerrarIntro()">Entrar a la Plataforma</button>
     </div>
   </div>
 
@@ -195,7 +194,7 @@
     <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
 
-  <!-- PANEL DE ADMINISTRACIÓN ESTILO PORTAL PROFESIONAL -->
+  <!-- PANEL DE ADMINISTRACIÓN -->
   <div id="vista-admin" class="section-view" style="border-color: #f59e0b;">
     <h2 style="color: #f59e0b;">Panel de Control Administrativo</h2>
     <p>Métricas y supervisión en tiempo real de cuentas y ofertas.</p>
@@ -239,21 +238,10 @@
   <script>
     let usuarioActual = JSON.parse(localStorage.getItem('usuarioTrabajoClaro')) || null;
 
-    let segundos = 12;
-    const countdownEl = document.getElementById('countdown');
-    const introScreen = document.getElementById('intro-screen');
-
-    const intervalo = setInterval(() => {
-      segundos--;
-      if (countdownEl) countdownEl.innerText = segundos;
-      if (segundos <= 0) cerrarIntro();
-    }, 1000);
-
     function cerrarIntro() {
-      clearInterval(intervalo);
-      if (introScreen) introScreen.remove(); // Elimina físicamente el elemento de la pantalla para que no estorbe
+      const intro = document.getElementById('intro-screen');
+      if (intro) intro.remove(); // Elimina el splash screen al instante con un toque limpio
       
-      // Muestra el botón flotante de administración una vez finalizada la intro
       const floatingBtn = document.getElementById('floatingAdminBtn');
       if (floatingBtn) floatingBtn.style.display = 'block';
     }
@@ -399,7 +387,6 @@
         const resEmp = await fetch('/api/admin/empleos');
         const empleos = await resEmp.json();
         
-        // Renderizado detallado de empleos estilo Computrabajo/ZonaJobs
         document.getElementById('admin-empleos').innerHTML = empleos.length === 0 ? '<div class="admin-item-card">Sin empleos publicados en cartera.</div>' : empleos.map(e => `
           <div class="admin-item-card">
             <div class="admin-item-header">
@@ -416,7 +403,6 @@
         const resUsu = await fetch('/api/admin/usuarios');
         const usuarios = await resUsu.json();
         
-        // Renderizado detallado de cuentas estilo portal profesional
         document.getElementById('admin-usuarios').innerHTML = usuarios.length === 0 ? '<div class="admin-item-card">Sin cuentas registradas.</div>' : usuarios.map(u => {
           let badgeClass = 'badge-candidato';
           if(u.rol === 'admin') badgeClass = 'badge-admin';
