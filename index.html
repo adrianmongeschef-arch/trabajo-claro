@@ -1,57 +1,102 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" style="background-color: #030712;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trabajo Claro | Empleos Transparentes</title>
+  <meta name="theme-color" content="#0284c7">
+  <title>Trabajo Claro | Portal de Empleos Verificados</title>
   <style>
     :root {
       --bg: #030712;
       --card-bg: #111827;
       --card-border: #1f2937;
       --primary: #38bdf8;
+      --primary-dark: #0284c7;
       --accent: #10b981;
       --text-main: #f9fafb;
       --text-muted: #9ca3af;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text-main); padding: 16px; max-width: 600px; margin: 0 auto; padding-bottom: 90px; }
+    body { background: var(--bg); color: var(--text-main); padding: 16px; max-width: 600px; margin: 0 auto; padding-bottom: 95px; }
 
-    /* PANTALLA DE BIENVENIDA / SPLASH SCREEN AZUL CORPORATIVA */
+    /* PANTALLA DE BIENVENIDA CORPORATIVA */
     #intro-screen {
-      position: fixed; inset: 0; background: linear-gradient(135deg, #0f172a 0%, #0284c7 100%);
+      position: fixed; inset: 0; background: linear-gradient(145deg, #07192f 0%, #0284c7 100%);
       z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; max-width: 600px; margin: 0 auto;
     }
     .splash-card {
-      background: rgba(3, 7, 18, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(56, 189, 248, 0.3);
-      padding: 36px 24px; border-radius: 24px; width: 100%; max-width: 380px; box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+      background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(56, 189, 248, 0.35);
+      padding: 32px 22px; border-radius: 24px; width: 100%; max-width: 400px; box-shadow: 0 25px 50px rgba(0,0,0,0.7);
     }
-    .splash-logo { font-size: 42px; margin-bottom: 12px; }
-    .splash-title { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 8px; letter-spacing: -0.5px; }
+    .splash-badge {
+      display: inline-block; background: rgba(56, 189, 248, 0.15); color: var(--primary);
+      font-size: 11px; font-weight: 800; padding: 5px 12px; border-radius: 99px; margin-bottom: 14px; letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .splash-title { font-size: 30px; font-weight: 900; color: #fff; margin-bottom: 8px; letter-spacing: -0.5px; }
     .splash-title span { color: var(--primary); }
-    .splash-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
-    .btn-splash { width: 100%; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #030712; border: none; padding: 14px; border-radius: 12px; font-weight: 900; font-size: 15px; cursor: pointer; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4); }
+    .splash-desc { font-size: 13.5px; color: #cbd5e1; margin-bottom: 20px; line-height: 1.5; }
+    .splash-pillars {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 24px;
+    }
+    .pillar-box {
+      background: rgba(17, 24, 39, 0.9); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 12px; padding: 10px 6px;
+    }
+    .pillar-icon { font-size: 18px; margin-bottom: 4px; }
+    .pillar-text { font-size: 11px; font-weight: 700; color: #f8fafc; }
+    .btn-splash {
+      width: 100%; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #030712;
+      border: none; padding: 15px; border-radius: 12px; font-weight: 900; font-size: 15px; cursor: pointer; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+    }
 
+    /* BARRA SUPERIOR */
     .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--card-border); margin-bottom: 16px; }
-    .logo-text { font-weight: 900; font-size: 16px; color: var(--primary); cursor: pointer; }
+    .logo-text { font-weight: 900; font-size: 17px; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 6px; }
     .nav-actions { display: flex; gap: 6px; }
-    .nav-btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .nav-btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); padding: 7px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .nav-btn-primary { background: rgba(56, 189, 248, 0.15); color: var(--primary); border-color: rgba(56, 189, 248, 0.35); }
 
-    header { padding: 10px 0 16px; text-align: center; }
-    .verified-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.1); color: var(--accent); font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 99px; margin-bottom: 12px; border: 1px solid rgba(16, 185, 129, 0.25); text-transform: uppercase; }
-    h1 { font-size: 26px; font-weight: 900; }
+    /* ENCABEZADO HERO */
+    header { padding: 14px 12px 20px; text-align: center; background: linear-gradient(180deg, rgba(17,24,39,0.8) 0%, rgba(3,7,18,0) 100%); border-radius: 20px; margin-bottom: 16px; border: 1px solid rgba(31, 41, 55, 0.6); }
+    .verified-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.12); color: var(--accent); font-size: 11px; font-weight: 800; padding: 6px 14px; border-radius: 99px; margin-bottom: 12px; border: 1px solid rgba(16, 185, 129, 0.3); text-transform: uppercase; letter-spacing: 0.4px; }
+    h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; }
     h1 span { color: var(--primary); }
-    .subtitle { color: var(--text-muted); font-size: 13px; margin-top: 6px; line-height: 1.5; }
+    .subtitle { color: #cbd5e1; font-size: 13.5px; margin-top: 8px; line-height: 1.5; max-width: 460px; margin-left: auto; margin-right: auto; }
+    
+    .hero-cta-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+    .btn-hero-cand { background: var(--accent); color: #030712; border: none; padding: 12px 10px; border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer; }
+    .btn-hero-emp { background: var(--card-bg); color: var(--primary); border: 1px solid rgba(56, 189, 248, 0.4); padding: 12px 10px; border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer; }
 
-    .jobs-container { display: grid; gap: 14px; margin-top: 14px; }
+    /* BLOQUES DE CONFIANZA Y VALOR (EMPRESAS Y CANDIDATOS) */
+    .value-section { display: grid; gap: 12px; margin-bottom: 22px; }
+    .value-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 18px; }
+    .value-card.emp-highlight { border-left: 4px solid var(--primary); }
+    .value-card.cand-highlight { border-left: 4px solid var(--accent); }
+    .value-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .value-title { font-size: 15px; font-weight: 800; color: #fff; }
+    .value-list { list-style: none; display: grid; gap: 8px; }
+    .value-list li { font-size: 12.5px; color: #cbd5e1; line-height: 1.45; display: flex; align-items: flex-start; gap: 8px; }
+    .check-blue { color: var(--primary); font-weight: 900; }
+    .check-green { color: var(--accent); font-weight: 900; }
+
+    /* SECCIÓN OFERTAS */
+    .section-heading { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px; }
+    .section-heading h2 { font-size: 17px; font-weight: 800; color: #fff; }
+    .section-heading span { font-size: 11px; color: var(--accent); font-weight: 700; }
+
+    .jobs-container { display: grid; gap: 14px; }
     .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; position: relative; overflow: hidden; }
     .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--primary); }
     .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
     .job-title { font-size: 18px; font-weight: 800; color: #fff; }
     .company { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
-    .salary-badge { background: rgba(16, 185, 129, 0.15); color: #34d399; font-weight: 800; font-size: 13px; padding: 6px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .salary-badge { background: rgba(16, 185, 129, 0.15); color: #34d399; font-weight: 800; font-size: 13px; padding: 6px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3); white-space: nowrap; }
     .btn-apply { width: 100%; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; margin-top: 10px; }
 
+    /* PIE DE SEGURIDAD */
+    .trust-footer { margin-top: 28px; padding: 16px; background: rgba(17, 24, 39, 0.5); border: 1px solid var(--card-border); border-radius: 14px; text-align: center; font-size: 11.5px; color: var(--text-muted); line-height: 1.5; }
+    .trust-footer strong { color: #e2e8f0; }
+
+    /* VISTAS DE FORMULARIOS */
     .section-view { display: none; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 22px; margin-top: 10px; }
     .section-view h2 { font-size: 20px; font-weight: 800; margin-bottom: 6px; color: #fff; }
     .section-view p { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
@@ -63,9 +108,10 @@
     .btn-back { background: transparent; color: var(--text-muted); border: none; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 16px; width: 100%; text-align: center; display: block; }
 
     .tab-toggle { display: flex; gap: 6px; margin-bottom: 16px; }
-    .tab-btn { flex: 1; background: var(--bg); border: 1px solid var(--card-border); color: var(--text-muted); padding: 8px 4px; border-radius: 8px; font-size: 10px; font-weight: 700; cursor: pointer; text-align: center; }
-    .tab-btn.active { background: var(--card-border); color: #fff; }
+    .tab-btn { flex: 1; background: var(--bg); border: 1px solid var(--card-border); color: var(--text-muted); padding: 9px 4px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; text-align: center; }
+    .tab-btn.active { background: var(--card-border); color: #fff; border-color: var(--primary); }
 
+    /* ADMIN */
     .kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
     .kpi-card { background: rgba(3, 7, 18, 0.8); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; text-align: center; }
     .kpi-number { font-size: 22px; font-weight: 900; color: var(--primary); margin-top: 4px; }
@@ -95,48 +141,112 @@
 </head>
 <body>
 
-  <!-- PANTALLA DE APERTURA (SPLASH AZUL Y RÁPIDA) -->
+  <!-- PANTALLA DE BIENVENIDA INSTITUCIONAL -->
   <div id="intro-screen">
     <div class="splash-card">
-      <div class="splash-logo">💼</div>
+      <div class="splash-badge">🛡️ Plataforma Oficial Argentina</div>
       <h2 class="splash-title">Trabajo <span>Claro</span></h2>
-      <p class="splash-desc">La bolsa de empleo transparente con sueldos reales y verificados.</p>
-      <button class="btn-splash" onclick="cerrarIntro()">Entrar a la Plataforma</button>
+      <p class="splash-desc">Conectamos empresas serias con trabajadores calificados bajo reglas claras, sueldos visibles y total seguridad.</p>
+      
+      <div class="splash-pillars">
+        <div class="pillar-box">
+          <div class="pillar-icon">🔒</div>
+          <div class="pillar-text">Seguridad</div>
+        </div>
+        <div class="pillar-box">
+          <div class="pillar-icon">🤝</div>
+          <div class="pillar-text">Confianza</div>
+        </div>
+        <div class="pillar-box">
+          <div class="pillar-icon">💼</div>
+          <div class="pillar-text">Seriedad</div>
+        </div>
+      </div>
+
+      <button class="btn-splash" onclick="cerrarIntro()">Ingresar al Portal</button>
     </div>
   </div>
 
   <!-- BOTÓN FLOTANTE DINÁMICO -->
   <button id="floatingAdminBtn" onclick="mostrarVista('auth')">🔒 Cuenta / Admin</button>
 
+  <!-- BARRA DE NAVEGACIÓN -->
   <div class="top-bar">
-    <div class="logo-text" onclick="mostrarVista('home')">Trabajo Claro</div>
+    <div class="logo-text" onclick="mostrarVista('home')">Trabajo <span>Claro</span></div>
     <div class="nav-actions">
-      <button class="nav-btn" onclick="verificarAccesoEmpresas()">Empresas</button>
-      <button class="nav-btn" onclick="mostrarVista('auth')">Mi Cuenta</button>
+      <button class="nav-btn nav-btn-primary" onclick="verificarAccesoEmpresas()">Soy Empresa</button>
+      <button class="nav-btn" onclick="mostrarVista('auth')">Ingresar</button>
     </div>
   </div>
 
+  <!-- VISTA PRINCIPAL (HOME INSTITUCIONAL + CARTELERA) -->
   <div id="vista-home">
     <header>
-      <div class="verified-badge">✓ Portal Verificado</div>
-      <h1>Trabajo <span>Claro</span></h1>
-      <p class="subtitle">Empleos reales con salarios claros y postulaciones directas.</p>
+      <div class="verified-badge">✓ Portal Verificado • Argentina</div>
+      <h1>Empleos reales, <span>sin vueltas.</span></h1>
+      <p class="subtitle">La primera bolsa de trabajo donde conocés el sueldo real antes de postularte y las empresas reciben candidatos filtrados y listos para trabajar.</p>
+      
+      <div class="hero-cta-group">
+        <button class="btn-hero-cand" onclick="irARegistro('regCandidato')">👤 Crear mi Perfil</button>
+        <button class="btn-hero-emp" onclick="irARegistro('regEmpresa')">🏢 Publicar Aviso</button>
+      </div>
     </header>
+
+    <!-- PROPUESTA DE VALOR PARA EMPRESAS Y CANDIDATOS -->
+    <div class="value-section">
+      <!-- BENEFICIOS EMPRESAS -->
+      <div class="value-card emp-highlight">
+        <div class="value-header">
+          <span>🏢</span>
+          <div class="value-title">¿Qué ganan las Empresas al publicar aquí?</div>
+        </div>
+        <ul class="value-list">
+          <li><span class="check-blue">✓</span> <span><strong>Ahorro real de tiempo:</strong> Al mostrar el sueldo desde el inicio, solo se postulan candidatos que aceptan tus condiciones.</span></li>
+          <li><span class="check-blue">✓</span> <span><strong>Perfiles segmentados por rubro:</strong> Encontrá personal con experiencia comprobable en gastronomía, comercio, logística y más.</span></li>
+          <li><span class="check-blue">✓</span> <span><strong>Contacto directo y ágil:</strong> Sin intermediarios ni comisiones abusivas por contratación.</span></li>
+        </ul>
+      </div>
+
+      <!-- GARANTÍAS CANDIDATOS -->
+      <div class="value-card cand-highlight">
+        <div class="value-header">
+          <span>🛡️</span>
+          <div class="value-title">Seguridad y respaldo para tu búsqueda laboral</div>
+        </div>
+        <ul class="value-list">
+          <li><span class="check-green">✓</span> <span><strong>Empresas validadas:</strong> Verificamos la identidad y CUIT de cada empleador para proteger tus datos personales.</span></li>
+          <li><span class="check-green">✓</span> <span><strong>Transparencia salarial:</strong> Sabés exactamente cuánto vas a ganar antes de ir a una entrevista.</span></li>
+          <li><span class="check-green">✓</span> <span><strong>Perfil profesional efectivo:</strong> Tu currículum llega directo a quienes toman la decisión de contratar.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CARTELERA DE EMPLEOS -->
+    <div class="section-heading">
+      <h2>Búsquedas Activas Hoy</h2>
+      <span>● En tiempo real</span>
+    </div>
     <div id="contenedor-empleos" class="jobs-container"></div>
+
+    <!-- PIE INSTITUCIONAL -->
+    <div class="trust-footer">
+      <strong>Trabajo Claro Argentina</strong> — Plataforma segura de vinculación laboral.<br>
+      Tus datos están protegidos y solo se comparten con las empresas a las que decidís postularte.
+    </div>
   </div>
 
   <!-- VISTA AUTENTICACIÓN -->
   <div id="vista-auth" class="section-view">
     <div class="tab-toggle">
       <button class="tab-btn active" id="tabLoginBtn" onclick="cambiarTabAuth('login')">Iniciar Sesión</button>
-      <button class="tab-btn" id="tabRegCandBtn" onclick="cambiarTabAuth('regCandidato')">Nuevo Candidato</button>
-      <button class="tab-btn" id="tabRegEmpBtn" onclick="cambiarTabAuth('regEmpresa')">Nueva Empresa</button>
+      <button class="tab-btn" id="tabRegCandBtn" onclick="cambiarTabAuth('regCandidato')">Crear Perfil</button>
+      <button class="tab-btn" id="tabRegEmpBtn" onclick="cambiarTabAuth('regEmpresa')">Soy Empresa</button>
     </div>
 
     <!-- SECCIÓN LOGIN -->
     <div id="formLoginContainer">
       <h2>Iniciar Sesión</h2>
-      <p>Accedé a tu panel profesional o de postulación.</p>
+      <p>Ingresá a tu cuenta verificada de candidato o empleador.</p>
 
       <button class="btn-super-admin" onclick="bypassAdmin()">🚀 ENTRAR DIRECTO COMO ADMIN</button>
 
@@ -147,32 +257,33 @@
 
     <!-- PLANILLA REGISTRO CANDIDATO -->
     <div id="formRegCandidatoContainer" style="display: none;">
-      <h2>Registro de Candidato</h2>
-      <p>Completá tu planilla profesional para postularte.</p>
-      <div class="form-group"><label>Nombre y Apellido</label><input type="text" id="rcNombre" placeholder="Juan Pérez"></div>
+      <h2>Creá tu Perfil Profesional</h2>
+      <p>Completá tus datos con seguridad para que las empresas te contacten.</p>
+      <div class="form-group"><label>Nombre y Apellido</label><input type="text" id="rcNombre" placeholder="Ej: Juan Pérez"></div>
       <div class="form-group"><label>Correo Electrónico</label><input type="email" id="rcEmail" placeholder="juan@email.com"></div>
-      <div class="form-group"><label>Contraseña</label><input type="password" id="rcPass" placeholder="Mínimo 6 caracteres"></div>
-      <div class="form-group"><label>Rubro / Especialidad</label>
+      <div class="form-group"><label>Contraseña Segura</label><input type="password" id="rcPass" placeholder="Mínimo 6 caracteres"></div>
+      <div class="form-group"><label>Rubro / Especialidad Principal</label>
         <select id="rcRubro">
-          <option>Gastronomía / Cocina / Chef</option>
-          <option>Administración / Ventas / Atención</option>
+          <option>Gastronomía / Cocina / Chef / Salón</option>
+          <option>Administración / Ventas / Atención al Cliente</option>
           <option>Logística / Choferes / Depósito</option>
+          <option>Hotelería / Turismo / Recepción</option>
           <option>Tecnología / Soporte / Sistemas</option>
         </select>
       </div>
-      <div class="form-group"><label>Años de Experiencia</label><input type="text" id="rcExp" placeholder="Ej: 5 años en el sector"></div>
-      <button class="btn-submit" onclick="registrarUsuario('candidato')">Crear Perfil y Registrarse</button>
+      <div class="form-group"><label>Experiencia Laboral</label><input type="text" id="rcExp" placeholder="Ej: 4 años de experiencia en el rubro"></div>
+      <button class="btn-submit" onclick="registrarUsuario('candidato')">Guardar Perfil y Comenzar</button>
     </div>
 
     <!-- PLANILLA REGISTRO EMPRESA -->
     <div id="formRegEmpresaContainer" style="display: none;">
-      <h2>Registro de Empresa</h2>
-      <p>Planilla corporativa para publicar avisos laborales.</p>
-      <div class="form-group"><label>Razón Social / Nombre Comercial</label><input type="text" id="reNombre" placeholder="Gastronomía del Sur S.A."></div>
+      <h2>Alta Corporativa de Empresa</h2>
+      <p>Verificá tu comercio o empresa para publicar búsquedas efectivas.</p>
+      <div class="form-group"><label>Razón Social / Nombre Comercial</label><input type="text" id="reNombre" placeholder="Ej: Grupo Gastronómico S.A."></div>
       <div class="form-group"><label>CUIT / Identificación Fiscal</label><input type="text" id="reCuit" placeholder="30-71234567-9"></div>
-      <div class="form-group"><label>Correo Corporativo</label><input type="email" id="reEmail" placeholder="rrhh@empresa.com"></div>
+      <div class="form-group"><label>Correo Corporativo / RRHH</label><input type="email" id="reEmail" placeholder="rrhh@empresa.com"></div>
       <div class="form-group"><label>Contraseña</label><input type="password" id="rePass" placeholder="Contraseña segura"></div>
-      <button class="btn-submit" style="background: var(--primary);" onclick="registrarUsuario('empresa')">Registrar Empresa y Activar</button>
+      <button class="btn-submit" style="background: var(--primary);" onclick="registrarUsuario('empresa')">Validar Empresa y Continuar</button>
     </div>
 
     <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
@@ -180,17 +291,17 @@
 
   <!-- EMPRESAS -->
   <div id="vista-empresas" class="section-view">
-    <h2>Publicar Aviso Corporativo</h2>
-    <p>Avisos transparentes con sueldos garantizados (Estándar o Destacado).</p>
+    <h2>Publicar Búsqueda Laboral</h2>
+    <p>Completá los datos del puesto. Recordá indicar un sueldo claro para atraer mejores perfiles.</p>
     <div class="form-group"><label>Título del Puesto</label><input type="text" id="ePuesto" placeholder="Ej: Jefe de Cocina / Sushiman Senior"></div>
     <div class="form-group"><label>Sueldo Neto Ofertado</label><input type="text" id="eSueldo" placeholder="Ej: $1.250.000 netos + propinas"></div>
-    <div class="form-group"><label>Plan de Contratación / Pago</label>
+    <div class="form-group"><label>Plan de Publicación</label>
       <select id="ePlan">
-        <option>🔥 Pack Destacado Pro (Top en búsquedas) - $95.000</option>
+        <option>🔥 Pack Destacado Pro (Máxima visibilidad) - $95.000</option>
         <option>⭐ Aviso Estándar Verificado - $55.000</option>
       </select>
     </div>
-    <button class="btn-submit" onclick="publicarEmpleo()">Procesar Pago y Publicar Aviso</button>
+    <button class="btn-submit" onclick="publicarEmpleo()">Publicar Aviso Ahora</button>
     <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
 
@@ -227,6 +338,7 @@
     <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
 
+  <!-- MODAL DE AVISOS -->
   <div class="modal" id="modalGeneral">
     <div class="modal-content">
       <div class="modal-title" id="modalTitulo">Aviso</div>
@@ -240,8 +352,7 @@
 
     function cerrarIntro() {
       const intro = document.getElementById('intro-screen');
-      if (intro) intro.remove(); // Elimina el splash screen al instante con un toque limpio
-      
+      if (intro) intro.remove();
       const floatingBtn = document.getElementById('floatingAdminBtn');
       if (floatingBtn) floatingBtn.style.display = 'block';
     }
@@ -255,6 +366,11 @@
 
       if(vista === 'home') cargarEmpleos();
       if(vista === 'admin') cargarDatosAdmin();
+    }
+
+    function irARegistro(tab) {
+      mostrarVista('auth');
+      cambiarTabAuth(tab);
     }
 
     function cambiarTabAuth(tab) {
@@ -271,7 +387,7 @@
       if(usuarioActual && (usuarioActual.rol === 'empresa' || usuarioActual.rol === 'admin')) {
         mostrarVista('empresas');
       } else {
-        alertaAccion('Iniciá sesión o registrate con una cuenta de empresa para publicar avisos.');
+        alertaAccion('Registrate o iniciá sesión con una cuenta de empresa para publicar búsquedas.');
         mostrarVista('auth');
         cambiarTabAuth('regEmpresa');
       }
@@ -332,7 +448,7 @@
       }
 
       if(!nombre || !email || !pass) {
-        alertaAccion('Por favor, completá todos los campos de la planilla.');
+        alertaAccion('Por favor, completá todos los campos obligatorios.');
         return;
       }
 
@@ -346,8 +462,8 @@
         if(r.success) {
           usuarioActual = r.user;
           localStorage.setItem('usuarioTrabajoClaro', JSON.stringify(usuarioActual));
-          alertaAccion(`¡Registro exitoso! Bienvenido, ${usuarioActual.nombre}`);
-          mostrarVista('home');
+          alertaAccion(`¡Cuenta verificada con éxito! Bienvenido, ${usuarioActual.nombre}`);
+          mostrarVista(rol === 'empresa' ? 'empresas' : 'home');
         } else {
           alertaAccion(r.error || 'No se pudo completar el registro.');
         }
@@ -362,7 +478,7 @@
         const lista = await res.json();
         const contenedor = document.getElementById('contenedor-empleos');
         if(lista.length === 0) {
-          contenedor.innerHTML = '<div class="card" style="text-align:center; color:#9ca3af;">No hay ofertas laborales activas todavía.</div>';
+          contenedor.innerHTML = '<div class="card" style="text-align:center; color:#9ca3af;">Aún no hay búsquedas publicadas. ¡Sé la primera empresa en publicar!</div>';
           return;
         }
         contenedor.innerHTML = lista.map(e => `
@@ -370,11 +486,11 @@
             <div class="card-top">
               <div>
                 <div class="job-title">${e.puesto}</div>
-                <div class="company">📍 ${e.empresa || 'Empresa Verificada'}</div>
+                <div class="company">🏢 ${e.empresa || 'Empresa Verificada'}</div>
               </div>
               <div class="salary-badge">${e.sueldo}</div>
             </div>
-            <button class="btn-apply" onclick="alertaAccion('¡Postulación enviada con éxito! La empresa se comunicará si tu perfil coincide.')">Postularme ahora</button>
+            <button class="btn-apply" onclick="alertaAccion('¡Postulación enviada! La empresa recibió tu perfil profesional.')">Postularme ahora</button>
           </div>
         `).join('');
       } catch(e) {
@@ -458,7 +574,7 @@
       });
       const r = await res.json();
       if(r.success) {
-        alertaAccion('¡Aviso publicado y verificado en la base de datos!');
+        alertaAccion('¡Aviso publicado y verificado en la cartelera!');
         mostrarVista('home');
       } else {
         alertaAccion('Error al publicar el empleo.');
