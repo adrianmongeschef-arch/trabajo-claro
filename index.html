@@ -15,11 +15,11 @@
       --text-muted: #9ca3af;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text-main); padding: 16px; max-width: 600px; margin: 0 auto; padding-bottom: 80px; }
+    body { background: var(--bg); color: var(--text-main); padding: 16px; max-width: 600px; margin: 0 auto; padding-bottom: 90px; }
 
     #intro-screen {
       position: fixed; inset: 0; background: radial-gradient(circle at top, #0f172a 0%, #030712 100%);
-      z-index: 999; display: flex; flex-direction: column; justify-content: space-between; padding: 28px 20px; text-align: center; max-width: 600px; margin: 0 auto;
+      z-index: 99999; display: flex; flex-direction: column; justify-content: space-between; padding: 28px 20px; text-align: center; max-width: 600px; margin: 0 auto;
     }
     .intro-top { display: flex; justify-content: space-between; align-items: center; }
     .timer-pill { background: rgba(56, 189, 248, 0.15); color: var(--primary); font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 99px; }
@@ -50,17 +50,36 @@
     .section-view p { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
     .form-group { margin-bottom: 14px; }
     .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
-    .form-group input, .form-group select { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--bg); color: #fff; font-size: 14px; outline: none; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--bg); color: #fff; font-size: 14px; outline: none; }
     .btn-submit { width: 100%; background: var(--accent); color: #030712; border: none; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; margin-top: 6px; }
     .btn-super-admin { width: 100%; background: #f59e0b; color: #030712; border: none; padding: 14px; border-radius: 12px; font-weight: 900; font-size: 15px; cursor: pointer; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
     .btn-back { background: transparent; color: var(--text-muted); border: none; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 16px; width: 100%; text-align: center; display: block; }
 
-    .admin-card { background: rgba(3, 7, 18, 0.6); border: 1px solid var(--card-border); border-radius: 12px; padding: 12px; margin-bottom: 10px; font-size: 13px; }
-    .admin-card strong { color: #fff; }
+    .tab-toggle { display: flex; gap: 6px; margin-bottom: 16px; }
+    .tab-btn { flex: 1; background: var(--bg); border: 1px solid var(--card-border); color: var(--text-muted); padding: 8px 4px; border-radius: 8px; font-size: 10px; font-weight: 700; cursor: pointer; text-align: center; }
+    .tab-btn.active { background: var(--card-border); color: #fff; }
 
-    .floating-admin {
+    /* Dashboard Admin KPIs */
+    .kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+    .kpi-card { background: rgba(3, 7, 18, 0.8); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; text-align: center; }
+    .kpi-number { font-size: 22px; font-weight: 900; color: var(--primary); margin-top: 4px; }
+    .kpi-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+
+    /* Tarjetas de Admin Detalladas tipo Computrabajo */
+    .admin-item-card { background: rgba(3, 7, 18, 0.7); border: 1px solid var(--card-border); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+    .admin-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .admin-item-title { font-size: 14px; font-weight: 800; color: #fff; }
+    .admin-badge-rol { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; }
+    .badge-admin { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-empresa { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+    .badge-candidato { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .admin-item-details { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+    /* Botón flotante creado por JS (Garantiza que no aparezca en la intro) */
+    #floatingAdminBtn {
       position: fixed; bottom: 20px; right: 20px; background: #f59e0b; color: #030712; border: none;
-      padding: 12px 18px; border-radius: 50px; font-weight: 900; font-size: 13px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.5); z-index: 9999; cursor: pointer;
+      padding: 12px 18px; border-radius: 50px; font-weight: 900; font-size: 13px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.5); z-index: 999; cursor: pointer;
+      display: none;
     }
 
     .modal { display: none; position: fixed; inset: 0; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; z-index: 10000; }
@@ -72,74 +91,139 @@
 </head>
 <body>
 
+  <!-- INTRO -->
   <div id="intro-screen">
     <div class="intro-top">
-      <span class="timer-pill">Ingresando en <span id="countdown">15</span>s</span>
+      <span class="timer-pill">Ingresando en <span id="countdown">12</span>s</span>
       <button class="skip-btn" onclick="cerrarIntro()">Saltar intro →</button>
     </div>
-    <div class="intro-body" style="display:flex; flex-direction:column; gap:18px; margin-top:20px;">
-      <h2 class="intro-title">Trabajo <span>Claro</span></h2>
-      <p class="intro-desc">Plataforma transparente de empleos con base de datos en tiempo real.</p>
+    <div class="intro-body" style="display:flex; flex-direction:column; gap:14px; margin-top:20px;">
+      <h2 class="intro-title" style="font-size: 28px;">Trabajo <span>Claro</span></h2>
+      <p class="intro-desc">Bolsa de empleo transparente con validación de sueldos y perfiles profesionales en tiempo real.</p>
     </div>
     <div>
       <button class="btn-submit" onclick="cerrarIntro()">Entrar a la plataforma</button>
     </div>
   </div>
 
-  <button class="floating-admin" onclick="mostrarVista('auth')">🔒 Admin / Login</button>
+  <!-- BOTÓN FLOTANTE DINÁMICO -->
+  <button id="floatingAdminBtn" onclick="mostrarVista('auth')">🔒 Cuenta / Admin</button>
 
   <div class="top-bar">
     <div class="logo-text" onclick="mostrarVista('home')">Trabajo Claro</div>
     <div class="nav-actions">
-      <button class="nav-btn" onclick="mostrarVista('empresas')">Empresas</button>
-      <button class="nav-btn" onclick="mostrarVista('auth')">Mi Perfil</button>
+      <button class="nav-btn" onclick="verificarAccesoEmpresas()">Empresas</button>
+      <button class="nav-btn" onclick="mostrarVista('auth')">Mi Cuenta</button>
     </div>
   </div>
 
   <div id="vista-home">
     <header>
-      <div class="verified-badge">✓ Sistema Operativo</div>
+      <div class="verified-badge">✓ Portal Verificado</div>
       <h1>Trabajo <span>Claro</span></h1>
-      <p class="subtitle">Bolsa de empleo oficial con sueldos transparentes.</p>
+      <p class="subtitle">Empleos reales con salarios claros y postulaciones directas.</p>
     </header>
     <div id="contenedor-empleos" class="jobs-container"></div>
   </div>
 
   <!-- VISTA AUTENTICACIÓN -->
   <div id="vista-auth" class="section-view">
-    <h2>Acceso a la Plataforma</h2>
-    <p>Ingresá con tus datos o usá el botón de acceso rápido para administrador.</p>
+    <div class="tab-toggle">
+      <button class="tab-btn active" id="tabLoginBtn" onclick="cambiarTabAuth('login')">Iniciar Sesión</button>
+      <button class="tab-btn" id="tabRegCandBtn" onclick="cambiarTabAuth('regCandidato')">Nuevo Candidato</button>
+      <button class="tab-btn" id="tabRegEmpBtn" onclick="cambiarTabAuth('regEmpresa')">Nueva Empresa</button>
+    </div>
 
-    <!-- BOTÓN MÁGICO DE ACCESO DIRECTO ADMIN (SIN ESCRIBIR NADA) -->
-    <button class="btn-super-admin" onclick="bypassAdmin()">🚀 ENTRAR DIRECTO COMO ADMIN</button>
+    <!-- SECCIÓN LOGIN -->
+    <div id="formLoginContainer">
+      <h2>Iniciar Sesión</h2>
+      <p>Accedé a tu panel profesional o de postulación.</p>
 
-    <div class="form-group"><label>Correo Electrónico</label><input type="email" id="loginEmail" placeholder="correo@ejemplo.com"></div>
-    <div class="form-group"><label>Contraseña</label><input type="password" id="loginPass" placeholder="Tu contraseña"></div>
-    <button class="btn-submit" onclick="ejecutarLogin()">Iniciar Sesión</button>
+      <button class="btn-super-admin" onclick="bypassAdmin()">🚀 ENTRAR DIRECTO COMO ADMIN</button>
+
+      <div class="form-group"><label>Correo Electrónico</label><input type="email" id="loginEmail" placeholder="correo@ejemplo.com"></div>
+      <div class="form-group"><label>Contraseña</label><input type="password" id="loginPass" placeholder="Tu contraseña"></div>
+      <button class="btn-submit" style="background: var(--primary);" onclick="ejecutarLogin()">Entrar a mi Cuenta</button>
+    </div>
+
+    <!-- PLANILLA REGISTRO CANDIDATO -->
+    <div id="formRegCandidatoContainer" style="display: none;">
+      <h2>Registro de Candidato</h2>
+      <p>Completá tu planilla profesional para postularte.</p>
+      <div class="form-group"><label>Nombre y Apellido</label><input type="text" id="rcNombre" placeholder="Juan Pérez"></div>
+      <div class="form-group"><label>Correo Electrónico</label><input type="email" id="rcEmail" placeholder="juan@email.com"></div>
+      <div class="form-group"><label>Contraseña</label><input type="password" id="rcPass" placeholder="Mínimo 6 caracteres"></div>
+      <div class="form-group"><label>Rubro / Especialidad</label>
+        <select id="rcRubro">
+          <option>Gastronomía / Cocina / Chef</option>
+          <option>Administración / Ventas / Atención</option>
+          <option>Logística / Choferes / Depósito</option>
+          <option>Tecnología / Soporte / Sistemas</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Años de Experiencia</label><input type="text" id="rcExp" placeholder="Ej: 5 años en el sector"></div>
+      <button class="btn-submit" onclick="registrarUsuario('candidato')">Crear Perfil y Registrarse</button>
+    </div>
+
+    <!-- PLANILLA REGISTRO EMPRESA -->
+    <div id="formRegEmpresaContainer" style="display: none;">
+      <h2>Registro de Empresa</h2>
+      <p>Planilla corporativa para publicar avisos laborales.</p>
+      <div class="form-group"><label>Razón Social / Nombre Comercial</label><input type="text" id="reNombre" placeholder="Gastronomía del Sur S.A."></div>
+      <div class="form-group"><label>CUIT / Identificación Fiscal</label><input type="text" id="reCuit" placeholder="30-71234567-9"></div>
+      <div class="form-group"><label>Correo Corporativo</label><input type="email" id="reEmail" placeholder="rrhh@empresa.com"></div>
+      <div class="form-group"><label>Contraseña</label><input type="password" id="rePass" placeholder="Contraseña segura"></div>
+      <button class="btn-submit" style="background: var(--primary);" onclick="registrarUsuario('empresa')">Registrar Empresa y Activar</button>
+    </div>
 
     <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
 
   <!-- EMPRESAS -->
   <div id="vista-empresas" class="section-view">
-    <h2>Área Empresas</h2>
-    <p>Publicá tu vacante con sueldo transparente.</p>
-    <div class="form-group"><label>Puesto</label><input type="text" id="ePuesto" placeholder="Ej: Cocinero / Sushiman"></div>
-    <div class="form-group"><label>Sueldo</label><input type="text" id="eSueldo" placeholder="Ej: $950.000 netos"></div>
-    <button class="btn-submit" onclick="publicarEmpleo()">Publicar Aviso</button>
+    <h2>Publicar Aviso Corporativo</h2>
+    <p>Avisos transparentes con sueldos garantizados (Estándar o Destacado).</p>
+    <div class="form-group"><label>Título del Puesto</label><input type="text" id="ePuesto" placeholder="Ej: Jefe de Cocina / Sushiman Senior"></div>
+    <div class="form-group"><label>Sueldo Neto Ofertado</label><input type="text" id="eSueldo" placeholder="Ej: $1.250.000 netos + propinas"></div>
+    <div class="form-group"><label>Plan de Contratación / Pago</label>
+      <select id="ePlan">
+        <option>🔥 Pack Destacado Pro (Top en búsquedas) - $95.000</option>
+        <option>⭐ Aviso Estándar Verificado - $55.000</option>
+      </select>
+    </div>
+    <button class="btn-submit" onclick="publicarEmpleo()">Procesar Pago y Publicar Aviso</button>
     <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
 
-  <!-- ADMIN -->
+  <!-- PANEL DE ADMINISTRACIÓN ESTILO PORTAL PROFESIONAL -->
   <div id="vista-admin" class="section-view" style="border-color: #f59e0b;">
-    <h2 style="color: #f59e0b;">Panel de Administración</h2>
-    <p>Control total de la base de datos PostgreSQL.</p>
+    <h2 style="color: #f59e0b;">Panel de Control Administrativo</h2>
+    <p>Métricas y supervisión en tiempo real de cuentas y ofertas.</p>
     
-    <h3 style="color: #38bdf8; font-size:14px; margin:15px 0 6px;">📋 Empleos en la Base</h3>
-    <div id="admin-empleos">Cargando...</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Empleos Activos</div>
+        <div class="kpi-number" id="kpiEmpleos">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Usuarios Totales</div>
+        <div class="kpi-number" id="kpiUsuarios">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Empresas</div>
+        <div class="kpi-number" id="kpiEmpresas">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Candidatos</div>
+        <div class="kpi-number" id="kpiCandidatos">0</div>
+      </div>
+    </div>
 
-    <h3 style="color: #34d399; font-size:14px; margin:20px 0 6px;">👤 Usuarios Registrados</h3>
-    <div id="admin-usuarios">Cargando...</div>
+    <h3 style="color: #38bdf8; font-size:14px; margin:15px 0 6px;">📋 Ofertas Laborales en Cartera</h3>
+    <div id="admin-empleos">Cargando empleos...</div>
+
+    <h3 style="color: #34d399; font-size:14px; margin:20px 0 6px;">👥 Cuentas y Perfiles Registrados</h3>
+    <div id="admin-usuarios">Cargando perfiles...</div>
 
     <button class="btn-back" onclick="mostrarVista('home')">← Volver al inicio</button>
   </div>
@@ -155,9 +239,10 @@
   <script>
     let usuarioActual = JSON.parse(localStorage.getItem('usuarioTrabajoClaro')) || null;
 
-    let segundos = 15;
+    let segundos = 12;
     const countdownEl = document.getElementById('countdown');
     const introScreen = document.getElementById('intro-screen');
+
     const intervalo = setInterval(() => {
       segundos--;
       if (countdownEl) countdownEl.innerText = segundos;
@@ -166,7 +251,11 @@
 
     function cerrarIntro() {
       clearInterval(intervalo);
-      introScreen.style.display = 'none';
+      if (introScreen) introScreen.remove(); // Elimina físicamente el elemento de la pantalla para que no estorbe
+      
+      // Muestra el botón flotante de administración una vez finalizada la intro
+      const floatingBtn = document.getElementById('floatingAdminBtn');
+      if (floatingBtn) floatingBtn.style.display = 'block';
     }
 
     function mostrarVista(vista) {
@@ -180,11 +269,30 @@
       if(vista === 'admin') cargarDatosAdmin();
     }
 
-    // ACCESO BURLANDO CUALQUIER ERROR DE LOGIN (ENTRA AL INSTANTE)
+    function cambiarTabAuth(tab) {
+      document.getElementById('formLoginContainer').style.display = tab === 'login' ? 'block' : 'none';
+      document.getElementById('formRegCandidatoContainer').style.display = tab === 'regCandidato' ? 'block' : 'none';
+      document.getElementById('formRegEmpresaContainer').style.display = tab === 'regEmpresa' ? 'block' : 'none';
+      
+      document.getElementById('tabLoginBtn').classList.toggle('active', tab === 'login');
+      document.getElementById('tabRegCandBtn').classList.toggle('active', tab === 'regCandidato');
+      document.getElementById('tabRegEmpBtn').classList.toggle('active', tab === 'regEmpresa');
+    }
+
+    function verificarAccesoEmpresas() {
+      if(usuarioActual && (usuarioActual.rol === 'empresa' || usuarioActual.rol === 'admin')) {
+        mostrarVista('empresas');
+      } else {
+        alertaAccion('Iniciá sesión o registrate con una cuenta de empresa para publicar avisos.');
+        mostrarVista('auth');
+        cambiarTabAuth('regEmpresa');
+      }
+    }
+
     function bypassAdmin() {
       usuarioActual = { nombre: 'Adrian Monges', email: 'adrianmongeschef@gmail.com', rol: 'admin' };
       localStorage.setItem('usuarioTrabajoClaro', JSON.stringify(usuarioActual));
-      alertaAccion('¡Acceso de Administrador concedido con éxito!');
+      alertaAccion('¡Acceso de Administrador concedido!');
       mostrarVista('admin');
     }
 
@@ -193,7 +301,7 @@
       const password = document.getElementById('loginPass').value.trim();
 
       if(!email || !password) {
-        alertaAccion('Completá el correo y la contraseña.');
+        alertaAccion('Completá tu correo y contraseña.');
         return;
       }
 
@@ -221,13 +329,52 @@
       }
     }
 
+    async function registrarUsuario(tipo) {
+      let nombre, email, pass, rol;
+      if(tipo === 'candidato') {
+        nombre = document.getElementById('rcNombre').value.trim();
+        email = document.getElementById('rcEmail').value.trim();
+        pass = document.getElementById('rcPass').value.trim();
+        rol = 'candidato';
+      } else {
+        nombre = document.getElementById('reNombre').value.trim();
+        email = document.getElementById('reEmail').value.trim();
+        pass = document.getElementById('rePass').value.trim();
+        rol = 'empresa';
+      }
+
+      if(!nombre || !email || !pass) {
+        alertaAccion('Por favor, completá todos los campos de la planilla.');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/registro', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nombre, email, password: pass, rol })
+        });
+        const r = await res.json();
+        if(r.success) {
+          usuarioActual = r.user;
+          localStorage.setItem('usuarioTrabajoClaro', JSON.stringify(usuarioActual));
+          alertaAccion(`¡Registro exitoso! Bienvenido, ${usuarioActual.nombre}`);
+          mostrarVista('home');
+        } else {
+          alertaAccion(r.error || 'No se pudo completar el registro.');
+        }
+      } catch(e) {
+        alertaAccion('Error al conectar con el servidor.');
+      }
+    }
+
     async function cargarEmpleos() {
       try {
         const res = await fetch('/api/empleos');
         const lista = await res.json();
         const contenedor = document.getElementById('contenedor-empleos');
         if(lista.length === 0) {
-          contenedor.innerHTML = '<div class="card" style="text-align:center; color:#9ca3af;">No hay empleos publicados todavía.</div>';
+          contenedor.innerHTML = '<div class="card" style="text-align:center; color:#9ca3af;">No hay ofertas laborales activas todavía.</div>';
           return;
         }
         contenedor.innerHTML = lista.map(e => `
@@ -235,11 +382,11 @@
             <div class="card-top">
               <div>
                 <div class="job-title">${e.puesto}</div>
-                <div class="company">📍 ${e.empresa || 'Empresa'}</div>
+                <div class="company">📍 ${e.empresa || 'Empresa Verificada'}</div>
               </div>
               <div class="salary-badge">${e.sueldo}</div>
             </div>
-            <button class="btn-apply" onclick="alertaAccion('¡Postulación registrada con éxito!')">Postularme</button>
+            <button class="btn-apply" onclick="alertaAccion('¡Postulación enviada con éxito! La empresa se comunicará si tu perfil coincide.')">Postularme ahora</button>
           </div>
         `).join('');
       } catch(e) {
@@ -251,27 +398,73 @@
       try {
         const resEmp = await fetch('/api/admin/empleos');
         const empleos = await resEmp.json();
-        document.getElementById('admin-empleos').innerHTML = empleos.length === 0 ? '<div class="admin-card">Sin empleos.</div>' : empleos.map(e => `
-          <div class="admin-card"><strong>#${e.id} - ${e.puesto}</strong> (${e.empresa})<br>💰 ${e.sueldo}</div>
+        
+        // Renderizado detallado de empleos estilo Computrabajo/ZonaJobs
+        document.getElementById('admin-empleos').innerHTML = empleos.length === 0 ? '<div class="admin-item-card">Sin empleos publicados en cartera.</div>' : empleos.map(e => `
+          <div class="admin-item-card">
+            <div class="admin-item-header">
+              <span class="admin-item-title">#${e.id} - ${e.puesto}</span>
+              <span class="admin-badge-rol badge-empresa">${e.plan || 'Plan Estándar'}</span>
+            </div>
+            <div class="admin-item-details">
+              🏢 Empresa: <strong>${e.empresa}</strong><br>
+              💰 Sueldo Ofertado: <span style="color: #34d399; font-weight:700;">${e.sueldo}</span>
+            </div>
+          </div>
         `).join('');
 
         const resUsu = await fetch('/api/admin/usuarios');
         const usuarios = await resUsu.json();
-        document.getElementById('admin-usuarios').innerHTML = usuarios.length === 0 ? '<div class="admin-card">Sin usuarios.</div>' : usuarios.map(u => `
-          <div class="admin-card"><strong>👤 ${u.nombre}</strong> (${u.email})<br>🔑 Rol: <strong>${u.rol}</strong></div>
-        `).join('');
+        
+        // Renderizado detallado de cuentas estilo portal profesional
+        document.getElementById('admin-usuarios').innerHTML = usuarios.length === 0 ? '<div class="admin-item-card">Sin cuentas registradas.</div>' : usuarios.map(u => {
+          let badgeClass = 'badge-candidato';
+          if(u.rol === 'admin') badgeClass = 'badge-admin';
+          if(u.rol === 'empresa') badgeClass = 'badge-empresa';
+
+          return `
+            <div class="admin-item-card">
+              <div class="admin-item-header">
+                <span class="admin-item-title">👤 ${u.nombre}</span>
+                <span class="admin-badge-rol ${badgeClass}">${u.rol.toUpperCase()}</span>
+              </div>
+              <div class="admin-item-details">
+                📧 Correo: ${u.email}<br>
+                📅 Alta en Sistema: ${u.created_at ? u.created_at.substring(0, 10) : 'Reciente'}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        const totalEmpresas = usuarios.filter(u => u.rol === 'empresa').length;
+        const totalCandidatos = usuarios.filter(u => u.rol === 'candidato').length;
+        document.getElementById('kpiEmpleos').innerText = empleos.length;
+        document.getElementById('kpiUsuarios').innerText = usuarios.length;
+        document.getElementById('kpiEmpresas').innerText = totalEmpresas;
+        document.getElementById('kpiCandidatos').innerText = totalCandidatos;
+
       } catch(e) {
         console.error(e);
       }
     }
 
     async function publicarEmpleo() {
+      const puesto = document.getElementById('ePuesto').value.trim();
+      const sueldo = document.getElementById('eSueldo').value.trim();
+      const plan = document.getElementById('ePlan').value;
+
+      if(!puesto || !sueldo) {
+        alertaAccion('Completá el título del puesto y el sueldo ofertado.');
+        return;
+      }
+
       const data = {
         empresa: usuarioActual ? usuarioActual.nombre : 'Empresa Verificada',
-        puesto: document.getElementById('ePuesto').value,
-        sueldo: document.getElementById('eSueldo').value,
-        plan: 'Aviso Estándar'
+        puesto,
+        sueldo,
+        plan
       };
+
       const res = await fetch('/api/empleos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -279,10 +472,10 @@
       });
       const r = await res.json();
       if(r.success) {
-        alertaAccion('¡Publicado con éxito!');
+        alertaAccion('¡Aviso publicado y verificado en la base de datos!');
         mostrarVista('home');
       } else {
-        alertaAccion('Error al publicar.');
+        alertaAccion('Error al publicar el empleo.');
       }
     }
 
