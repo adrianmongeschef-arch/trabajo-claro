@@ -251,6 +251,11 @@
       font-size: 12.5px;
       display: none;
     }
+    .msg-err {
+      background: rgba(239, 68, 68, 0.16);
+      border-color: rgba(239, 68, 68, 0.45);
+      color: #fecaca;
+    }
   </style>
 </head>
 <body>
@@ -299,12 +304,27 @@
       <div class="menu-grid">
         <button class="btn btn-sky" onclick="abrirSeccion('empleos')">💼 Búsquedas Activas</button>
         <button class="btn btn-green" onclick="abrirSeccion('pasarela')">💳 Pasarela y Cobros</button>
-        <button class="btn btn-amber btn-full" onclick="abrirSeccion('admin')">🔒 Panel de Administrador</button>
-        <button class="btn btn-dark" onclick="abrirSeccion('cuentaAdmin')">⚙️ Cuenta Única y Admin</button>
+        <button class="btn btn-amber btn-full" onclick="solicitarAdmin('admin')">🔒 Panel de Administrador</button>
+        <button class="btn btn-dark" onclick="solicitarAdmin('cuentaAdmin')">⚙️ Cuenta Única y Admin</button>
         <button class="btn btn-dark" onclick="volverBienvenida()">👋 Ver Bienvenida</button>
       </div>
 
       <div id="aviso" class="msg"></div>
+
+      <div id="loginAdmin" class="view">
+        <h2>Acceso de Administrador</h2>
+        <p class="desc" id="loginSubtexto">Ingresá tu correo de administrador y tu código de 4 dígitos.</p>
+
+        <div class="field">
+          <label>Correo de Administrador</label>
+          <input type="email" id="loginEmail" placeholder="adrianmongeschef@gmail.com">
+        </div>
+        <div class="field">
+          <label>Código de 4 Dígitos</label>
+          <input type="password" id="loginPin" inputmode="numeric" maxlength="4" placeholder="••••">
+        </div>
+        <button class="btn btn-amber" onclick="validarAccesoAdmin()">Ingresar al Panel</button>
+      </div>
 
       <div id="empleos" class="view">
         <h2>Búsquedas Laborales Activas</h2>
@@ -353,7 +373,7 @@
 
       <div id="cuentaAdmin" class="view">
         <h2>Configuración de Admin y Cuenta Única</h2>
-        <p class="desc">Guardá tus datos personales de administrador y los de tu cuenta única para recibir cobros. Quedan guardados en este dispositivo.</p>
+        <p class="desc">Guardá tus datos personales de administrador, tu código de 4 dígitos y los de tu cuenta única para recibir cobros.</p>
 
         <div class="field">
           <label>Nombre del Administrador</label>
@@ -361,7 +381,11 @@
         </div>
         <div class="field">
           <label>Correo de Administración</label>
-          <input id="cfgEmail" placeholder="Tu correo electrónico">
+          <input id="cfgEmail" placeholder="adrianmongeschef@gmail.com">
+        </div>
+        <div class="field">
+          <label>Código de Acceso (4 Dígitos)</label>
+          <input id="cfgPin" inputmode="numeric" maxlength="4" placeholder="Ej: 1234">
         </div>
         <div class="field">
           <label>Banco / Billetera de Cuenta Única</label>
@@ -372,6 +396,7 @@
           <input id="cfgAlias" placeholder="Tu alias, CBU o CVU">
         </div>
         <button class="btn btn-sky" onclick="guardarConfigAdmin()">Guardar Datos Fijos</button>
+        <button class="btn btn-dark" onclick="cerrarSesionAdmin()">🔒 Bloquear Acceso Admin</button>
       </div>
 
       <div id="admin" class="view">
@@ -405,11 +430,14 @@
 
         <h3>⚡ Historial de Eventos</h3>
         <div id="listaEventos"><div class="box">Sin eventos recientes.</div></div>
+
+        <button class="btn btn-dark btn-full" onclick="cerrarSesionAdmin()">🔒 Bloquear Acceso Admin</button>
       </div>
     </div>
   </div>
 
   <script>
+    const MAIL_ADMIN_AUTORIZADO = 'adrianmongeschef@gmail.com';
     const empleosDemo = [
       { id: 1, puesto: 'Jefe de Cocina / Sushiman', empresa: 'Búsqueda Verificada', sueldo: '$1.250.000 netos' },
       { id: 2, puesto: 'Encargado de Salón y Turno', empresa: 'Búsqueda Verificada', sueldo: '$1.050.000 netos' }
@@ -430,12 +458,15 @@
       } catch (e) {}
     }
 
-    let configAdmin = leer('tc_admin_fijo_v1', {
+    let configAdmin = leer('tc_admin_fijo_v2', {
       nombre: '',
-      email: '',
+      email: MAIL_ADMIN_AUTORIZADO,
+      pin: '',
       banco: '',
       alias: ''
     });
+    let adminDesbloqueado = false;
+    let seccionPendienteAdmin = 'admin';
     let pagos = leer('tc_pagos_full', []);
     let eventos = leer('tc_eventos_full', []);
     let postulaciones = leer('tc_post_full', []);
@@ -462,10 +493,11 @@
       }
     }
 
-    function notificar(texto) {
+    function notificar(texto, esError) {
       const el = document.getElementById('aviso');
       if (!el) return;
       el.innerText = texto;
+      el.className = esError ? 'msg msg-err' : 'msg';
       el.style.display = 'block';
     }
 
@@ -477,7 +509,7 @@
     }
 
     function abrirSeccion(id) {
-      ['empleos', 'pasarela', 'cuentaAdmin', 'admin'].forEach(v => {
+      ['loginAdmin', 'empleos', 'pasarela', 'cuentaAdmin', 'admin'].forEach(v => {
         const el = document.getElementById(v);
         if (el) el.style.display = v === id ? 'block' : 'none';
       });
@@ -487,148 +519,78 @@
       if (id === 'admin') pintarAdmin();
     }
 
+    function solicitarAdmin(destino) {
+      seccionPendienteAdmin = destino || 'admin';
+      if (adminDesbloqueado) {
+        abrirSeccion(seccionPendienteAdmin);
+        return;
+      }
+      document.getElementById('loginEmail').value = configAdmin.email || MAIL_ADMIN_AUTORIZADO;
+      document.getElementById('loginPin').value = '';
+      const sub = document.getElementById('loginSubtexto');
+      if (!configAdmin.pin || !/^\d{4}$/.test(configAdmin.pin)) {
+        sub.innerText = 'Primera vez: ingresá tu correo y definí tu código de 4 dígitos para proteger el panel.';
+      } else {
+        sub.innerText = 'Ingresá tu correo de administrador y tu código de 4 dígitos.';
+      }
+      abrirSeccion('loginAdmin');
+    }
+
+    function validarAccesoAdmin() {
+      const emailIngresado = (document.getElementById('loginEmail').value || '').trim().toLowerCase();
+      const pinIngresado = (document.getElementById('loginPin').value || '').trim();
+      const mailEsperado = (configAdmin.email || MAIL_ADMIN_AUTORIZADO).trim().toLowerCase();
+
+      if (emailIngresado !== MAIL_ADMIN_AUTORIZADO && emailIngresado !== mailEsperado) {
+        notificar('Correo de administrador no autorizado.', true);
+        return;
+      }
+
+      if (!/^\d{4}$/.test(pinIngresado)) {
+        notificar('El código debe tener exactamente 4 números.', true);
+        return;
+      }
+
+      if (!configAdmin.pin || !/^\d{4}$/.test(configAdmin.pin)) {
+        configAdmin.email = emailIngresado;
+        configAdmin.pin = pinIngresado;
+        guardar('tc_admin_fijo_v2', configAdmin);
+        adminDesbloqueado = true;
+        agregarEvento('PIN admin creado', 'Código de 4 dígitos configurado.');
+        notificar('Código de 4 dígitos guardado. Acceso concedido.');
+        abrirSeccion(seccionPendienteAdmin);
+        return;
+      }
+
+      if (pinIngresado !== configAdmin.pin) {
+        notificar('Código de 4 dígitos incorrecto.', true);
+        return;
+      }
+
+      adminDesbloqueado = true;
+      notificar('Acceso de administrador verificado.');
+      abrirSeccion(seccionPendienteAdmin);
+    }
+
+    function cerrarSesionAdmin() {
+      adminDesbloqueado = false;
+      notificar('Sesión de administrador bloqueada.');
+      abrirSeccion('empleos');
+    }
+
     function cargarInputsConfig() {
       document.getElementById('cfgNombre').value = configAdmin.nombre || '';
-      document.getElementById('cfgEmail').value = configAdmin.email || '';
+      document.getElementById('cfgEmail').value = configAdmin.email || MAIL_ADMIN_AUTORIZADO;
+      document.getElementById('cfgPin').value = configAdmin.pin || '';
       document.getElementById('cfgBanco').value = configAdmin.banco || '';
       document.getElementById('cfgAlias').value = configAdmin.alias || '';
     }
 
     function guardarConfigAdmin() {
-      configAdmin = {
-        nombre: (document.getElementById('cfgNombre').value || '').trim(),
-        email: (document.getElementById('cfgEmail').value || '').trim(),
-        banco: (document.getElementById('cfgBanco').value || '').trim(),
-        alias: (document.getElementById('cfgAlias').value || '').trim()
-      };
-      guardar('tc_admin_fijo_v1', configAdmin);
-      agregarEvento('Datos de admin guardados', `Cuenta única: ${configAdmin.alias || 'Pendiente'}`);
-      notificar('Tus datos de administrador y cuenta única quedaron guardados.');
-      abrirSeccion('admin');
-    }
-
-    function pintarPasarela() {
-      document.getElementById('resumenCuentaPasarela').innerHTML = `
-        <div class="box-top">
-          <strong>🏦 Cuenta Única de Destino</strong>
-          <span class="pill pill-ok">CUENTA ÚNICA</span>
-        </div>
-        <div><strong>Titular / Admin:</strong> ${configAdmin.nombre || 'Aún no cargado'}</div>
-        <div><strong>Entidad:</strong> ${configAdmin.banco || 'Aún no cargada'}</div>
-        <div><strong>Alias / CBU / CVU:</strong> ${configAdmin.alias || 'Aún no cargado'}</div>
-      `;
-    }
-
-    function registrarCobro() {
-      const empresa = (document.getElementById('pEmpresa').value || '').trim() || 'Empresa Cliente';
-      const puesto = (document.getElementById('pPuesto').value || '').trim() || 'Puesto Laboral';
-      const medio = document.getElementById('pMedio').value;
-      const sel = document.getElementById('pPlan');
-      const monto = Number(sel.value) || 55000;
-      const plan = sel.options[sel.selectedIndex].text;
-      const fecha = new Date().toLocaleString('es-AR');
-
-      pagos.unshift({
-        empresa,
-        puesto,
-        medio,
-        plan,
-        monto,
-        cuentaDestino: configAdmin.alias || 'Cuenta Única',
-        fecha,
-        estado: 'CONFIRMADO'
-      });
-      guardar('tc_pagos_full', pagos);
-      agregarEvento('Cobro registrado', `${pesos(monto)} de ${empresa} vía ${medio}`);
-
-      document.getElementById('pEmpresa').value = '';
-      document.getElementById('pPuesto').value = '';
-      notificar(`Cobro de ${pesos(monto)} registrado.`);
-      abrirSeccion('admin');
-    }
-
-    function postular(puesto, empresa) {
-      vistas += 1;
-      guardar('tc_vistas_full', vistas);
-      postulaciones.unshift({ puesto, empresa, fecha: new Date().toLocaleString('es-AR') });
-      guardar('tc_post_full', postulaciones);
-      agregarEvento('Nueva postulación', `${puesto} (${empresa})`);
-      notificar(`Postulación registrada para "${puesto}".`);
-    }
-
-    function pintarEmpleos() {
-      vistas += empleosDemo.length;
-      guardar('tc_vistas_full', vistas);
-      const cont = document.getElementById('listaEmpleos');
-      cont.innerHTML = empleosDemo.map((e, idx) => `
-        <div class="box">
-          <div class="box-top">
-            <strong>${e.puesto}</strong>
-            <span class="pill pill-ok">${e.sueldo}</span>
-          </div>
-          <div>🏢 ${e.empresa}</div>
-          <button class="btn btn-sky" style="margin-top:8px;" data-pidx="${idx}">Postularme ahora</button>
-        </div>
-      `).join('');
-
-      cont.querySelectorAll('button[data-pidx]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const item = empleosDemo[Number(btn.getAttribute('data-pidx'))];
-          if (item) postular(item.puesto, item.empresa);
-        });
-      });
-    }
-
-    function pintarAdmin() {
-      const total = pagos.reduce((acc, p) => acc + (Number(p.monto) || 0), 0);
-      document.getElementById('kpiTotal').innerText = pesos(total);
-      document.getElementById('kpiCant').innerText = pagos.length;
-      document.getElementById('kpiPost').innerText = postulaciones.length;
-      document.getElementById('kpiVistas').innerText = vistas;
-
-      document.getElementById('datosAdminBox').innerHTML = `
-        <div class="box-top">
-          <strong>${configAdmin.nombre || 'Administrador (sin cargar)'}</strong>
-          <span class="pill">ADMIN</span>
-        </div>
-        <div>📧 <strong>Correo:</strong> ${configAdmin.email || 'Aún no cargado'}</div>
-        <div>🏦 <strong>Cuenta Única:</strong> ${configAdmin.banco || 'Aún no cargada'}</div>
-        <div>🔑 <strong>Alias / CBU:</strong> ${configAdmin.alias || 'Aún no cargado'}</div>
-      `;
-
-      const pagosEl = document.getElementById('listaPagos');
-      if (pagos.length === 0) {
-        pagosEl.innerHTML = '<div class="box">Todavía no hay cobros registrados.</div>';
-      } else {
-        pagosEl.innerHTML = pagos.map(p => `
-          <div class="box">
-            <div class="box-top">
-              <strong>${pesos(p.monto)} — ${p.empresa}</strong>
-              <span class="pill pill-ok">${p.estado}</span>
-            </div>
-            <div>💼 <strong>Puesto:</strong> ${p.puesto}</div>
-            <div>💳 <strong>Medio:</strong> ${p.medio} | <strong>Plan:</strong> ${p.plan}</div>
-            <div>🏦 <strong>Destino:</strong> ${p.cuentaDestino || 'Cuenta Única'}</div>
-            <div style="color:#9ca3af; font-size:11px; margin-top:4px;">🕒 ${p.fecha}</div>
-          </div>
-        `).join('');
+      const nuevoPin = (document.getElementById('cfgPin').value || '').trim();
+      if (nuevoPin && !/^\d{4}$/.test(nuevoPin)) {
+        notificar('El código de acceso debe ser de 4 dígitos numéricos.', true);
+        return;
       }
 
-      const evEl = document.getElementById('listaEventos');
-      if (eventos.length === 0) {
-        evEl.innerHTML = '<div class="box">Sin eventos recientes.</div>';
-      } else {
-        evEl.innerHTML = eventos.map(ev => `
-          <div class="box">
-            <div class="box-top">
-              <strong>⚡ ${ev.titulo}</strong>
-              <span class="pill">${ev.hora}</span>
-            </div>
-            <div>${ev.detalle}</div>
-          </div>
-        `).join('');
-      }
-    }
-  </script>
-</body>
-</html>
+ 
