@@ -3,85 +3,510 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trabajo Claro</title>
+  <title>Trabajo Claro | Panel y Cobros</title>
   <style>
-    body { margin: 0; padding: 16px; background: #030712; color: #f9fafb; font-family: sans-serif; }
-    .box { max-width: 500px; margin: 0 auto; background: #111827; border: 1px solid #38bdf8; border-radius: 14px; padding: 18px; }
-    h1 { color: #38bdf8; font-size: 22px; margin: 0 0 8px; }
-    h2 { color: #f59e0b; font-size: 18px; margin: 0 0 8px; }
-    button { width: 100%; padding: 12px; margin-top: 8px; border: none; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; }
-    .b-admin { background: #f59e0b; color: #030712; }
-    .b-pago { background: #10b981; color: #030712; }
-    .b-ver { background: #38bdf8; color: #030712; }
-    .sec { display: none; margin-top: 14px; padding: 12px; background: #030712; border-radius: 10px; }
-    input, select { width: 100%; padding: 10px; margin: 6px 0 10px; border-radius: 8px; border: 1px solid #374151; background: #111827; color: #fff; box-sizing: border-box; }
-    .card { background: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 10px; margin-top: 8px; font-size: 13px; }
+    :root {
+      --bg: #030712;
+      --card: #111827;
+      --card-2: #0b1220;
+      --border: #1f2937;
+      --sky: #38bdf8;
+      --green: #10b981;
+      --amber: #f59e0b;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 14px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .app {
+      max-width: 560px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .head {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+    .tag {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    h1 { margin: 0; font-size: 24px; color: #fff; }
+    h1 span { color: var(--sky); }
+    .sub { margin: 6px 0 0; font-size: 13px; color: var(--muted); line-height: 1.45; }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .btn-full { grid-column: 1 / -1; }
+    .btn-amber { background: var(--amber); color: #030712; font-size: 14px; }
+    .btn-sky { background: var(--sky); color: #030712; }
+    .btn-green { background: var(--green); color: #030712; }
+    .btn-dark { background: var(--card-2); color: var(--text); border: 1px solid var(--border); }
+
+    .view {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+    h2 { margin: 0 0 6px; font-size: 18px; color: var(--amber); }
+    h3 { margin: 16px 0 8px; font-size: 14px; color: var(--sky); }
+    .desc { margin: 0 0 12px; font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .kpi {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+    .kpi-lbl { font-size: 10.5px; color: var(--muted); text-transform: uppercase; font-weight: 700; }
+    .kpi-val { font-size: 19px; font-weight: 900; color: var(--sky); margin-top: 4px; }
+
+    .box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 10px;
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
+    .box-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .pill {
+      background: rgba(56, 189, 248, 0.16);
+      color: var(--sky);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .pill-ok {
+      background: rgba(16, 185, 129, 0.16);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+
+    .field { margin-bottom: 10px; }
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .field input, .field select {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .metodos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .metodo-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .msg {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #d1fae5;
+      font-size: 12.5px;
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>Trabajo Claro</h1>
-    <button class="b-admin" onclick="ver('admin')">Entrar a Admin</button>
-    <button class="b-pago" onclick="ver('formPago')">Cargar Pago</button>
-    <button class="b-ver" onclick="ver('empleos')">Ver Empleos</button>
-
-    <div id="admin" class="sec">
-      <h2>Panel Admin</h2>
-      <div class="card">Total Cobrado: <strong id="total">$0</strong></div>
-      <div id="listaPagos"></div>
+  <div class="app">
+    <div class="head">
+      <div class="tag">✓ Trabajo Claro • Gestión Activa</div>
+      <h1>Trabajo <span>Claro</span></h1>
+      <p class="sub">Panel de control, cuenta única de cobros, pasarela de pago y búsquedas en un solo lugar.</p>
     </div>
 
-    <div id="formPago" class="sec">
-      <h2>Cargar Pago</h2>
-      <input id="emp" placeholder="Nombre de la empresa">
-      <input id="pue" placeholder="Puesto">
-      <select id="plan">
-        <option value="95000">Pack Destacado Pro - $95.000</option>
-        <option value="55000">Aviso Estándar - $55.000</option>
-      </select>
-      <button class="b-pago" onclick="guardarPago()">Guardar Pago</button>
+    <div class="menu-grid">
+      <button class="btn btn-amber btn-full" onclick="abrir('admin')">🔒 Entrar a Admin y Ver Mis Datos</button>
+      <button class="btn btn-green" onclick="abrir('pasarela')">💳 Pasarela y Cobros</button>
+      <button class="btn btn-sky" onclick="abrir('empleos')">💼 Búsquedas Activas</button>
+      <button class="btn btn-dark btn-full" onclick="abrir('cuentaAdmin')">⚙️ Configurar Cuenta Única y Admin</button>
     </div>
 
-    <div id="empleos" class="sec">
-      <h2>Empleos Activos</h2>
-      <div class="card"><strong>Sushiman</strong> — Cocina Nikkei — $1.150.000</div>
-      <div class="card"><strong>Encargado de Salón</strong> — Local Verificado — $1.050.000</div>
+    <div id="aviso" class="msg"></div>
+
+    <div id="admin" class="view">
+      <h2>Panel de Administrador</h2>
+      <p class="desc">Resumen general de tu cuenta, ingresos registrados, postulaciones y actividad.</p>
+
+      <div class="kpis">
+        <div class="kpi">
+          <div class="kpi-lbl">Total Cobrado</div>
+          <div class="kpi-val" id="kpiTotal" style="color:#34d399;">$0</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-lbl">Cobros Registrados</div>
+          <div class="kpi-val" id="kpiCant">0</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-lbl">Postulaciones</div>
+          <div class="kpi-val" id="kpiPost">0</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-lbl">Vistas Registradas</div>
+          <div class="kpi-val" id="kpiVistas">0</div>
+        </div>
+      </div>
+
+      <h3>👤 Datos del Administrador y Cuenta Única</h3>
+      <div id="datosAdminBox" class="box"></div>
+
+      <h3>💳 Detalle de Pagos y Cobros</h3>
+      <div id="listaPagos"><div class="box">Todavía no hay cobros registrados.</div></div>
+
+      <h3>⚡ Historial de Eventos</h3>
+      <div id="listaEventos"><div class="box">Sin eventos recientes.</div></div>
+    </div>
+
+    <div id="pasarela" class="view">
+      <h2>Pasarela de Pago y Cobro</h2>
+      <p class="desc">Cargá un cobro de empresa o revisá los medios habilitados y tu cuenta única de destino.</p>
+
+      <div class="metodos">
+        <div class="metodo-card">💳 Tarjetas / Mercado Pago</div>
+        <div class="metodo-card">🏦 Transferencia / CBU / Alias</div>
+        <div class="metodo-card">📱 Link / QR de Pago</div>
+        <div class="metodo-card">🧾 Comprobante Registrado</div>
+      </div>
+
+      <div id="resumenCuentaPasarela" class="box"></div>
+
+      <div class="field">
+        <label>Empresa que abona</label>
+        <input id="pEmpresa" placeholder="Ej: Grupo Gastronómico S.A.">
+      </div>
+      <div class="field">
+        <label>Puesto publicado</label>
+        <input id="pPuesto" placeholder="Ej: Jefe de Cocina / Sushiman">
+      </div>
+      <div class="field">
+        <label>Medio de pago utilizado</label>
+        <select id="pMedio">
+          <option>Transferencia Bancaria (Cuenta Única)</option>
+          <option>Mercado Pago</option>
+          <option>Tarjeta Crédito / Débito</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Plan y monto</label>
+        <select id="pPlan">
+          <option value="95000">Pack Destacado Pro - $95.000</option>
+          <option value="55000">Aviso Estándar Verificado - $55.000</option>
+        </select>
+      </div>
+      <button class="btn btn-green" onclick="registrarCobro()">Confirmar y Registrar Cobro</button>
+    </div>
+
+    <div id="cuentaAdmin" class="view">
+      <h2>Configuración de Admin y Cuenta Única</h2>
+      <p class="desc">Guardá tus datos de administrador y los datos de tu cuenta única para recibir cobros.</p>
+
+      <div class="field">
+        <label>Nombre del Administrador</label>
+        <input id="cfgNombre" placeholder="Ej: Adrian Monges">
+      </div>
+      <div class="field">
+        <label>Correo de Administración</label>
+        <input id="cfgEmail" placeholder="Ej: correo@ejemplo.com">
+      </div>
+      <div class="field">
+        <label>Banco / Billetera de Cuenta Única</label>
+        <input id="cfgBanco" placeholder="Ej: Banco Santander / Mercado Pago">
+      </div>
+      <div class="field">
+        <label>Alias o CBU / CVU de Cobro</label>
+        <input id="cfgAlias" placeholder="Ej: TRABAJOCLARO.COBRO">
+      </div>
+      <button class="btn btn-sky" onclick="guardarConfigAdmin()">Guardar Datos de Admin y Cuenta</button>
+    </div>
+
+    <div id="empleos" class="view">
+      <h2>Búsquedas Laborales Activas</h2>
+      <p class="desc">Avisos con condiciones claras y registro de postulaciones.</p>
+      <div id="listaEmpleos"></div>
     </div>
   </div>
 
   <script>
-    let pagos = [];
-    try { pagos = JSON.parse(localStorage.getItem('tc_pagos_simple') || '[]'); } catch (e) { pagos = []; }
+    const empleosDemo = [
+      { id: 1, puesto: 'Jefe de Cocina / Sushiman', empresa: 'Cocina Nikkei Verificada', sueldo: '$1.250.000 netos' },
+      { id: 2, puesto: 'Encargado de Salón y Turno', empresa: 'Gastronomía CABA', sueldo: '$1.050.000 netos' }
+    ];
 
-    function ver(id) {
-      ['admin', 'formPago', 'empleos'].forEach(s => {
-        const el = document.getElementById(s);
-        if (el) el.style.display = s === id ? 'block' : 'none';
-      });
-      if (id === 'admin') pintarPagos();
-    }
-
-    function guardarPago() {
-      const emp = (document.getElementById('emp').value || '').trim() || 'Empresa';
-      const pue = (document.getElementById('pue').value || '').trim() || 'Puesto';
-      const monto = Number(document.getElementById('plan').value) || 55000;
-      pagos.unshift({ emp, pue, monto });
-      try { localStorage.setItem('tc_pagos_simple', JSON.stringify(pagos)); } catch (e) {}
-      document.getElementById('emp').value = '';
-      document.getElementById('pue').value = '';
-      ver('admin');
-    }
-
-    function pintarPagos() {
-      let suma = 0;
-      let html = '';
-      for (let i = 0; i < pagos.length; i++) {
-        suma += Number(pagos[i].monto) || 0;
-        html += '<div class="card"><strong>$' + Number(pagos[i].monto).toLocaleString('es-AR') + '</strong> — ' + pagos[i].emp + ' (' + pagos[i].pue + ')</div>';
+    function leer(clave, defecto) {
+      try {
+        const raw = localStorage.getItem(clave);
+        return raw ? JSON.parse(raw) : defecto;
+      } catch (e) {
+        return defecto;
       }
-      document.getElementById('total').innerText = '$' + suma.toLocaleString('es-AR');
-      document.getElementById('listaPagos').innerHTML = html || '<div class="card">Sin pagos todavía.</div>';
+    }
+
+    function guardar(clave, valor) {
+      try {
+        localStorage.setItem(clave, JSON.stringify(valor));
+      } catch (e) {}
+    }
+
+    let configAdmin = leer('tc_cfg_admin', {
+      nombre: 'Administrador Trabajo Claro',
+      email: 'admin@trabajoclaro.ar',
+      banco: 'Cuenta Única de Cobros',
+      alias: 'TRABAJOCLARO.COBRO'
+    });
+    let pagos = leer('tc_pagos_full', []);
+    let eventos = leer('tc_eventos_full', []);
+    let postulaciones = leer('tc_post_full', []);
+    let vistas = Number(leer('tc_vistas_full', 0)) || 0;
+
+    function pesos(n) {
+      try {
+        return '$' + Number(n || 0).toLocaleString('es-AR');
+      } catch (e) {
+        return '$' + String(n || 0);
+      }
+    }
+
+    function notificar(texto) {
+      const el = document.getElementById('aviso');
+      if (!el) return;
+      el.innerText = texto;
+      el.style.display = 'block';
+    }
+
+    function agregarEvento(titulo, detalle) {
+      const hora = new Date().toTimeString().slice(0, 8);
+      eventos.unshift({ titulo, detalle, hora });
+      eventos = eventos.slice(0, 40);
+      guardar('tc_eventos_full', eventos);
+    }
+
+    function abrir(id) {
+      ['admin', 'pasarela', 'cuentaAdmin', 'empleos'].forEach(v => {
+        const el = document.getElementById(v);
+        if (el) el.style.display = v === id ? 'block' : 'none';
+      });
+      if (id === 'admin') pintarAdmin();
+      if (id === 'pasarela') pintarPasarela();
+      if (id === 'cuentaAdmin') cargarInputsConfig();
+      if (id === 'empleos') pintarEmpleos();
+    }
+
+    function cargarInputsConfig() {
+      document.getElementById('cfgNombre').value = configAdmin.nombre || '';
+      document.getElementById('cfgEmail').value = configAdmin.email || '';
+      document.getElementById('cfgBanco').value = configAdmin.banco || '';
+      document.getElementById('cfgAlias').value = configAdmin.alias || '';
+    }
+
+    function guardarConfigAdmin() {
+      configAdmin = {
+        nombre: (document.getElementById('cfgNombre').value || '').trim() || 'Administrador Trabajo Claro',
+        email: (document.getElementById('cfgEmail').value || '').trim() || 'admin@trabajoclaro.ar',
+        banco: (document.getElementById('cfgBanco').value || '').trim() || 'Cuenta Única de Cobros',
+        alias: (document.getElementById('cfgAlias').value || '').trim() || 'TRABAJOCLARO.COBRO'
+      };
+      guardar('tc_cfg_admin', configAdmin);
+      agregarEvento('Configuración actualizada', `Cuenta única: ${configAdmin.alias} (${configAdmin.banco})`);
+      notificar('Datos de administrador y cuenta única guardados.');
+      abrir('admin');
+    }
+
+    function pintarPasarela() {
+      document.getElementById('resumenCuentaPasarela').innerHTML = `
+        <div class="box-top">
+          <strong>🏦 Cuenta Única de Destino</strong>
+          <span class="pill pill-ok">ACTIVA</span>
+        </div>
+        <div><strong>Entidad:</strong> ${configAdmin.banco}</div>
+        <div><strong>Alias / CBU / CVU:</strong> ${configAdmin.alias}</div>
+        <div><strong>Titular / Admin:</strong> ${configAdmin.nombre}</div>
+      `;
+    }
+
+    function registrarCobro() {
+      const empresa = (document.getElementById('pEmpresa').value || '').trim() || 'Empresa Cliente';
+      const puesto = (document.getElementById('pPuesto').value || '').trim() || 'Puesto Laboral';
+      const medio = document.getElementById('pMedio').value;
+      const sel = document.getElementById('pPlan');
+      const monto = Number(sel.value) || 55000;
+      const plan = sel.options[sel.selectedIndex].text;
+      const fecha = new Date().toLocaleString('es-AR');
+
+      pagos.unshift({
+        empresa,
+        puesto,
+        medio,
+        plan,
+        monto,
+        cuentaDestino: configAdmin.alias,
+        fecha,
+        estado: 'CONFIRMADO'
+      });
+      guardar('tc_pagos_full', pagos);
+      agregarEvento('Cobro registrado', `${pesos(monto)} de ${empresa} vía ${medio}`);
+
+      document.getElementById('pEmpresa').value = '';
+      document.getElementById('pPuesto').value = '';
+      notificar(`Cobro de ${pesos(monto)} registrado a favor de ${configAdmin.alias}.`);
+      abrir('admin');
+    }
+
+    function postular(puesto, empresa) {
+      vistas += 1;
+      guardar('tc_vistas_full', vistas);
+      postulaciones.unshift({ puesto, empresa, fecha: new Date().toLocaleString('es-AR') });
+      guardar('tc_post_full', postulaciones);
+      agregarEvento('Nueva postulación', `${puesto} (${empresa})`);
+      notificar(`Postulación registrada para "${puesto}".`);
+    }
+
+    function pintarEmpleos() {
+      vistas += empleosDemo.length;
+      guardar('tc_vistas_full', vistas);
+      const cont = document.getElementById('listaEmpleos');
+      cont.innerHTML = empleosDemo.map((e, idx) => `
+        <div class="box">
+          <div class="box-top">
+            <strong>${e.puesto}</strong>
+            <span class="pill pill-ok">${e.sueldo}</span>
+          </div>
+          <div>🏢 ${e.empresa}</div>
+          <button class="btn btn-sky" style="margin-top:8px;" data-pidx="${idx}">Postularme ahora</button>
+        </div>
+      `).join('');
+
+      cont.querySelectorAll('button[data-pidx]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = empleosDemo[Number(btn.getAttribute('data-pidx'))];
+          if (item) postular(item.puesto, item.empresa);
+        });
+      });
+    }
+
+    function pintarAdmin() {
+      const total = pagos.reduce((acc, p) => acc + (Number(p.monto) || 0), 0);
+      document.getElementById('kpiTotal').innerText = pesos(total);
+      document.getElementById('kpiCant').innerText = pagos.length;
+      document.getElementById('kpiPost').innerText = postulaciones.length;
+      document.getElementById('kpiVistas').innerText = vistas;
+
+      document.getElementById('datosAdminBox').innerHTML = `
+        <div class="box-top">
+          <strong>${configAdmin.nombre}</strong>
+          <span class="pill">ADMIN</span>
+        </div>
+        <div>📧 <strong>Correo:</strong> ${configAdmin.email}</div>
+        <div>🏦 <strong>Cuenta Única:</strong> ${configAdmin.banco}</div>
+        <div>🔑 <strong>Alias / CBU:</strong> ${configAdmin.alias}</div>
+      `;
+
+      const pagosEl = document.getElementById('listaPagos');
+      if (pagos.length === 0) {
+        pagosEl.innerHTML = '<div class="box">Todavía no hay cobros registrados.</div>';
+      } else {
+        pagosEl.innerHTML = pagos.map(p => `
+          <div class="box">
+            <div class="box-top">
+              <strong>${pesos(p.monto)} — ${p.empresa}</strong>
+              <span class="pill pill-ok">${p.estado}</span>
+            </div>
+            <div>💼 <strong>Puesto:</strong> ${p.puesto}</div>
+            <div>💳 <strong>Medio:</strong> ${p.medio} | <strong>Plan:</strong> ${p.plan}</div>
+            <div>🏦 <strong>Destino:</strong> ${p.cuentaDestino || configAdmin.alias}</div>
+            <div style="color:#9ca3af; font-size:11px; margin-top:4px;">🕒 ${p.fecha}</div>
+          </div>
+        `).join('');
+      }
+
+      const evEl = document.getElementById('listaEventos');
+      if (eventos.length === 0) {
+        evEl.innerHTML = '<div class="box">Sin eventos recientes.</div>';
+      } else {
+        evEl.innerHTML = eventos.map(ev => `
+          <div class="box">
+            <div class="box-top">
+              <strong>⚡ ${ev.titulo}</strong>
+              <span class="pill">${ev.hora}</span>
+            </div>
+            <div>${ev.detalle}</div>
+          </div>
+        `).join('');
+      }
     }
   </script>
 </body>
-</html>
+  </html>
+  
