@@ -5,61 +5,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trabajo Claro</title>
   <style>
-    body {
-      margin: 0;
-      padding: 20px;
-      background: #030712;
-      color: #f9fafb;
-      font-family: sans-serif;
-    }
-    .caja {
-      max-width: 480px;
-      margin: 0 auto;
-      background: #111827;
-      border: 1px solid #38bdf8;
-      border-radius: 16px;
-      padding: 20px;
-    }
-    h1 {
-      color: #38bdf8;
-      font-size: 24px;
-      margin-top: 0;
-    }
-    button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 12px;
-      border: none;
-      border-radius: 10px;
-      background: #f59e0b;
-      color: #030712;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-    }
-    #panel {
-      display: none;
-      margin-top: 16px;
-      padding: 14px;
-      background: #030712;
-      border-radius: 12px;
-    }
+    body { margin: 0; padding: 16px; background: #030712; color: #f9fafb; font-family: sans-serif; }
+    .box { max-width: 500px; margin: 0 auto; background: #111827; border: 1px solid #38bdf8; border-radius: 14px; padding: 18px; }
+    h1 { color: #38bdf8; font-size: 22px; margin: 0 0 8px; }
+    h2 { color: #f59e0b; font-size: 18px; margin: 0 0 8px; }
+    button { width: 100%; padding: 12px; margin-top: 8px; border: none; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; }
+    .b-admin { background: #f59e0b; color: #030712; }
+    .b-pago { background: #10b981; color: #030712; }
+    .b-ver { background: #38bdf8; color: #030712; }
+    .sec { display: none; margin-top: 14px; padding: 12px; background: #030712; border-radius: 10px; }
+    input, select { width: 100%; padding: 10px; margin: 6px 0 10px; border-radius: 8px; border: 1px solid #374151; background: #111827; color: #fff; box-sizing: border-box; }
+    .card { background: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 10px; margin-top: 8px; font-size: 13px; }
   </style>
 </head>
 <body>
-  <div class="caja">
+  <div class="box">
     <h1>Trabajo Claro</h1>
-    <p>Pantalla base activa sin bloqueos.</p>
-    <button onclick="abrirPanel()">Entrar a Admin</button>
-    <div id="panel">
-      <strong>Panel Admin activo</strong>
-      <p id="estado"></p>
+    <button class="b-admin" onclick="ver('admin')">Entrar a Admin</button>
+    <button class="b-pago" onclick="ver('formPago')">Cargar Pago</button>
+    <button class="b-ver" onclick="ver('empleos')">Ver Empleos</button>
+
+    <div id="admin" class="sec">
+      <h2>Panel Admin</h2>
+      <div class="card">Total Cobrado: <strong id="total">$0</strong></div>
+      <div id="listaPagos"></div>
+    </div>
+
+    <div id="formPago" class="sec">
+      <h2>Cargar Pago</h2>
+      <input id="emp" placeholder="Nombre de la empresa">
+      <input id="pue" placeholder="Puesto">
+      <select id="plan">
+        <option value="95000">Pack Destacado Pro - $95.000</option>
+        <option value="55000">Aviso Estándar - $55.000</option>
+      </select>
+      <button class="b-pago" onclick="guardarPago()">Guardar Pago</button>
+    </div>
+
+    <div id="empleos" class="sec">
+      <h2>Empleos Activos</h2>
+      <div class="card"><strong>Sushiman</strong> — Cocina Nikkei — $1.150.000</div>
+      <div class="card"><strong>Encargado de Salón</strong> — Local Verificado — $1.050.000</div>
     </div>
   </div>
+
   <script>
-    function abrirPanel() {
-      document.getElementById('panel').style.display = 'block';
-      document.getElementById('estado').innerText = 'Funciona correctamente en el navegador.';
+    let pagos = [];
+    try { pagos = JSON.parse(localStorage.getItem('tc_pagos_simple') || '[]'); } catch (e) { pagos = []; }
+
+    function ver(id) {
+      ['admin', 'formPago', 'empleos'].forEach(s => {
+        const el = document.getElementById(s);
+        if (el) el.style.display = s === id ? 'block' : 'none';
+      });
+      if (id === 'admin') pintarPagos();
+    }
+
+    function guardarPago() {
+      const emp = (document.getElementById('emp').value || '').trim() || 'Empresa';
+      const pue = (document.getElementById('pue').value || '').trim() || 'Puesto';
+      const monto = Number(document.getElementById('plan').value) || 55000;
+      pagos.unshift({ emp, pue, monto });
+      try { localStorage.setItem('tc_pagos_simple', JSON.stringify(pagos)); } catch (e) {}
+      document.getElementById('emp').value = '';
+      document.getElementById('pue').value = '';
+      ver('admin');
+    }
+
+    function pintarPagos() {
+      let suma = 0;
+      let html = '';
+      for (let i = 0; i < pagos.length; i++) {
+        suma += Number(pagos[i].monto) || 0;
+        html += '<div class="card"><strong>$' + Number(pagos[i].monto).toLocaleString('es-AR') + '</strong> — ' + pagos[i].emp + ' (' + pagos[i].pue + ')</div>';
+      }
+      document.getElementById('total').innerText = '$' + suma.toLocaleString('es-AR');
+      document.getElementById('listaPagos').innerHTML = html || '<div class="card">Sin pagos todavía.</div>';
     }
   </script>
 </body>
