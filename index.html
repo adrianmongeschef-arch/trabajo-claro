@@ -24,20 +24,18 @@
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-
     .wrap {
       max-width: 560px;
       margin: 0 auto;
     }
 
-    .hero-welcome {
-      background: linear-gradient(160deg, #09192f 0%, #111827 65%);
+    .bienvenida {
+      background: linear-gradient(160deg, #09192f 0%, #111827 70%);
       border: 1px solid rgba(56, 189, 248, 0.45);
       border-radius: 20px;
       padding: 22px 18px;
-      margin-bottom: 14px;
     }
-    .badge-top {
+    .badge-ok {
       display: inline-block;
       background: rgba(16, 185, 129, 0.15);
       color: #34d399;
@@ -48,21 +46,20 @@
       font-weight: 800;
       margin-bottom: 10px;
     }
-    .hero-title {
+    .b-title {
       margin: 0 0 8px;
       font-size: 28px;
       font-weight: 900;
       color: #fff;
       line-height: 1.15;
     }
-    .hero-title span { color: var(--sky); }
-    .hero-sub {
+    .b-title span { color: var(--sky); }
+    .b-sub {
       margin: 0 0 16px;
       font-size: 13.5px;
       color: #cbd5e1;
       line-height: 1.5;
     }
-
     .pilares {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -78,21 +75,20 @@
       font-size: 12px;
       font-weight: 800;
     }
-
-    .info-card {
+    .info-box {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 14px;
       margin-bottom: 12px;
     }
-    .info-card.azul { border-left: 4px solid var(--sky); }
-    .info-card.verde { border-left: 4px solid var(--green); }
+    .info-box.azul { border-left: 4px solid var(--sky); }
+    .info-box.verde { border-left: 4px solid var(--green); }
     .info-title {
+      margin: 0 0 8px;
       font-size: 14.5px;
       font-weight: 800;
       color: #fff;
-      margin: 0 0 8px;
     }
     .info-list {
       margin: 0;
@@ -102,8 +98,7 @@
       line-height: 1.5;
     }
     .info-list li { margin-bottom: 6px; }
-
-    .legal-nota {
+    .legal-ref {
       background: var(--card-2);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -114,7 +109,7 @@
       margin-bottom: 14px;
     }
 
-    .app {
+    .portal {
       display: none;
       background: var(--card);
       border: 1px solid rgba(56, 189, 248, 0.35);
@@ -260,10 +255,10 @@
 </head>
 <body>
   <div class="wrap">
-    <div id="bienvenida" class="hero-welcome">
-      <div class="badge-top">✓ Portal Verificado • Argentina</div>
-      <h2 class="hero-title">Empleos reales, <span>sin vueltas.</span></h2>
-      <p class="hero-sub">En <strong>Trabajo Claro</strong> conocés las condiciones y el sueldo antes de postularte, y las empresas publican con claridad, respaldo y control de cobros.</p>
+    <div id="pantallaBienvenida" class="bienvenida">
+      <div class="badge-ok">✓ Portal Verificado • Argentina</div>
+      <h2 class="b-title">Empleos reales, <span>sin vueltas.</span></h2>
+      <p class="b-sub">En <strong>Trabajo Claro</strong> conocés el sueldo y las condiciones antes de postularte, y las empresas publican con claridad, respaldo y control de cobros.</p>
 
       <div class="pilares">
         <div class="pilar">🔒 Seguridad</div>
@@ -271,42 +266,42 @@
         <div class="pilar">💼 Seriedad</div>
       </div>
 
-      <div class="info-card azul">
+      <div class="info-box azul">
         <div class="info-title">🏢 Para Empresas</div>
         <ul class="info-list">
-          <li><strong>Candidatos alineados:</strong> Mostrar las condiciones desde el inicio evita postulaciones fuera de foco.</li>
+          <li><strong>Candidatos alineados:</strong> Al mostrar las condiciones desde el inicio, evitás postulaciones sin foco.</li>
           <li><strong>Gestión de cobros y planes:</strong> Registrá pagos, medios utilizados y destino en tu cuenta única.</li>
         </ul>
       </div>
 
-      <div class="info-card verde">
+      <div class="info-box verde">
         <div class="info-title">🛡️ Para Postulantes</div>
         <ul class="info-list">
-          <li><strong>Transparencia:</strong> Información clara antes de enviarte a buscar o postularte.</li>
-          <li><strong>Respeto y confidencialidad:</strong> Trato igualitario y cuidado de datos personales.</li>
+          <li><strong>Transparencia:</strong> Sabés las condiciones reales antes de postularte.</li>
+          <li><strong>Respeto y confidencialidad:</strong> Trato igualitario y resguardo de datos personales.</li>
         </ul>
       </div>
 
-      <div class="legal-nota">
+      <div class="legal-ref">
         <strong>⚖️ Marco de referencia:</strong> Intermediación tecnológica de vinculación laboral en Argentina (Leyes N.º 20.744, N.º 25.326 y N.º 23.592). Cada parte responde por la veracidad de sus datos y acuerdos.
       </div>
 
-      <button class="btn btn-sky btn-full" onclick="entrarAlPortal()">Entrar al Portal y Ver Empleos</button>
+      <button class="btn btn-sky btn-full" onclick="entrarPortal()">Entrar al Portal</button>
     </div>
 
-    <div id="portalApp" class="app">
+    <div id="vistaPortal" class="portal">
       <div class="head">
-        <div class="badge-top">✓ Trabajo Claro • Portal Activo</div>
+        <div class="badge-ok">✓ Trabajo Claro • Portal Activo</div>
         <h1>Trabajo <span>Claro</span></h1>
         <p class="sub">Búsquedas activas, pasarela y cobros, cuenta única y panel de administrador.</p>
       </div>
 
       <div class="menu-grid">
-        <button class="btn btn-sky" onclick="abrir('empleos')">💼 Búsquedas Activas</button>
-        <button class="btn btn-green" onclick="abrir('pasarela')">💳 Pasarela y Cobros</button>
-        <button class="btn btn-amber btn-full" onclick="abrir('admin')">🔒 Entrar a Admin y Ver Mis Datos</button>
-        <button class="btn btn-dark" onclick="abrir('cuentaAdmin')">⚙️ Cuenta Única y Admin</button>
-        <button class="btn btn-dark" onclick="verBienvenida()">👋 Ver Bienvenida</button>
+        <button class="btn btn-sky" onclick="abrirSeccion('empleos')">💼 Búsquedas Activas</button>
+        <button class="btn btn-green" onclick="abrirSeccion('pasarela')">💳 Pasarela y Cobros</button>
+        <button class="btn btn-amber btn-full" onclick="abrirSeccion('admin')">🔒 Panel de Administrador</button>
+        <button class="btn btn-dark" onclick="abrirSeccion('cuentaAdmin')">⚙️ Cuenta Única y Admin</button>
+        <button class="btn btn-dark" onclick="volverBienvenida()">👋 Ver Bienvenida</button>
       </div>
 
       <div id="aviso" class="msg"></div>
@@ -319,7 +314,7 @@
 
       <div id="pasarela" class="view">
         <h2>Pasarela de Pago y Cobro</h2>
-        <p class="desc">Registrá cobros de empresas y consultá los medios y tu cuenta única de destino.</p>
+        <p class="desc">Registrá cobros de empresas y revisá los medios y tu cuenta única de destino.</p>
 
         <div class="metodos">
           <div class="metodo-card">💳 Tarjetas / Mercado Pago</div>
@@ -358,11 +353,11 @@
 
       <div id="cuentaAdmin" class="view">
         <h2>Configuración de Admin y Cuenta Única</h2>
-        <p class="desc">Guardá tus datos de administrador y tu cuenta única para recibir cobros.</p>
+        <p class="desc">Guardá tus datos personales de administrador y los de tu cuenta única para recibir cobros. Quedan guardados en este dispositivo.</p>
 
         <div class="field">
           <label>Nombre del Administrador</label>
-          <input id="cfgNombre" placeholder="Tu nombre completo">
+          <input id="cfgNombre" placeholder="Tu nombre y apellido">
         </div>
         <div class="field">
           <label>Correo de Administración</label>
@@ -376,12 +371,12 @@
           <label>Alias o CBU / CVU de Cobro</label>
           <input id="cfgAlias" placeholder="Tu alias, CBU o CVU">
         </div>
-        <button class="btn btn-sky" onclick="guardarConfigAdmin()">Guardar Datos de Admin y Cuenta</button>
+        <button class="btn btn-sky" onclick="guardarConfigAdmin()">Guardar Datos Fijos</button>
       </div>
 
       <div id="admin" class="view">
         <h2>Panel de Administrador</h2>
-        <p class="desc">Resumen de cobros, postulaciones, vistas, datos de admin y actividad.</p>
+        <p class="desc">Resumen de cobros, postulaciones, vistas, tus datos fijos y actividad.</p>
 
         <div class="kpis">
           <div class="kpi">
@@ -402,7 +397,7 @@
           </div>
         </div>
 
-        <h3>👤 Datos del Administrador y Cuenta Única</h3>
+        <h3>👤 Mis Datos de Administrador y Cuenta Única</h3>
         <div id="datosAdminBox" class="box"></div>
 
         <h3>💳 Detalle de Pagos y Cobros</h3>
@@ -435,27 +430,27 @@
       } catch (e) {}
     }
 
-    let configAdmin = leer('tc_cfg_admin_v2', {
-      nombre: 'Adrian Andres Monges Frias',
-      email: 'Sin configurar',
-      banco: 'Sin configurar',
-      alias: 'Sin configurar'
+    let configAdmin = leer('tc_admin_fijo_v1', {
+      nombre: '',
+      email: '',
+      banco: '',
+      alias: ''
     });
     let pagos = leer('tc_pagos_full', []);
     let eventos = leer('tc_eventos_full', []);
     let postulaciones = leer('tc_post_full', []);
     let vistas = Number(leer('tc_vistas_full', 0)) || 0;
 
-    function entrarAlPortal() {
-      document.getElementById('bienvenida').style.display = 'none';
-      document.getElementById('portalApp').style.display = 'block';
-      abrir('empleos');
+    function entrarPortal() {
+      document.getElementById('pantallaBienvenida').style.display = 'none';
+      document.getElementById('vistaPortal').style.display = 'block';
+      abrirSeccion('empleos');
       window.scrollTo(0, 0);
     }
 
-    function verBienvenida() {
-      document.getElementById('portalApp').style.display = 'none';
-      document.getElementById('bienvenida').style.display = 'block';
+    function volverBienvenida() {
+      document.getElementById('vistaPortal').style.display = 'none';
+      document.getElementById('pantallaBienvenida').style.display = 'block';
       window.scrollTo(0, 0);
     }
 
@@ -481,7 +476,7 @@
       guardar('tc_eventos_full', eventos);
     }
 
-    function abrir(id) {
+    function abrirSeccion(id) {
       ['empleos', 'pasarela', 'cuentaAdmin', 'admin'].forEach(v => {
         const el = document.getElementById(v);
         if (el) el.style.display = v === id ? 'block' : 'none';
@@ -493,34 +488,34 @@
     }
 
     function cargarInputsConfig() {
-      document.getElementById('cfgNombre').value = configAdmin.nombre === 'Sin configurar' ? '' : (configAdmin.nombre || '');
-      document.getElementById('cfgEmail').value = configAdmin.email === 'Sin configurar' ? '' : (configAdmin.email || '');
-      document.getElementById('cfgBanco').value = configAdmin.banco === 'Sin configurar' ? '' : (configAdmin.banco || '');
-      document.getElementById('cfgAlias').value = configAdmin.alias === 'Sin configurar' ? '' : (configAdmin.alias || '');
+      document.getElementById('cfgNombre').value = configAdmin.nombre || '';
+      document.getElementById('cfgEmail').value = configAdmin.email || '';
+      document.getElementById('cfgBanco').value = configAdmin.banco || '';
+      document.getElementById('cfgAlias').value = configAdmin.alias || '';
     }
 
     function guardarConfigAdmin() {
       configAdmin = {
-        nombre: (document.getElementById('cfgNombre').value || '').trim() || 'Adrian Andres Monges Frias',
-        email: (document.getElementById('cfgEmail').value || '').trim() || 'Sin configurar',
-        banco: (document.getElementById('cfgBanco').value || '').trim() || 'Sin configurar',
-        alias: (document.getElementById('cfgAlias').value || '').trim() || 'Sin configurar'
+        nombre: (document.getElementById('cfgNombre').value || '').trim(),
+        email: (document.getElementById('cfgEmail').value || '').trim(),
+        banco: (document.getElementById('cfgBanco').value || '').trim(),
+        alias: (document.getElementById('cfgAlias').value || '').trim()
       };
-      guardar('tc_cfg_admin_v2', configAdmin);
-      agregarEvento('Configuración actualizada', `Cuenta única: ${configAdmin.alias} (${configAdmin.banco})`);
-      notificar('Datos de administrador y cuenta única guardados.');
-      abrir('admin');
+      guardar('tc_admin_fijo_v1', configAdmin);
+      agregarEvento('Datos de admin guardados', `Cuenta única: ${configAdmin.alias || 'Pendiente'}`);
+      notificar('Tus datos de administrador y cuenta única quedaron guardados.');
+      abrirSeccion('admin');
     }
 
     function pintarPasarela() {
       document.getElementById('resumenCuentaPasarela').innerHTML = `
         <div class="box-top">
           <strong>🏦 Cuenta Única de Destino</strong>
-          <span class="pill pill-ok">CONFIGURABLE</span>
+          <span class="pill pill-ok">CUENTA ÚNICA</span>
         </div>
-        <div><strong>Entidad:</strong> ${configAdmin.banco}</div>
-        <div><strong>Alias / CBU / CVU:</strong> ${configAdmin.alias}</div>
-        <div><strong>Titular / Admin:</strong> ${configAdmin.nombre}</div>
+        <div><strong>Titular / Admin:</strong> ${configAdmin.nombre || 'Aún no cargado'}</div>
+        <div><strong>Entidad:</strong> ${configAdmin.banco || 'Aún no cargada'}</div>
+        <div><strong>Alias / CBU / CVU:</strong> ${configAdmin.alias || 'Aún no cargado'}</div>
       `;
     }
 
@@ -539,7 +534,7 @@
         medio,
         plan,
         monto,
-        cuentaDestino: configAdmin.alias,
+        cuentaDestino: configAdmin.alias || 'Cuenta Única',
         fecha,
         estado: 'CONFIRMADO'
       });
@@ -548,8 +543,8 @@
 
       document.getElementById('pEmpresa').value = '';
       document.getElementById('pPuesto').value = '';
-      notificar(`Cobro de ${pesos(monto)} registrado a favor de ${configAdmin.alias}.`);
-      abrir('admin');
+      notificar(`Cobro de ${pesos(monto)} registrado.`);
+      abrirSeccion('admin');
     }
 
     function postular(puesto, empresa) {
@@ -589,4 +584,51 @@
       document.getElementById('kpiTotal').innerText = pesos(total);
       document.getElementById('kpiCant').innerText = pagos.length;
       document.getElementById('kpiPost').innerText = postulaciones.length;
-      document.getElementById('kpiVistas').inner
+      document.getElementById('kpiVistas').innerText = vistas;
+
+      document.getElementById('datosAdminBox').innerHTML = `
+        <div class="box-top">
+          <strong>${configAdmin.nombre || 'Administrador (sin cargar)'}</strong>
+          <span class="pill">ADMIN</span>
+        </div>
+        <div>📧 <strong>Correo:</strong> ${configAdmin.email || 'Aún no cargado'}</div>
+        <div>🏦 <strong>Cuenta Única:</strong> ${configAdmin.banco || 'Aún no cargada'}</div>
+        <div>🔑 <strong>Alias / CBU:</strong> ${configAdmin.alias || 'Aún no cargado'}</div>
+      `;
+
+      const pagosEl = document.getElementById('listaPagos');
+      if (pagos.length === 0) {
+        pagosEl.innerHTML = '<div class="box">Todavía no hay cobros registrados.</div>';
+      } else {
+        pagosEl.innerHTML = pagos.map(p => `
+          <div class="box">
+            <div class="box-top">
+              <strong>${pesos(p.monto)} — ${p.empresa}</strong>
+              <span class="pill pill-ok">${p.estado}</span>
+            </div>
+            <div>💼 <strong>Puesto:</strong> ${p.puesto}</div>
+            <div>💳 <strong>Medio:</strong> ${p.medio} | <strong>Plan:</strong> ${p.plan}</div>
+            <div>🏦 <strong>Destino:</strong> ${p.cuentaDestino || 'Cuenta Única'}</div>
+            <div style="color:#9ca3af; font-size:11px; margin-top:4px;">🕒 ${p.fecha}</div>
+          </div>
+        `).join('');
+      }
+
+      const evEl = document.getElementById('listaEventos');
+      if (eventos.length === 0) {
+        evEl.innerHTML = '<div class="box">Sin eventos recientes.</div>';
+      } else {
+        evEl.innerHTML = eventos.map(ev => `
+          <div class="box">
+            <div class="box-top">
+              <strong>⚡ ${ev.titulo}</strong>
+              <span class="pill">${ev.hora}</span>
+            </div>
+            <div>${ev.detalle}</div>
+          </div>
+        `).join('');
+      }
+    }
+  </script>
+</body>
+</html>
