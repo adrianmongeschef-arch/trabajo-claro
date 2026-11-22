@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trabajo Claro | Portal y Cobros</title>
+  <title>Trabajo Claro | Portal de Empleos Verificados</title>
   <style>
     :root {
       --bg: #030712;
@@ -25,47 +25,97 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    #bienvenida {
+    .wrap {
       max-width: 560px;
-      margin: 0 auto 14px;
-      background: linear-gradient(150deg, #0b192c 0%, #111827 100%);
-      border: 1px solid rgba(56, 189, 248, 0.45);
-      border-radius: 18px;
-      padding: 22px 18px;
-      text-align: center;
+      margin: 0 auto;
     }
-    .b-badge {
+
+    .hero-welcome {
+      background: linear-gradient(160deg, #09192f 0%, #111827 65%);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      border-radius: 20px;
+      padding: 22px 18px;
+      margin-bottom: 14px;
+    }
+    .badge-top {
       display: inline-block;
-      background: rgba(56, 189, 248, 0.16);
-      color: var(--sky);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      padding: 4px 12px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 5px 12px;
       border-radius: 999px;
       font-size: 11px;
       font-weight: 800;
       margin-bottom: 10px;
     }
-    .b-title { margin: 0 0 8px; font-size: 28px; font-weight: 900; color: #fff; }
-    .b-title span { color: var(--sky); }
-    .b-desc { margin: 0 0 14px; font-size: 13.5px; color: #cbd5e1; line-height: 1.5; }
-    .b-pilares {
+    .hero-title {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+    }
+    .hero-title span { color: var(--sky); }
+    .hero-sub {
+      margin: 0 0 16px;
+      font-size: 13.5px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    .pilares {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
-    .b-pilar {
+    .pilar {
       background: var(--card-2);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 10px 6px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .info-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .info-card.azul { border-left: 4px solid var(--sky); }
+    .info-card.verde { border-left: 4px solid var(--green); }
+    .info-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 0 8px;
+    }
+    .info-list {
+      margin: 0;
+      padding-left: 16px;
+      font-size: 12.5px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+    .info-list li { margin-bottom: 6px; }
+
+    .legal-nota {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
       font-size: 11.5px;
-      font-weight: 700;
+      color: var(--muted);
+      line-height: 1.45;
+      margin-bottom: 14px;
     }
 
     .app {
-      max-width: 560px;
-      margin: 0 auto;
+      display: none;
       background: var(--card);
       border: 1px solid rgba(56, 189, 248, 0.35);
       border-radius: 18px;
@@ -76,18 +126,7 @@
       padding-bottom: 12px;
       margin-bottom: 14px;
     }
-    .tag {
-      display: inline-block;
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.35);
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-    h1 { margin: 0; font-size: 24px; color: #fff; }
+    h1 { margin: 0; font-size: 23px; color: #fff; }
     h1 span { color: var(--sky); }
     .sub { margin: 6px 0 0; font-size: 13px; color: var(--muted); line-height: 1.45; }
 
@@ -99,11 +138,11 @@
     }
     .btn {
       width: 100%;
-      padding: 12px;
+      padding: 13px;
       border: none;
       border-radius: 12px;
       font-weight: 800;
-      font-size: 13px;
+      font-size: 13.5px;
       cursor: pointer;
     }
     .btn-full { grid-column: 1 / -1; }
@@ -220,134 +259,158 @@
   </style>
 </head>
 <body>
-  <div id="bienvenida">
-    <div class="b-badge">🛡️ Trabajo Claro • Argentina</div>
-    <h2 class="b-title">Trabajo <span>Claro</span></h2>
-    <p class="b-desc">Empleos reales, reglas claras y control de cobros en un entorno simple y accesible.</p>
-    <div class="b-pilares">
-      <div class="b-pilar">🔒 Seguridad</div>
-      <div class="b-pilar">🤝 Confianza</div>
-      <div class="b-pilar">💼 Seriedad</div>
+  <div class="wrap">
+    <div id="bienvenida" class="hero-welcome">
+      <div class="badge-top">✓ Portal Verificado • Argentina</div>
+      <h2 class="hero-title">Empleos reales, <span>sin vueltas.</span></h2>
+      <p class="hero-sub">En <strong>Trabajo Claro</strong> conocés las condiciones y el sueldo antes de postularte, y las empresas publican con claridad, respaldo y control de cobros.</p>
+
+      <div class="pilares">
+        <div class="pilar">🔒 Seguridad</div>
+        <div class="pilar">🤝 Confianza</div>
+        <div class="pilar">💼 Seriedad</div>
+      </div>
+
+      <div class="info-card azul">
+        <div class="info-title">🏢 Para Empresas</div>
+        <ul class="info-list">
+          <li><strong>Candidatos alineados:</strong> Mostrar las condiciones desde el inicio evita postulaciones fuera de foco.</li>
+          <li><strong>Gestión de cobros y planes:</strong> Registrá pagos, medios utilizados y destino en tu cuenta única.</li>
+        </ul>
+      </div>
+
+      <div class="info-card verde">
+        <div class="info-title">🛡️ Para Postulantes</div>
+        <ul class="info-list">
+          <li><strong>Transparencia:</strong> Información clara antes de enviarte a buscar o postularte.</li>
+          <li><strong>Respeto y confidencialidad:</strong> Trato igualitario y cuidado de datos personales.</li>
+        </ul>
+      </div>
+
+      <div class="legal-nota">
+        <strong>⚖️ Marco de referencia:</strong> Intermediación tecnológica de vinculación laboral en Argentina (Leyes N.º 20.744, N.º 25.326 y N.º 23.592). Cada parte responde por la veracidad de sus datos y acuerdos.
+      </div>
+
+      <button class="btn btn-sky btn-full" onclick="entrarAlPortal()">Entrar al Portal y Ver Empleos</button>
     </div>
-    <button class="btn btn-sky" onclick="ocultarBienvenida()">Entrar al Portal</button>
-  </div>
 
-  <div class="app">
-    <div class="head">
-      <div class="tag">✓ Trabajo Claro • Gestión Activa</div>
-      <h1>Trabajo <span>Claro</span></h1>
-      <p class="sub">Panel de control, cuenta única de cobros, pasarela de pago y búsquedas en un solo lugar.</p>
-    </div>
+    <div id="portalApp" class="app">
+      <div class="head">
+        <div class="badge-top">✓ Trabajo Claro • Portal Activo</div>
+        <h1>Trabajo <span>Claro</span></h1>
+        <p class="sub">Búsquedas activas, pasarela y cobros, cuenta única y panel de administrador.</p>
+      </div>
 
-    <div class="menu-grid">
-      <button class="btn btn-amber btn-full" onclick="abrir('admin')">🔒 Entrar a Admin y Ver Mis Datos</button>
-      <button class="btn btn-green" onclick="abrir('pasarela')">💳 Pasarela y Cobros</button>
-      <button class="btn btn-sky" onclick="abrir('empleos')">💼 Búsquedas Activas</button>
-      <button class="btn btn-dark btn-full" onclick="abrir('cuentaAdmin')">⚙️ Configurar Cuenta Única y Admin</button>
-      <button class="btn btn-dark btn-full" onclick="mostrarBienvenida()">👋 Ver Pantalla de Bienvenida</button>
-    </div>
+      <div class="menu-grid">
+        <button class="btn btn-sky" onclick="abrir('empleos')">💼 Búsquedas Activas</button>
+        <button class="btn btn-green" onclick="abrir('pasarela')">💳 Pasarela y Cobros</button>
+        <button class="btn btn-amber btn-full" onclick="abrir('admin')">🔒 Entrar a Admin y Ver Mis Datos</button>
+        <button class="btn btn-dark" onclick="abrir('cuentaAdmin')">⚙️ Cuenta Única y Admin</button>
+        <button class="btn btn-dark" onclick="verBienvenida()">👋 Ver Bienvenida</button>
+      </div>
 
-    <div id="aviso" class="msg"></div>
+      <div id="aviso" class="msg"></div>
 
-    <div id="admin" class="view">
-      <h2>Panel de Administrador</h2>
-      <p class="desc">Resumen general de tu cuenta, ingresos registrados, postulaciones y actividad.</p>
+      <div id="empleos" class="view">
+        <h2>Búsquedas Laborales Activas</h2>
+        <p class="desc">Consultá los puestos disponibles y registrá postulaciones.</p>
+        <div id="listaEmpleos"></div>
+      </div>
 
-      <div class="kpis">
-        <div class="kpi">
-          <div class="kpi-lbl">Total Cobrado</div>
-          <div class="kpi-val" id="kpiTotal" style="color:#34d399;">$0</div>
+      <div id="pasarela" class="view">
+        <h2>Pasarela de Pago y Cobro</h2>
+        <p class="desc">Registrá cobros de empresas y consultá los medios y tu cuenta única de destino.</p>
+
+        <div class="metodos">
+          <div class="metodo-card">💳 Tarjetas / Mercado Pago</div>
+          <div class="metodo-card">🏦 Transferencia / CBU / Alias</div>
+          <div class="metodo-card">📱 Link / QR de Pago</div>
+          <div class="metodo-card">🧾 Comprobante Registrado</div>
         </div>
-        <div class="kpi">
-          <div class="kpi-lbl">Cobros Registrados</div>
-          <div class="kpi-val" id="kpiCant">0</div>
+
+        <div id="resumenCuentaPasarela" class="box"></div>
+
+        <div class="field">
+          <label>Empresa que abona</label>
+          <input id="pEmpresa" placeholder="Nombre de la empresa">
         </div>
-        <div class="kpi">
-          <div class="kpi-lbl">Postulaciones</div>
-          <div class="kpi-val" id="kpiPost">0</div>
+        <div class="field">
+          <label>Puesto publicado</label>
+          <input id="pPuesto" placeholder="Puesto laboral">
         </div>
-        <div class="kpi">
-          <div class="kpi-lbl">Vistas Registradas</div>
-          <div class="kpi-val" id="kpiVistas">0</div>
+        <div class="field">
+          <label>Medio de pago utilizado</label>
+          <select id="pMedio">
+            <option>Transferencia Bancaria (Cuenta Única)</option>
+            <option>Mercado Pago</option>
+            <option>Tarjeta Crédito / Débito</option>
+          </select>
         </div>
+        <div class="field">
+          <label>Plan y monto</label>
+          <select id="pPlan">
+            <option value="95000">Pack Destacado Pro - $95.000</option>
+            <option value="55000">Aviso Estándar Verificado - $55.000</option>
+          </select>
+        </div>
+        <button class="btn btn-green" onclick="registrarCobro()">Confirmar y Registrar Cobro</button>
       </div>
 
-      <h3>👤 Datos del Administrador y Cuenta Única</h3>
-      <div id="datosAdminBox" class="box"></div>
+      <div id="cuentaAdmin" class="view">
+        <h2>Configuración de Admin y Cuenta Única</h2>
+        <p class="desc">Guardá tus datos de administrador y tu cuenta única para recibir cobros.</p>
 
-      <h3>💳 Detalle de Pagos y Cobros</h3>
-      <div id="listaPagos"><div class="box">Todavía no hay cobros registrados.</div></div>
-
-      <h3>⚡ Historial de Eventos</h3>
-      <div id="listaEventos"><div class="box">Sin eventos recientes.</div></div>
-    </div>
-
-    <div id="pasarela" class="view">
-      <h2>Pasarela de Pago y Cobro</h2>
-      <p class="desc">Cargá un cobro de empresa o revisá los medios habilitados y tu cuenta única de destino.</p>
-
-      <div class="metodos">
-        <div class="metodo-card">💳 Tarjetas / Mercado Pago</div>
-        <div class="metodo-card">🏦 Transferencia / CBU / Alias</div>
-        <div class="metodo-card">📱 Link / QR de Pago</div>
-        <div class="metodo-card">🧾 Comprobante Registrado</div>
+        <div class="field">
+          <label>Nombre del Administrador</label>
+          <input id="cfgNombre" placeholder="Tu nombre completo">
+        </div>
+        <div class="field">
+          <label>Correo de Administración</label>
+          <input id="cfgEmail" placeholder="Tu correo electrónico">
+        </div>
+        <div class="field">
+          <label>Banco / Billetera de Cuenta Única</label>
+          <input id="cfgBanco" placeholder="Banco o billetera de cobro">
+        </div>
+        <div class="field">
+          <label>Alias o CBU / CVU de Cobro</label>
+          <input id="cfgAlias" placeholder="Tu alias, CBU o CVU">
+        </div>
+        <button class="btn btn-sky" onclick="guardarConfigAdmin()">Guardar Datos de Admin y Cuenta</button>
       </div>
 
-      <div id="resumenCuentaPasarela" class="box"></div>
+      <div id="admin" class="view">
+        <h2>Panel de Administrador</h2>
+        <p class="desc">Resumen de cobros, postulaciones, vistas, datos de admin y actividad.</p>
 
-      <div class="field">
-        <label>Empresa que abona</label>
-        <input id="pEmpresa" placeholder="Nombre de la empresa">
-      </div>
-      <div class="field">
-        <label>Puesto publicado</label>
-        <input id="pPuesto" placeholder="Puesto laboral">
-      </div>
-      <div class="field">
-        <label>Medio de pago utilizado</label>
-        <select id="pMedio">
-          <option>Transferencia Bancaria (Cuenta Única)</option>
-          <option>Mercado Pago</option>
-          <option>Tarjeta Crédito / Débito</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Plan y monto</label>
-        <select id="pPlan">
-          <option value="95000">Pack Destacado Pro - $95.000</option>
-          <option value="55000">Aviso Estándar Verificado - $55.000</option>
-        </select>
-      </div>
-      <button class="btn btn-green" onclick="registrarCobro()">Confirmar y Registrar Cobro</button>
-    </div>
+        <div class="kpis">
+          <div class="kpi">
+            <div class="kpi-lbl">Total Cobrado</div>
+            <div class="kpi-val" id="kpiTotal" style="color:#34d399;">$0</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-lbl">Cobros Registrados</div>
+            <div class="kpi-val" id="kpiCant">0</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-lbl">Postulaciones</div>
+            <div class="kpi-val" id="kpiPost">0</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-lbl">Vistas Registradas</div>
+            <div class="kpi-val" id="kpiVistas">0</div>
+          </div>
+        </div>
 
-    <div id="cuentaAdmin" class="view">
-      <h2>Configuración de Admin y Cuenta Única</h2>
-      <p class="desc">Cargá tu correo real y los datos de tu cuenta única para recibir cobros.</p>
+        <h3>👤 Datos del Administrador y Cuenta Única</h3>
+        <div id="datosAdminBox" class="box"></div>
 
-      <div class="field">
-        <label>Nombre del Administrador</label>
-        <input id="cfgNombre" placeholder="Tu nombre completo">
-      </div>
-      <div class="field">
-        <label>Correo de Administración</label>
-        <input id="cfgEmail" placeholder="Tu correo electrónico">
-      </div>
-      <div class="field">
-        <label>Banco / Billetera de Cuenta Única</label>
-        <input id="cfgBanco" placeholder="Banco o billetera de cobro">
-      </div>
-      <div class="field">
-        <label>Alias o CBU / CVU de Cobro</label>
-        <input id="cfgAlias" placeholder="Tu alias, CBU o CVU">
-      </div>
-      <button class="btn btn-sky" onclick="guardarConfigAdmin()">Guardar Datos de Admin y Cuenta</button>
-    </div>
+        <h3>💳 Detalle de Pagos y Cobros</h3>
+        <div id="listaPagos"><div class="box">Todavía no hay cobros registrados.</div></div>
 
-    <div id="empleos" class="view">
-      <h2>Búsquedas Laborales Activas</h2>
-      <p class="desc">Avisos con condiciones claras y registro de postulaciones.</p>
-      <div id="listaEmpleos"></div>
+        <h3>⚡ Historial de Eventos</h3>
+        <div id="listaEventos"><div class="box">Sin eventos recientes.</div></div>
+      </div>
     </div>
   </div>
 
@@ -383,17 +446,17 @@
     let postulaciones = leer('tc_post_full', []);
     let vistas = Number(leer('tc_vistas_full', 0)) || 0;
 
-    function ocultarBienvenida() {
-      const b = document.getElementById('bienvenida');
-      if (b) b.style.display = 'none';
+    function entrarAlPortal() {
+      document.getElementById('bienvenida').style.display = 'none';
+      document.getElementById('portalApp').style.display = 'block';
+      abrir('empleos');
+      window.scrollTo(0, 0);
     }
 
-    function mostrarBienvenida() {
-      const b = document.getElementById('bienvenida');
-      if (b) {
-        b.style.display = 'block';
-        b.scrollIntoView({ behavior: 'smooth' });
-      }
+    function verBienvenida() {
+      document.getElementById('portalApp').style.display = 'none';
+      document.getElementById('bienvenida').style.display = 'block';
+      window.scrollTo(0, 0);
     }
 
     function pesos(n) {
@@ -419,14 +482,14 @@
     }
 
     function abrir(id) {
-      ['admin', 'pasarela', 'cuentaAdmin', 'empleos'].forEach(v => {
+      ['empleos', 'pasarela', 'cuentaAdmin', 'admin'].forEach(v => {
         const el = document.getElementById(v);
         if (el) el.style.display = v === id ? 'block' : 'none';
       });
-      if (id === 'admin') pintarAdmin();
+      if (id === 'empleos') pintarEmpleos();
       if (id === 'pasarela') pintarPasarela();
       if (id === 'cuentaAdmin') cargarInputsConfig();
-      if (id === 'empleos') pintarEmpleos();
+      if (id === 'admin') pintarAdmin();
     }
 
     function cargarInputsConfig() {
@@ -526,51 +589,4 @@
       document.getElementById('kpiTotal').innerText = pesos(total);
       document.getElementById('kpiCant').innerText = pagos.length;
       document.getElementById('kpiPost').innerText = postulaciones.length;
-      document.getElementById('kpiVistas').innerText = vistas;
-
-      document.getElementById('datosAdminBox').innerHTML = `
-        <div class="box-top">
-          <strong>${configAdmin.nombre}</strong>
-          <span class="pill">ADMIN</span>
-        </div>
-        <div>📧 <strong>Correo:</strong> ${configAdmin.email}</div>
-        <div>🏦 <strong>Cuenta Única:</strong> ${configAdmin.banco}</div>
-        <div>🔑 <strong>Alias / CBU:</strong> ${configAdmin.alias}</div>
-      `;
-
-      const pagosEl = document.getElementById('listaPagos');
-      if (pagos.length === 0) {
-        pagosEl.innerHTML = '<div class="box">Todavía no hay cobros registrados.</div>';
-      } else {
-        pagosEl.innerHTML = pagos.map(p => `
-          <div class="box">
-            <div class="box-top">
-              <strong>${pesos(p.monto)} — ${p.empresa}</strong>
-              <span class="pill pill-ok">${p.estado}</span>
-            </div>
-            <div>💼 <strong>Puesto:</strong> ${p.puesto}</div>
-            <div>💳 <strong>Medio:</strong> ${p.medio} | <strong>Plan:</strong> ${p.plan}</div>
-            <div>🏦 <strong>Destino:</strong> ${p.cuentaDestino || configAdmin.alias}</div>
-            <div style="color:#9ca3af; font-size:11px; margin-top:4px;">🕒 ${p.fecha}</div>
-          </div>
-        `).join('');
-      }
-
-      const evEl = document.getElementById('listaEventos');
-      if (eventos.length === 0) {
-        evEl.innerHTML = '<div class="box">Sin eventos recientes.</div>';
-      } else {
-        evEl.innerHTML = eventos.map(ev => `
-          <div class="box">
-            <div class="box-top">
-              <strong>⚡ ${ev.titulo}</strong>
-              <span class="pill">${ev.hora}</span>
-            </div>
-            <div>${ev.detalle}</div>
-          </div>
-        `).join('');
-      }
-    }
-  </script>
-</body>
-</html>
+      document.getElementById('kpiVistas').inner
